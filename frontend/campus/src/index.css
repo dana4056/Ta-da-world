@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  min-height: 100vh;
+  /* 현재 웹스크린의 높이 100%를 최소 높이로 설정 */
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+button{
+  cursor:pointer
+}
+
+@media (min-width: 600px) {
+  #root {
+    width: 360px;
+  }
+}
+
+@media (max-width: 600px) {
+  #root {
+    width: 100vw;
+  }
+} 
+  
