@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import SideBar from './SideBar';
 
-import logo from "../../assets/images/logo.png";
+// import logo from "../../assets/images/logo.png";
 import { FiAlignRight } from "react-icons/fi";
 
 function Header() {
@@ -13,7 +13,7 @@ function Header() {
 
     return (
         <div>
-            <img src={logo}/>
+            {/* <img src={logo}/> */}
             <FiAlignRight size="28" onClick={toggleSide}/>
             <SideBar isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>

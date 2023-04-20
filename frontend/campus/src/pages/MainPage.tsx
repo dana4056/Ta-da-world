@@ -4,14 +4,14 @@ type GreetingsProps = {
 
 function MainPage({ name }: GreetingsProps) {
   return (
-      <div className="bg-red-700">
+      <div className="text-red-500">
         왜안놰../ Hello, {name}
       </div>
   );
 }
 
 MainPage.defaultProps = {
- name: '캠프해'
+  name: '캠프해'
 };
 
 export default MainPage;
