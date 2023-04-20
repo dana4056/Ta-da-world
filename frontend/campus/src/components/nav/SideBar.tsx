@@ -19,27 +19,27 @@ const SideBarWrap = styled.div`
     transition: 0.5s ease;
   }
 `;
- 
+
 function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: any }) {
   const outside = useRef<any>();
- 
+
   useEffect(() => {
     document.addEventListener('mousedown', handlerOutsie);
     return () => {
       document.removeEventListener('mousedown', handlerOutsie);
     };
   });
- 
+
   const handlerOutsie = (e: any) => {
     if (!outside.current.contains(e.target)) {
       toggleSide();
     }
   };
- 
+
   const toggleSide = () => {
     setIsOpen(false);
   };
- 
+
   return (
     <SideBarWrap id="sidebar" ref={outside} className={isOpen ? 'open' : ''}>
         <FiChevronsLeft
@@ -56,5 +56,5 @@ function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: any }) {
     </SideBarWrap>
   );
 }
- 
+
 export default Sidebar;
