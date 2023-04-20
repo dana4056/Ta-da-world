@@ -9,29 +9,29 @@ import MyCampPage from './pages/MyCampPage';
 import DealPage from './pages/DealPage';
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      { index: true, element: <MainPage/> },
-      {
-        path: "mycamp",
-        element: <MyCampPage/>
-      },
-      {
-        path: "camps",
-        element: <CampsPage/>
-      },
-      {
-        path: "deal",
-        element: <DealPage/>
-      },
-      {
-        path: "us",
-        element: <UsPage/>
-      }
-    ]
-  },
+	{
+		path: '/',
+		element: <RootLayout />,
+		children: [
+			{ index: true, element: <MainPage/> },
+			{
+				path: 'mycamp',
+				element: <MyCampPage/>
+			},
+			{
+				path: 'camps',
+				element: <CampsPage/>
+			},
+			{
+				path: 'deal',
+				element: <DealPage/>
+			},
+			{
+				path: 'us',
+				element: <UsPage/>
+			}
+		]
+	},
 ]);
 
 export default router;
