@@ -1,8 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-import { FiChevronsLeft } from "react-icons/fi";
+import { FiChevronsLeft } from 'react-icons/fi';
 
 const SideBarWrap = styled.div`
   height: 100%;
@@ -21,40 +21,40 @@ const SideBarWrap = styled.div`
 `;
 
 function Sidebar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: any }) {
-  const outside = useRef<any>();
+	const outside = useRef<any>();
 
-  useEffect(() => {
-    document.addEventListener('mousedown', handlerOutsie);
-    return () => {
-      document.removeEventListener('mousedown', handlerOutsie);
-    };
-  });
+	useEffect(() => {
+		document.addEventListener('mousedown', handlerOutside);
+		return () => {
+			document.removeEventListener('mousedown', handlerOutside);
+		};
+	});
 
-  const handlerOutsie = (e: any) => {
-    if (!outside.current.contains(e.target)) {
-      toggleSide();
-    }
-  };
+	const handlerOutside = (e: any) => {
+		if (!outside.current.contains(e.target)) {
+			toggleSide();
+		}
+	};
 
-  const toggleSide = () => {
-    setIsOpen(false);
-  };
+	const toggleSide = () => {
+		setIsOpen(false);
+	};
 
-  return (
-    <SideBarWrap id="sidebar" ref={outside} className={isOpen ? 'open' : ''}>
-        <FiChevronsLeft
-            onClick={toggleSide}
-            onKeyDown={toggleSide}
-        />
-        <ul>
-            <li><Link to="/">홈</Link></li>
-            <li><Link to="/us">실시간ㅅ통</Link></li>
-            <li><Link to="/deal">중고러래</Link></li>
-            <li><Link to="/mycamp">마이페이지</Link></li>
-            <li><Link to="/camps">캠핑장 정보</Link></li>
-        </ul>
-    </SideBarWrap>
-  );
+	return (
+		<SideBarWrap id="sidebar" ref={outside} className={isOpen ? 'open' : ''}>
+			<FiChevronsLeft
+				onClick={toggleSide}
+				onKeyDown={toggleSide}
+			/>
+			<ul>
+				<li><Link to="/">홈</Link></li>
+				<li><Link to="/us">실시간 소통</Link></li>
+				<li><Link to="/deal">중고 거래</Link></li>
+				<li><Link to="/mycamp">마이 페이지</Link></li>
+				<li><Link to="/camps">캠핑장 정보</Link></li>
+			</ul>
+		</SideBarWrap>
+	);
 }
 
 export default Sidebar;
