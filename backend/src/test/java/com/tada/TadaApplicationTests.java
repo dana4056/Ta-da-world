@@ -1,4 +1,4 @@
-package com.main.tada;
+package com.tada;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

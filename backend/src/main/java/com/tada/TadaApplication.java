@@ -1,4 +1,4 @@
-package com.main.tada;
+package com.tada;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
