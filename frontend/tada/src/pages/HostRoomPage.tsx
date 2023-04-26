@@ -1,9 +1,9 @@
-function MyCampPage() {
+function HostRoomPage() : JSX.Element {
 	return (
 		<div className="p-5 text-center text-gray-100 align-middle bg-blue-500">
-			내 페이지
+      		RoomHostPage
 		</div>
 	);
 }
-
-export default MyCampPage;
+  
+export default HostRoomPage;

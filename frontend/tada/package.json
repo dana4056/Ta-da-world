@@ -1,5 +1,5 @@
 {
-  "name": "campus",
+  "name": "tade",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -23,7 +23,9 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
+    "redux": "^4.2.1",
     "styled-components": "^5.3.9",
+    "tailwind-styled-components": "^2.2.0",
     "tailwindcss": "^3.3.1",
     "typescript": "^4.4.2",
     "web-vitals": "^2.1.0"

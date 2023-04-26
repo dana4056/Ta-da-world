@@ -24,10 +24,11 @@ module.exports = {
 			'error',
 			'tab'
 		],
-		'linebreak-style': [
-			'error',
-			'windows'
-		],
+		// 'linebreak-style': [
+		// 	'error',
+		// 	'windows'
+		// ],
+		'linebreak-style': 0,
 		'quotes': [
 			'error',
 			'single'
@@ -38,6 +39,8 @@ module.exports = {
 		],
 		'no-undef': 'off',
 		'react/react-in-jsx-scope': 'off',
-		'@typescript-eslint/no-explicit-any': 'off'
+		'@typescript-eslint/no-explicit-any': 'off',
+		'no-mixed-spaces-and-tabs': 'off',
+		'@typescript-eslint/no-var-requires': 'off',
 	}
 };
