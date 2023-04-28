@@ -8,7 +8,7 @@ interface User {
 
 const userProfile = require('../assets/images/dummy_userprofile.png');
 
-const UserWaitPage = () => {
+function UserWaitPage(): JSX.Element {
 	const user: User = {
 		id: 1,
 		name: '친구많은한원석',
@@ -62,6 +62,6 @@ const UserWaitPage = () => {
 			</div>
 		</div>
 	);
-};
+}
 
 export default UserWaitPage;
