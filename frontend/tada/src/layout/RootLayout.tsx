@@ -1,11 +1,13 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../components/nav/Header';
 
-const RootLayout = () : JSX.Element => {
+const RootLayout = (): JSX.Element => {
+	const location = useLocation();
+
 	return (
-		<div className="h-screen min-h-screen w-full flex flex-col items-center">
-			<Header />
-			<main className="h-full w-full pr-4 pl-4">
+		<div className='flex flex-col items-center w-full h-screen min-h-screen'>
+			{location.pathname !== '/' && <Header />}
+			<main className='w-full h-full'>
 				<Outlet />
 			</main>
 		</div>

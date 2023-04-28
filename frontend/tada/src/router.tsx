@@ -5,22 +5,27 @@ import RootLayout from './layout/RootLayout';
 import MainPage from './pages/MainPage';
 import HostHomePage from './pages/HostHomePage';
 import HostRoomPage from './pages/HostRoomPage';
+import UserWaitPage from './pages/UserWaitPage';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <RootLayout />,
 		children: [
-			{ index: true, element: <MainPage/> },
+			{ index: true, element: <MainPage /> },
 			{
 				path: 'hosthome',
-				element: <HostHomePage/>,
+				element: <HostHomePage />,
 			},
 			{
 				path: 'hostroom',
-				element: <HostRoomPage/>,
+				element: <HostRoomPage />,
 			},
-		]
+			{
+				path: 'userwait',
+				element: <UserWaitPage />,
+			},
+		],
 	},
 ]);
 
