@@ -6,6 +6,7 @@ import MainPage from './pages/MainPage';
 import HostHomePage from './pages/HostHomePage';
 import HostRoomPage from './pages/HostRoomPage';
 import UserWaitPage from './pages/UserWaitPage';
+import UserNamePage from './pages/UserNamePage';
 
 const router = createBrowserRouter([
 	{
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
 			{
 				path: 'userwait',
 				element: <UserWaitPage />,
+			},
+			{
+				path: 'username',
+				element: <UserNamePage />,
 			},
 		],
 	},
