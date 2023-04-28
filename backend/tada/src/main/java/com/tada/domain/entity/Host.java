@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,12 +19,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Host {
+public class Host extends BaseTimeEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;					// 고유번호
 	private String uid;					// 유저 식별값
 	private String name;				// 이름
 	private String provider;			// 소셜 종류 ("kakao", "google")
-	private LocalDateTime createdTime;	// 생성시간
+
 }
