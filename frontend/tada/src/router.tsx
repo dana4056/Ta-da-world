@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import RootLayout from './layout/RootLayout';
 
 import MainPage from './pages/MainPage';
+import OauthKakao from './oauth/OauthKakao';
 import HostHomePage from './pages/HostHomePage';
 import HostRoomPage from './pages/HostRoomPage';
 import UserWaitPage from './pages/UserWaitPage';
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
 		element: <RootLayout />,
 		children: [
 			{ index: true, element: <MainPage /> },
+			{
+				path: 'users/oauth2-kakao',
+				element: <OauthKakao />,
+			},
 			{
 				path: 'hosthome',
 				element: <HostHomePage />,

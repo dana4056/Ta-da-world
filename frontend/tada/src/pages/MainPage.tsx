@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const logo = require('../assets/images/logo.png');
+const kakao_login = require('../assets/images/kakao_login.png');
 
 function MainPage(): JSX.Element {
 	const navigate = useNavigate();
@@ -15,6 +16,12 @@ function MainPage(): JSX.Element {
 			defaultComponent === 'User' ? 'Host' : 'User'
 		);
 	};
+
+	const API_KEY_KAKAO = process.env.REACT_APP_API_KEY_KAKAO;
+	// const API_KEY_KAKAO = '2abf0e7d3c124964d0048b430a5ce52c';
+	const REDIRECT_URI_SITE = process.env.REACT_APP_REDIRECT_URI;
+	// const REDIRECT_URI_SITE = 'http://localhost:3000/users/oauth2-';
+	const OAUTH_KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY_KAKAO}&redirect_uri=${REDIRECT_URI_SITE+'kakao'}&response_type=code`;
 
 	const moveName = (): void => {
 		navigate('/username');
@@ -47,15 +54,15 @@ function MainPage(): JSX.Element {
 
 	const LoginHost = (): JSX.Element => (
 		<div className='flex flex-col items-center justify-center'>
-			<div className='mb-3 bg-yellow-500 shadow-lg w-72 h-36 rounded-3xl'>
-				카카오로 로그인
-			</div>
+			<a href={OAUTH_KAKAO}>
+				<img src={kakao_login} alt="" className='w-72' />
+			</a>
 			<button
 				type='button'
 				onClick={handleClick}
 				className='text-sm text-white border-b'
 			>
-				<p>{'>'} 참가자는 이쪽으로 입장해주세요</p>
+				<p className='mt-10'>{'>'} 참가자는 이쪽으로 입장해주세요</p>
 			</button>
 		</div>
 	);
