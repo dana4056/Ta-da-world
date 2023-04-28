@@ -1,17 +1,26 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const logo = require('../assets/images/logo.png');
 
 function MainPage(): JSX.Element {
-	const [activeComponent, setActiveComponent] = useState('User');
+	const navigate = useNavigate();
 
-	const handleClick = () => {
+	const [activeComponent, setActiveComponent] = useState<'User' | 'Host'>(
+		'User'
+	);
+
+	const handleClick = (): void => {
 		setActiveComponent((defaultComponent) =>
 			defaultComponent === 'User' ? 'Host' : 'User'
 		);
 	};
 
-	const LoginUser = () => (
+	const moveName = (): void => {
+		navigate('/username');
+	};
+
+	const LoginUser = (): JSX.Element => (
 		<>
 			<div className='flex flex-col items-center justify-center mb-3 border-b-8 shadow-lg shadow-main bg-white/80 w-72 h-36 rounded-3xl border-b-main3'>
 				<input
@@ -19,7 +28,10 @@ function MainPage(): JSX.Element {
 					type='text'
 					placeholder='참여코드를 입력하세요!'
 				/>
-				<button className='h-10 font-semibold text-white shadow-lg rounded-xl w-60 bg-gradient-to-r from-blue to-blue2'>
+				<button
+					onClick={moveName}
+					className='h-10 font-semibold text-white shadow-lg rounded-xl w-60 bg-gradient-to-r from-blue to-blue2'
+				>
 					입장
 				</button>
 			</div>
@@ -33,7 +45,7 @@ function MainPage(): JSX.Element {
 		</>
 	);
 
-	const LoginHost = () => (
+	const LoginHost = (): JSX.Element => (
 		<div className='flex flex-col items-center justify-center'>
 			<div className='mb-3 bg-yellow-500 shadow-lg w-72 h-36 rounded-3xl'>
 				카카오로 로그인
