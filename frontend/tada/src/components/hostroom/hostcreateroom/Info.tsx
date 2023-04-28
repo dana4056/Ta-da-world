@@ -10,6 +10,8 @@ interface RoomInfoProps {
 function Info({titleProps, timeProps} : RoomInfoProps) : JSX.Element {
 	const [time, setTime] = useState<string>(timeProps);
 	const [title, setTitle] = useState<string>(titleProps);
+	const swalColor  = '#2BDCDB';
+	const check : any = /^[0-9]+$/; 
 
 	const handleTime = (e: React.ChangeEvent<HTMLInputElement>) : void  => {
 		setTime(e.target.value);
@@ -25,19 +27,27 @@ function Info({titleProps, timeProps} : RoomInfoProps) : JSX.Element {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
-				iconColor: '#2BDCDB',
-				text: '게임 이름을 지어주세요!', 
-				confirmButtonColor: '#2BDCDB',
+				iconColor: swalColor,
+				text: '게임 이름을 설정해주세요!', 
+				confirmButtonColor: swalColor,
 				confirmButtonText: '확인',
 			});
 		} else if(time === '') {
-			//time 숫자아님 막기
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
-				iconColor: '#2BDCDB',
+				iconColor: swalColor,
 				text: '게임 시간을 설정해주세요!', 
-				confirmButtonColor: '#2BDCDB',
+				confirmButtonColor: swalColor,
+				confirmButtonText: '확인',
+			});
+		} else if(!check.test(time)) {
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: swalColor,
+				text: '유효하지 않은 게임 시간입니다.', 
+				confirmButtonColor: swalColor,
 				confirmButtonText: '확인',
 			});
 		} else {
@@ -45,9 +55,9 @@ function Info({titleProps, timeProps} : RoomInfoProps) : JSX.Element {
 		} 
 	};
 
-	
+	//api 요청할 곳
 	const saveInfo = () : void  => {
-		console.log('저장 api 요청');
+		console.log('저장 api 요청 ' + title +'  time '+time);
 	};
 
 	return (
