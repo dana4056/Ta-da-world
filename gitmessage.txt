@@ -1,0 +1,22 @@
+# =================== Commit MSG Template =================
+#
+# - [I] 키 누르면 수정 시작
+# - [esc] -> [:wq!] 저장및 종료
+# - [esc] -> [:q!] 저장 없이 종료
+# - [#] 은 주석으로 커밋 메시지에 영향 없음!
+#
+# ===================== COMMIT MESSAGE ====================
+
+# ========================== TYPE =========================
+#
+# [Add]     새로운 파일이나 기능 추가
+# [Modyfy]  기존 코드 변경사항
+# [Fix]     버그를 수정
+# [Design]  CSS등 사용자 UI 디자인 변경
+# 
+# ==========================  EX  =========================
+#
+# [Add] create main page
+# [Modify] modify settings.py
+# [Fix] login bug fixed
+# [Design] design mainpage component
