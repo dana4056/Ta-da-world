@@ -16,10 +16,6 @@ const router = createBrowserRouter([
 		children: [
 			{ index: true, element: <MainPage /> },
 			{
-				path: 'users/oauth2-kakao',
-				element: <OauthKakao />,
-			},
-			{
 				path: 'hosthome',
 				element: <HostHomePage />,
 			},
@@ -36,6 +32,10 @@ const router = createBrowserRouter([
 				element: <UserNamePage />,
 			},
 		],
+	},
+	{
+		path: '/users/oauth2-kakao',
+		element: <OauthKakao />,
 	},
 ]);
 
