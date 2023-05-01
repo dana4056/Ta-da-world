@@ -5,4 +5,6 @@ public interface HostService {
 
     void saveRefreshToken(String hostId, String refreshToken);
     void logoutHost(String hostId) throws Exception;
+
+    String getRefreshtoken(String hostId) throws Exception;
 }
