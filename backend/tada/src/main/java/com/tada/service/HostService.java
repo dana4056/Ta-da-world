@@ -7,4 +7,6 @@ public interface HostService {
     void logoutHost(String hostId) throws Exception;
 
     String getRefreshtoken(String hostId) throws Exception;
+
+    void deleteHost(String hostId) throws Exception;
 }
