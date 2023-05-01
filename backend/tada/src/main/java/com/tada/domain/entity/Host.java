@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Host extends BaseTimeEntity{
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;					// 고유번호
 	private String refreshToken;
 
