@@ -8,6 +8,7 @@ import HostHomePage from './pages/HostHomePage';
 import HostRoomPage from './pages/HostRoomPage';
 import UserWaitPage from './pages/UserWaitPage';
 import UserNamePage from './pages/UserNamePage';
+import UserLoadingPage from './pages/UserLoadingPage';
 
 const router = createBrowserRouter([
 	{
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
 			{
 				path: 'username',
 				element: <UserNamePage />,
+			},
+			{
+				path: 'userloading',
+				element: <UserLoadingPage />,
 			},
 		],
 	},
