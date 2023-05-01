@@ -65,4 +65,32 @@ public class HostController {
     }
 
 
+    @PostMapping("/hosts")
+    public ResponseEntity<?> logoutHost(HttpServletRequest request) {
+        HttpStatus status = HttpStatus.OK;
+        String header = request.getHeader("Authorization");
+        String accessToken = jwtTokenProvider.getTokenByHeader(header);
+
+        if(accessToken == null){ // 토큰이 제대로 담겨오지 않은 경우
+            status = HttpStatus.FORBIDDEN;
+            return new ResponseEntity<>(status);
+        }
+
+
+        if (jwtTokenProvider.validateToken(accessToken)) {
+            String hostId = jwtTokenProvider.getHostID(accessToken);
+            try {
+                hostService.logoutHost(hostId);
+                status = HttpStatus.OK;
+            } catch (Exception e) {
+                logger.error("로그인 실패 : {}", e);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }else{  // 토큰이 만료된 경우
+            logger.debug("로그아웃 실패 액세스 토큰 만료");
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        return new ResponseEntity<>(status);
+    }
+
 }

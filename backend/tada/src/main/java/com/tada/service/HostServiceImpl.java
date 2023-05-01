@@ -44,4 +44,15 @@ public class HostServiceImpl implements HostService{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void logoutHost(String hostId) throws Exception{
+        try {
+            Host host = hostRepository.findById(hostId).orElse(null);
+            host.updateRefreshToken(null);
+            hostRepository.save(host);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
