@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import com.tada.domain.dto.RoomRequest;
 
@@ -17,6 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
+@Table(name = "room")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Room extends BaseTimeEntity{
@@ -24,7 +26,7 @@ public class Room extends BaseTimeEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;					// 고유번호
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="host_id")
 	private Host host;					// 호스트
 	private String name;				// 방 제목
 	private Long playtime;				// 플레이타임 (제한시간)
