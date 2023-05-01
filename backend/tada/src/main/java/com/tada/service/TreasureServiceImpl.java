@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.tada.domain.RoomStatus;
 import com.tada.domain.dto.TreasureRequest;
@@ -19,6 +20,7 @@ import com.tada.repository.TreasureRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class TreasureServiceImpl implements TreasureService{
 	private final TreasureRepository treasureRepository;

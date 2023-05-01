@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @Builder
+@Table(name = "treasure")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Treasure extends BaseTimeEntity{
@@ -23,7 +25,7 @@ public class Treasure extends BaseTimeEntity{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private	Long id;			// 참가자 고유번호
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "room_id")
 	private Room room;			// 게임방
 	private String img;
 	private String lat;
@@ -33,7 +35,7 @@ public class Treasure extends BaseTimeEntity{
 	private String reword;
 	private Boolean status;
 	@ManyToOne
-	@JoinColumn(name = "id")
+	@JoinColumn(name = "user_id")
 	private User finder;
 
 }
