@@ -4,10 +4,12 @@ import com.tada.domain.entity.Host;
 import com.tada.repository.HostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Service
+@Transactional
 public class HostServiceImpl implements HostService{
 
 
@@ -22,7 +24,6 @@ public class HostServiceImpl implements HostService{
             if (host == null) { // 새로 가입하는 사람
                 isNew = true;
                 host = new Host();
-                host.updateCreateTime(LocalDateTime.now());
                 host.updateId(hostId);
                 hostRepository.save(host);
             }

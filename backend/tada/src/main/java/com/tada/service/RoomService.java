@@ -10,15 +10,15 @@ import com.tada.domain.entity.Room;
 
 public interface RoomService {
 
-	RoomResponse createRoom(Authentication authentication);
+	RoomResponse createRoom(String hostId);
 
-	void modifyRoom(Long id, RoomRequest roomRequest);
+	void modifyRoom(Long roomId, RoomRequest roomRequest);
 
-	RoomResponse readRoom(Long id);
+	RoomResponse readRoom(Long roomId);
 
-	int readRoomStatus(Long id);
+	int readRoomStatus(String hostId);
 
-	void modifyRoomStatus(Long id, Map<String, Integer> statusRequest);
+	void modifyRoomStatus(Long roomId,  Map<String, Integer> statusRequest);
 
-	String moveToWaitingRoom(Long id);
+	String moveToWaitingRoom(Long roomId);
 }

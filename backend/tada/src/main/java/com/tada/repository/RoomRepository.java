@@ -8,11 +8,11 @@ import com.tada.domain.entity.Room;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
-	boolean existsByHost_IdAAndStatusLessThan(Long hostId, int status);
+	boolean existsByHost_IdAndStatusLessThan(String hostId, int status);
 
-	Room findByHost_IdAndStatusLessThan(Long hostId, int status);
+	Room findByHost_IdAndStatusLessThan(String hostId, int status);
 
-	Room findByHost_IdAndStatus(Long hostId, int status);
+	Room findByHost_IdAndStatus(String hostId, int status);
 
 	Optional<Room> findByCode(String code);
 }

@@ -25,9 +25,15 @@ import java.time.LocalDateTime;
 public class Host extends BaseTimeEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;					// 고유번호
-	private String uid;					// 유저 식별값
-	private String name;				// 이름
-	private String provider;			// 소셜 종류 ("kakao", "google")
+	private String id;					// 고유번호
+	private String refreshToken;
+
+
+	public void updateId(String id) { this.id = id; }
+
+	public void updateRefreshToken(String refreshToken){
+		this.refreshToken = refreshToken;
+	}
+
 
 }
