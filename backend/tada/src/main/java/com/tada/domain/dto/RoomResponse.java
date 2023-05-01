@@ -1,5 +1,7 @@
 package com.tada.domain.dto;
 
+import java.time.LocalDateTime;
+
 import com.tada.domain.entity.Room;
 
 import lombok.AllArgsConstructor;
@@ -15,11 +17,13 @@ public class RoomResponse {
 
 	private Long id;
 	private String name;
-	private Long playtime;
+	private Long playTime;
+	private LocalDateTime startTime;
 
 	public RoomResponse(Room room){
 		this.id = room.getId();
 		this.name = room.getName();
-		this.playtime = room.getPlaytime();
+		this.playTime = room.getPlayTime();
+		this.startTime = room.getStartTime();
 	}
 }

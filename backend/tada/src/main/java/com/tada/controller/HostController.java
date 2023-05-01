@@ -42,7 +42,6 @@ public class HostController {
             String type = hostRequest.getType();
             hostId = type + "_" + hostId;
             boolean isNewHost = hostService.joinUser(hostId); // kakao id값을 통해 로그인 or 회원가입
-            System.out.println(isNewHost);
             if (isNewHost) { // 새로 회원가입한 유저라면
                 status = HttpStatus.CREATED;
             }
@@ -80,7 +79,6 @@ public class HostController {
 
         if (jwtTokenProvider.validateToken(accessToken)) {
             String hostId = jwtTokenProvider.getHostID(accessToken);
-            System.out.println(hostId);
             try {
                 logger.info("로그아웃 시도");
                 hostService.logoutHost(hostId);
