@@ -1,5 +1,20 @@
 import tw from 'tailwind-styled-components';
 
+interface StyledGraColor {
+	from: string;
+	to: string;
+}
+
+export const GraButton = tw.div<StyledGraColor>`
+	w-60 h-12
+	flex justify-center items-center 
+	shadow-lg rounded-xl
+	font-semibold text-white 
+	${({ from, to }) => `
+		bg-gradient-to-r ${from} ${to}
+	`}
+`;
+
 export const Button = tw.div`
   flex justify-center items-center 
   w-full h-11 
@@ -42,6 +57,7 @@ export const ModalHeader  = tw.div`
 
 const Semantics = {
 	Button,
+	GraButton,
 	Label,
 	Input,
 	Modal
