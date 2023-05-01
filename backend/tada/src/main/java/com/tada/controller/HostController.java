@@ -80,7 +80,7 @@ public class HostController {
         if (jwtTokenProvider.validateToken(accessToken)) { 
             String hostId = jwtTokenProvider.getHostID(accessToken);
             try {
-                logger.info("로그아웃 시도")
+                logger.info("로그아웃 시도");
                 hostService.logoutHost(hostId);
                 status = HttpStatus.OK;
             } catch (Exception e) {
