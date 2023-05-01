@@ -77,13 +77,14 @@ public class HostController {
         }
 
 
-        if (jwtTokenProvider.validateToken(accessToken)) {
+        if (jwtTokenProvider.validateToken(accessToken)) { 
             String hostId = jwtTokenProvider.getHostID(accessToken);
             try {
+                logger.info("로그아웃 시도")
                 hostService.logoutHost(hostId);
                 status = HttpStatus.OK;
             } catch (Exception e) {
-                logger.error("로그인 실패 : {}", e);
+                logger.error("로그아웃 실패 : {}", e);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
         }else{  // 토큰이 만료된 경우
