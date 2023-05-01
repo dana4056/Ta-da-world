@@ -28,8 +28,7 @@ public class HostServiceImpl implements HostService{
                 hostRepository.save(host);
             }
         } catch (Exception e){
-            e.printStackTrace();
-            throw new Exception(e);
+            throw e;
         }
 
         return isNew;
@@ -65,6 +64,18 @@ public class HostServiceImpl implements HostService{
                 return null;
             } else {
                 return host.getRefreshToken();
+            }
+        } catch (Exception e){
+            throw e;
+        }
+    }
+
+    @Override
+    public void deleteHost(String hostId) throws Exception {
+        try {
+            Host host = hostRepository.findById(hostId).orElse(null);
+            if (host != null ){
+             hostRepository.deleteById(hostId);
             }
         } catch (Exception e){
             throw e;

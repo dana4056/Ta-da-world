@@ -123,6 +123,8 @@ public class HostController {
                     status = HttpStatus.OK;
                     hostResponse.setAccessToken(accessToken);
                     return new ResponseEntity<>(hostResponse, status);
+                } else {
+                    status = HttpStatus.UNAUTHORIZED;
                 }
             } catch (Exception e) {
                 logger.error("액세스 토큰 재발급 실패 : {}", e);
@@ -135,4 +137,34 @@ public class HostController {
         return new ResponseEntity<>(status);
     }
 
+    @DeleteMapping("")
+    public ResponseEntity<?> deleteHost(HttpServletRequest request) {
+        HttpStatus status = HttpStatus.OK;
+        String header = request.getHeader("Authorization");
+        String accessToken = jwtTokenProvider.getTokenByHeader(header);
+
+        if(accessToken == null){ // 토큰이 제대로 담겨오지 않은 경우
+            logger.error("토큰 에러");
+            status = HttpStatus.FORBIDDEN;
+            return new ResponseEntity<>(status);
+        }
+
+
+        if (jwtTokenProvider.validateToken(accessToken)) {
+            String hostId = jwtTokenProvider.getHostID(accessToken);
+            try {
+                logger.info("회원탈퇴 시도");
+                hostService.deleteHost(hostId);
+                status = HttpStatus.OK;
+            } catch (Exception e) {
+                logger.error("회원탈퇴 실패 : {}", e);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }else{  // 토큰이 만료된 경우
+
+            logger.info("회원탈퇴 실패 액세스 토큰 만료");
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        return new ResponseEntity<>(status);
+    }
 }
