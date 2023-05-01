@@ -4,7 +4,7 @@ import Header from '../components/nav/Header';
 const RootLayout = (): JSX.Element => {
 	const location = useLocation();
 
-	const excludedPaths: string[] = ['/', '/username'];
+	const excludedPaths: string[] = ['/', '/username', '/userloading'];
 
 	return (
 		<div className='flex flex-col items-center w-full h-screen min-h-screen'>
