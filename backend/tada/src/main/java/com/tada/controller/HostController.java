@@ -42,7 +42,6 @@ public class HostController {
             String type = hostRequest.getType();
             hostId = type + "_" + hostId;
             boolean isNewHost = hostService.joinUser(hostId); // kakao id값을 통해 로그인 or 회원가입
-            System.out.println(isNewHost);
             if (isNewHost) { // 새로 회원가입한 유저라면
                 status = HttpStatus.CREATED;
             }
@@ -80,7 +79,6 @@ public class HostController {
 
         if (jwtTokenProvider.validateToken(accessToken)) {
             String hostId = jwtTokenProvider.getHostID(accessToken);
-            System.out.println(hostId);
             try {
                 logger.info("로그아웃 시도");
                 hostService.logoutHost(hostId);
@@ -92,6 +90,46 @@ public class HostController {
         }else{  // 토큰이 만료된 경우
 
             logger.info("로그아웃 실패 액세스 토큰 만료");
+            status = HttpStatus.UNAUTHORIZED;
+        }
+        return new ResponseEntity<>(status);
+    }
+
+    @PostMapping("/token/refresh")
+    public ResponseEntity<?> refreshToken(HttpServletRequest request) {
+        HttpStatus status = HttpStatus.OK;
+        HostResponse hostResponse = new HostResponse();
+        String header = request.getHeader("Authorization");
+        String refreshToken = jwtTokenProvider.getTokenByHeader(header);
+
+        if(refreshToken == null){ // 토큰이 제대로 담겨오지 않은 경우
+            logger.error("리프레쉬 토큰 에러");
+            status = HttpStatus.FORBIDDEN;
+            return new ResponseEntity<>(status);
+        }
+
+
+        if (jwtTokenProvider.validateToken(refreshToken)) {
+            try {
+                String hostId = jwtTokenProvider.getHostID(refreshToken);
+                String hostRefreshToken = hostService.getRefreshtoken(hostId);
+                if (hostRefreshToken == null ) {
+                    logger.debug("로그인되지 않은 host");
+                    status = HttpStatus.UNAUTHORIZED;
+                } else if (hostRefreshToken.equals(refreshToken)){ // 로그인 되어있고 리프레시 토큰도 일치할 경우
+                    String accessToken = jwtTokenProvider.createAccessToken("hostId", hostId);
+                    logger.debug("access-token : {}", accessToken);
+                    logger.debug("access-token 재발급 완료");
+                    status = HttpStatus.OK;
+                    hostResponse.setAccessToken(accessToken);
+                    return new ResponseEntity<>(hostResponse, status);
+                }
+            } catch (Exception e) {
+                logger.error("액세스 토큰 재발급 실패 : {}", e);
+                status = HttpStatus.INTERNAL_SERVER_ERROR;
+            }
+        }else{  // 리프레쉬 토큰이 만료된 경우
+            logger.info("액세스 토큰 재발급 실패 리프레쉬 토큰 만료");
             status = HttpStatus.UNAUTHORIZED;
         }
         return new ResponseEntity<>(status);

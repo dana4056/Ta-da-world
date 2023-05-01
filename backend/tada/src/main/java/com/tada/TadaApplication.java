@@ -10,7 +10,6 @@ public class TadaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(TadaApplication.class, args);
-
 	}
 
 }

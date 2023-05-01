@@ -42,7 +42,7 @@ public class HostServiceImpl implements HostService{
             host.updateRefreshToken(refreshToken);
             hostRepository.save(host);
         } catch (Exception e){
-            e.printStackTrace();
+            throw e;
         }
     }
 
@@ -53,7 +53,21 @@ public class HostServiceImpl implements HostService{
             host.updateRefreshToken(null);
             hostRepository.save(host);
         } catch (Exception e){
-            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @Override
+    public String getRefreshtoken(String hostId) throws Exception {
+        try {
+            Host host = hostRepository.findById(hostId).orElse(null);
+            if (host == null ){
+                return null;
+            } else {
+                return host.getRefreshToken();
+            }
+        } catch (Exception e){
+            throw e;
         }
     }
 }
