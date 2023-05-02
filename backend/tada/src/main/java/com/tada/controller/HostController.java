@@ -40,7 +40,8 @@ public class HostController {
     @PostMapping("")
     @Operation(summary = "로그인", description = "소셜 로그인")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "방 기본 정보 조회 성공"),
+            @ApiResponse(responseCode = "200", description = "로그인 성공"),
+            @ApiResponse(responseCode = "201", description = "회원가입 후 성공"),
             @ApiResponse(responseCode = "500", description = "서버에러")
     })
     public ResponseEntity<?> joinHost(HttpServletRequest request, @RequestBody HostRequest hostRequest) {
@@ -80,6 +81,13 @@ public class HostController {
 
 
     @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "로그아웃")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "로그아웃 성공"),
+            @ApiResponse(responseCode = "401", description = "토큰 만료"),
+            @ApiResponse(responseCode = "403", description = "토큰 에러(토큰 없음 / 권한 없음)"),
+            @ApiResponse(responseCode = "500", description = "서버에러")
+    })
     public ResponseEntity<?> logoutHost(HttpServletRequest request) {
         HttpStatus status = HttpStatus.OK;
         String header = request.getHeader("Authorization");
@@ -111,6 +119,13 @@ public class HostController {
     }
 
     @PostMapping("/token/refresh")
+    @Operation(summary = "액세스토큰 재발금", description = "액세스토큰 재발급")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "액세스토큰 재발급 성공"),
+            @ApiResponse(responseCode = "401", description = "토큰 만료"),
+            @ApiResponse(responseCode = "403", description = "토큰 에러(토큰 없음 / 권한 없음)"),
+            @ApiResponse(responseCode = "500", description = "서버에러")
+    })
     public ResponseEntity<?> refreshToken(HttpServletRequest request) {
         HttpStatus status = HttpStatus.OK;
         HostResponse hostResponse = new HostResponse();
@@ -153,6 +168,13 @@ public class HostController {
     }
 
     @DeleteMapping("")
+    @Operation(summary = "회원 탈퇴", description = "회원 탈퇴")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "회원탈퇴 성공"),
+            @ApiResponse(responseCode = "401", description = "토큰 만료"),
+            @ApiResponse(responseCode = "403", description = "토큰 에러(토큰 없음 / 권한 없음)"),
+            @ApiResponse(responseCode = "500", description = "서버에러")
+    })
     public ResponseEntity<?> deleteHost(HttpServletRequest request) {
         HttpStatus status = HttpStatus.OK;
         String header = request.getHeader("Authorization");
