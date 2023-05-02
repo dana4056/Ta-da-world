@@ -3,6 +3,7 @@ package com.tada.controller;
 
 import com.tada.domain.dto.HostRequest;
 import com.tada.domain.dto.HostResponse;
+import com.tada.domain.entity.Room;
 import com.tada.service.HostService;
 import com.tada.util.JwtTokenProvider;
 import org.slf4j.Logger;
@@ -51,7 +52,11 @@ public class HostController {
             hostService.saveRefreshToken(hostId, refreshToken);
             logger.debug("로그인 accessToken 정보 : {}", accessToken);
             logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
-
+            Room room = hostService.getRoomByHostId(hostId);
+            if (room != null) { // 생성한 방이 있는 유저라면
+               hostResponse.setRoomId(room.getId());
+               hostResponse.setRoomStatus(room.getStatus());
+            }
             hostResponse.setAccessToken(accessToken);
             hostResponse.setRefreshToken(refreshToken);
         } catch (Exception e) {

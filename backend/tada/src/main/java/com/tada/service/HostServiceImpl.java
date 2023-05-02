@@ -1,12 +1,12 @@
 package com.tada.service;
 
 import com.tada.domain.entity.Host;
+import com.tada.domain.entity.Room;
 import com.tada.repository.HostRepository;
+import com.tada.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Service
 @Transactional
@@ -15,6 +15,9 @@ public class HostServiceImpl implements HostService{
 
     @Autowired
     private HostRepository hostRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Override
     public boolean joinUser(String hostId) throws Exception {
@@ -34,6 +37,14 @@ public class HostServiceImpl implements HostService{
         return isNew;
     }
 
+    @Override
+    public Room getRoomByHostId(String hostId) throws Exception{
+        try {
+            return roomRepository.findByHost_IdAndStatusLessThan(hostId, 5);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
     @Override
     public void saveRefreshToken(String hostId, String refreshToken) {
         try {
