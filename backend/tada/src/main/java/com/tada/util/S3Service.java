@@ -21,7 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class S3Service {
 
-    public static final String CLOUD_FRONT_DOMAIN_NAME = "dq582wpwqowa9.cloudfront.net";
+    public static final String CLOUD_FRONT_DOMAIN_NAME = "https://d2ab9z4xn2ddpo.cloudfront.net";
     private final AmazonS3Client amazonS3Client;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;

@@ -8,4 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface HostRepository extends JpaRepository<Host, String> {
+    Host FindByHost_id(String hostId);
 }
