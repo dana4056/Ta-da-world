@@ -16,8 +16,8 @@ public class TreasureRequest {
 	private String lat;
 	private String lng;
 	private String hint;
-	private String rewordImg;
-	private String reword;
+	private String rewardImg;
+	private String reward;
 
 }
 

@@ -13,6 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RoomRequest {
 	private String name;
-	private Long playtime;
+	private Long playTime;
 
 }
