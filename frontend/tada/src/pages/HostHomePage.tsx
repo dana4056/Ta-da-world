@@ -6,6 +6,7 @@ import RoomState from '../components/hosthome/RoomState';
 
 function HostHomePage(): JSX.Element {
 	const roomState = useSelector((state: RootState) => state.host.roomState);
+	console.log('Home' + roomState);
 
 	return (
 		<div className='h-full'>

@@ -1,7 +1,7 @@
 import React, {useState, useRef} from 'react';
 import tw from 'tailwind-styled-components';
 import Webcam from 'react-webcam';
-import { Modal, ModalSection, Button, ModalHeader } from '../../../hooks/Semantics';
+import { Modal, ModalSection, Button, ModalHeader } from '../../../util/Semantics';
 import {BsX}  from 'react-icons/bs';
 
 

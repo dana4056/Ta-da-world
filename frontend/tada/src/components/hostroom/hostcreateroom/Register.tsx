@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import tw from 'tailwind-styled-components';
 import Swal from 'sweetalert2';
-import { Label, Input, Button } from '../../../hooks/Semantics';
-import CurrentLocation  from '../../../hooks/CurrentLocation';
+import { Label, Input, Button } from '../../../util/Semantics';
+import getCurrentLocation  from '../../../hooks/getCurrentLocation';
 import CaptureModal from './CaptureModal';
 import MapModal from './MapModal';
 import {BsCameraFill} from 'react-icons/bs';
@@ -25,15 +25,6 @@ const MiniButton = tw.div`
 	ml-4
 `;
 
-interface TreasureInfo {
-	room_id: number;
-	img: string;
-	lat: string;
-	lng: string;
-	hin: string;
-	reword_img: string;
-	reword: string;
-}
 
 function Register() : JSX.Element {
 	const [treasure, setTreasure] = useState<string>('');
@@ -128,7 +119,7 @@ function Register() : JSX.Element {
 		setModalOpen2(false);
 	};
 		
-	const location : any = CurrentLocation();
+	const location : any = getCurrentLocation();
 
 	useEffect(() => {
 		if(treasure){
@@ -197,17 +188,17 @@ function Register() : JSX.Element {
 
 	//api 요청할 곳
 	const registerTreasure = () : void  => {
-		const arr : TreasureInfo = 	{
-			room_id: 1,
-			img: treasure,
-			lat: lat,
-			lng: lon,
-			hin: hint,
-			reword_img: reward,
-			reword: rewardDes
-		};
-		// console.log('저장 api 요청 '  + arr );
-		console.log(arr);
+		// const arr : TreasureInfo = 	{
+		// 	room_id: 1,
+		// 	img: treasure,
+		// 	lat: lat,
+		// 	lng: lon,
+		// 	hin: hint,
+		// 	reword_img: reward,
+		// 	reword: rewardDes
+		// };
+		// // console.log('저장 api 요청 '  + arr );
+		// console.log(arr);
 	};
 
 	return (

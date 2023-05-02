@@ -1,31 +1,25 @@
 import { useState, useEffect, useRef } from 'react'; 
-import { Label } from '../../../hooks/Semantics';
+import { Label } from '../../../util/Semantics';
 import TreasureModal from './TreasureModal ';
-
-interface TreasureInfo {
-	id: number;
-	img: string;
-	lat: string;
-	lng: string;
-	hint: string;
-	reword_img: string;
-	reword: string;
-}
+import { TreasureInfo } from '../../../util/Interface';
 
 function List() : JSX.Element {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [treasure, setTreasure] = useState<TreasureInfo | null>(null);
 
 	const a  = 'https://d2ab9z4xn2ddpo.cloudfront.net/%EC%84%9E%EA%B8%B0.png';
-	const treasureList : Array<TreasureInfo> = [
+
+	const treasureList : TreasureInfo[] = [
 		{
 			id: 1,
 			img: a,
 			lat: '37.5128064',
 			lng: '127.0284288',
 			hint: '학동역',
-			reword_img: a,
-			reword: '나의 망므~'
+			rewardImg: a,
+			reward: '나의 망므~',
+			status : true,
+			finderNick:'한원석 안경'
 		},
 		{
 			id: 2,
@@ -33,8 +27,10 @@ function List() : JSX.Element {
 			lat: '37.513035165378085',
 			lng: '127.02883155684492',
 			hint: '카페 마오지래',
-			reword_img: '',
-			reword: '커피'
+			rewardImg: '',
+			reward: '커피',
+			status : false,
+			finderNick: null
 		},
 		{
 			id: 3,
@@ -42,8 +38,10 @@ function List() : JSX.Element {
 			lat: '37.512846012270565',
 			lng: '127.0285939551883',
 			hint: '주차장',
-			reword_img: a,
-			reword: ''
+			rewardImg: a,
+			reward: '',
+			status : true,
+			finderNick:'우겨ㅑㅇ'
 		},
 	];
 	

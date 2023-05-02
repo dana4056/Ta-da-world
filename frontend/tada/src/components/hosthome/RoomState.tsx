@@ -2,7 +2,7 @@ import tw from 'tailwind-styled-components';
 import { useDispatch } from 'react-redux';
 import { change } from '../../stores/host';
 import { useNavigate } from 'react-router-dom';
-import {GraButton} from '../../hooks/Semantics';
+import {GraButton} from '../../util/Semantics';
 
 interface hostRoomProps {
 	roomState: number;
@@ -31,8 +31,8 @@ function RoomState({ roomState }: hostRoomProps)  : JSX.Element {
 
 
 	const navRoom = () : void  => {
-		if(roomState === 0){
-			dispatch(change(1));
+		if(roomState === 1){
+			dispatch(change(3));
 			//방 생성 api 호출
 		}
 		navigate('/hostroom');

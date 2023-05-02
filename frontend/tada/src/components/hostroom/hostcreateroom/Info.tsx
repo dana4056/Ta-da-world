@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Label, Input, Button } from '../../../hooks/Semantics';
+import { Label, Input, Button } from '../../../util/Semantics';
 import Swal from 'sweetalert2';
 
 interface RoomInfoProps {
@@ -22,7 +22,7 @@ function Info({titleProps, timeProps} : RoomInfoProps) : JSX.Element {
 	};
 
 	const checkAva = () : void  => {
-		//유효성 검사
+		//유효성 검사 //게임 제목 18자까지
 		if (title === '') {
 			Swal.fire({
 				icon: 'warning',               
