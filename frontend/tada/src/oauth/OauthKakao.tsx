@@ -46,15 +46,15 @@ function OauthKakao(): JSX.Element {
 		}
 	}, []);
 
-	// useEffect(() => {
-	// 	if (data) {
-	// 		navigate('/hosthome');
-	// 	}
-	// 	if (error) {
-	// 		console.error(error);
-	// 		navigate('/');
-	// 	}
-	// });
+	useEffect(() => {
+		if (data) {
+			navigate('/hosthome');
+		}
+		if (error) {
+			console.error(error);
+			navigate('/');
+		}
+	});
 
 	return (
 		<div className='flex flex-col justify-center min-h-screen pt-1 pb-8'>

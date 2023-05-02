@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../stores/host';
 
@@ -11,10 +10,9 @@ interface LoginData {
 
 const useLogin = () => {
 	const dispatch = useDispatch();
-	const navigate = useNavigate();
 	const [data, setData] = useState<LoginData | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const [, setCookie, removeCookie] = useCookies(['accessToken']);
+	const [, setCookie, ] = useCookies(['accessToken']);
 	
 	// hostId, type
 	const handleLogin = async (id: string, type: string) => {
