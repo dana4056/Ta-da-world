@@ -6,6 +6,10 @@ import com.tada.domain.dto.HostResponse;
 import com.tada.domain.entity.Room;
 import com.tada.service.HostService;
 import com.tada.util.JwtTokenProvider;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import java.util.Map;
 
 @CrossOrigin(origins = {"*"}, maxAge = 6000)
 @RestController
+@Api(tags = "Host Controller")
 @RequestMapping("/hosts")
 //@Api(tags = {"회원 관리 api"})
 public class HostController {
@@ -33,6 +38,11 @@ public class HostController {
 
 //    @ApiOperation(value = "회원가입", notes = "회원가입 요청 API", response = Map.class)
     @PostMapping("")
+    @Operation(summary = "로그인", description = "소셜 로그인")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "방 기본 정보 조회 성공"),
+            @ApiResponse(responseCode = "500", description = "서버에러")
+    })
     public ResponseEntity<?> joinHost(HttpServletRequest request, @RequestBody HostRequest hostRequest) {
         HostResponse hostResponse = new HostResponse();
         HttpStatus status = HttpStatus.OK;
