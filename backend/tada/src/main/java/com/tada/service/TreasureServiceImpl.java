@@ -37,8 +37,8 @@ public class TreasureServiceImpl implements TreasureService{
 			.lat(request.getLat())
 			.lng(request.getLng())
 			.hint(request.getHint())
-			.rewordImg(request.getRewordImg())
-			.reword(request.getReword())
+			.rewardImg(request.getRewardImg())
+			.reward(request.getReward())
 			.build();
 
 		treasureRepository.save(treasure);

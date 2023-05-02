@@ -16,8 +16,8 @@ public class TreasureResponse {
 	private String lat;        	// 위도
 	private String lng;       	// 경도
 	private String hint;       	// 힌트
-	private String rewordImg; 	// 보상 사진
-	private String reword;     	// 보상 설명
+	private String rewardImg; 	// 보상 사진
+	private String reward;     	// 보상 설명
 
 	private Boolean status;		// 보물 상태
 
@@ -29,8 +29,8 @@ public class TreasureResponse {
 		this.lat = treasure.getLat();
 		this.lng = treasure.getLng();
 		this.hint = treasure.getHint();
-		this.rewordImg = treasure.getRewordImg();
-		this.reword = treasure.getReword();
+		this.rewardImg = treasure.getRewardImg();
+		this.reward = treasure.getReward();
 		this.status = treasure.getStatus();
 		if(treasure.getFinder() != null){
 			this.finderNick = treasure.getFinder().getNick();

@@ -31,8 +31,8 @@ public class Treasure extends BaseTimeEntity{
 	private String lat;
 	private String lng;
 	private String hint;
-	private String rewordImg;
-	private String reword;
+	private String rewardImg;
+	private String reward;
 	private Boolean status;
 	@ManyToOne
 	@JoinColumn(name = "user_id")
