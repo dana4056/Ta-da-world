@@ -253,7 +253,6 @@ public class RoomController {
 		return new ResponseEntity<>(status);
 	}
 
-
 	private ResponseEntity<String> tokenExceptionHandling() {
 		logger.error("토큰 에러");
 		HttpStatus status = HttpStatus.FORBIDDEN;
