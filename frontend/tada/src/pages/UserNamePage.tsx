@@ -15,6 +15,10 @@ function UserNamePage(): JSX.Element {
 		setName(event.target.value);
 	};
 
+	const moveCharacter = (): void => {
+		navigate('/usercharacter');
+	};
+
 	return (
 		<div className='flex flex-col items-center justify-center h-full'>
 			<img className='mb-5' src={logo} alt='logo' />
@@ -29,6 +33,7 @@ function UserNamePage(): JSX.Element {
 					onChange={handleNameChange}
 				/>
 				<button
+					onClick={moveCharacter}
 					className={`h-10 text-white shadow-lg rounded-xl w-60  ${
 						name === '한원석'
 							? `bg-red text-sm ${styles.shake}`
