@@ -5,7 +5,7 @@ interface LocationObject {
     longitude : number
 }
 
-function CurrentLocation() {
+function getCurrentLocation() {
 	const [data, setData] = useState<LocationObject>();
 	const [error, setError] = useState<string>();
 
@@ -40,4 +40,4 @@ function CurrentLocation() {
 	return { data, error, useCurrentLocation };
 }
 
-export default CurrentLocation;
+export default getCurrentLocation;

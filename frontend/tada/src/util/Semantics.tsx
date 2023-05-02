@@ -35,7 +35,6 @@ export const Input = tw.input`
 	py-4 px-3 mt-2 mb-8 mx-1
 `;
 
-
 export const Modal  = tw.div`
 	hidden fixed top-0 right-0 bottom-0 left-0 z-50
 	bg-gray5/70
@@ -55,12 +54,30 @@ export const ModalHeader  = tw.div`
 	mb-2
 `;
 
+export const HeaderBox  = tw.div`
+	w-4/5 h-12
+	flex justify-center items-center
+	bg-white2 rounded-3xl
+	text-main text-xl font-black
+	mb-4
+`;
+
+export const WhiteBox  = tw.div`
+	w-5/6
+	flex flex-col items-center
+	bg-white rounded-3xl
+	text-gray4 text-base font-bold
+	my-3 py-2 px-2
+`;
+
 const Semantics = {
 	Button,
 	GraButton,
 	Label,
 	Input,
-	Modal
+	Modal,
+	HeaderBox,
+	WhiteBox
 };
 
 export default Semantics;

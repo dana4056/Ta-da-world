@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Modal, ModalSection, Button, ModalHeader } from '../../../hooks/Semantics';
+import { Modal, ModalSection, Button, ModalHeader } from '../../../util/Semantics';
 import tw from 'tailwind-styled-components';
 
 import {BsX}  from 'react-icons/bs';

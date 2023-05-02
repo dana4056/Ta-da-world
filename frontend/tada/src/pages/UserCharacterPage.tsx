@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { GraButton } from '../hooks/Semantics';
+import { GraButton } from '../util/Semantics';
 import { useNavigate } from 'react-router-dom';
 
 function UserCharacterPage(): JSX.Element {
