@@ -7,7 +7,7 @@ import com.tada.domain.dto.UserRequest;
 import com.tada.domain.dto.UserResponse;
 
 public interface UserService {
-	Map<String, Long> saveUser(String code, UserRequest userRequest);
+	Map<String, Long> saveUser(String code, UserRequest userRequest) throws Exception;
 
-	List<UserResponse> readUserList(Long roomId);
+	List<UserResponse> readUserList(Long roomId) throws Exception;
 }

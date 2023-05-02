@@ -28,34 +28,46 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override	// 참가자 방 참여
-	public Map<String, Long> saveUser(String code, UserRequest userRequest) {
+	public Map<String, Long> saveUser(String code, UserRequest userRequest) throws Exception{
 		Room room = roomRepository.findByCode(code).orElseThrow(() -> new NoSuchElementException("존재하지 않는 방"));
 
-		User user = User.builder()
-			.deviceId(userRequest.getDeviceId())
-			.nick(userRequest.getNick())
-			.imgNo(userRequest.getImgNo())
-			.room(room)
-			.build();
+		try{
+			User user = User.builder()
+				.deviceId(userRequest.getDeviceId())
+				.nick(userRequest.getNick())
+				.imgNo(userRequest.getImgNo())
+				.room(room)
+				.build();
 
-		userRepository.save(user);
+			userRepository.save(user);
 
-		Map<String, Long> response = new HashMap<>();
-		response.put("userId", user.getId());
-		response.put("roomId", room.getId());
+			Map<String, Long> response = new HashMap<>();
+			response.put("userId", user.getId());
+			response.put("roomId", room.getId());
 
-		return response;
+			return response;
+
+		}catch (Exception e){
+			throw e;
+		}
 	}
 
 	@Override	// 참가지 리스트 조회
-	public List<UserResponse> readUserList(Long roomId) {
-		List<User> userList = userRepository.findAllByRoom_Id(roomId);
-		List<UserResponse> userDtoList = new ArrayList<>();
+	public List<UserResponse> readUserList(Long roomId) throws Exception{
+		try{
+			if(!roomRepository.existsById(roomId)){
+				throw new NoSuchElementException("존재하지 않는 방");
+			}
 
-		for(User user: userList){
-			userDtoList.add(new UserResponse(user));
+			List<User> userList = userRepository.findAllByRoom_Id(roomId);
+			List<UserResponse> userDtoList = new ArrayList<>();
+
+			for(User user: userList){
+				userDtoList.add(new UserResponse(user));
+			}
+			return userDtoList;
+		}catch (Exception e){
+			throw e;
 		}
-
-		return userDtoList;
 	}
 }
