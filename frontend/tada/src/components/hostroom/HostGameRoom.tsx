@@ -1,10 +1,11 @@
 import { useDispatch } from 'react-redux';
 import { change } from '../../stores/host';
 import tw from 'tailwind-styled-components';
-import { HeaderBox, WhiteBox } from '../../util/Semantics';
+import { WhiteBox } from '../../util/Semantics';
 import { TreasureInfo } from '../../util/Interface';
 import TreasureMap from '../common/TreasureMap';
 import Timer from '../common/Timer';
+import Title from '../common/Title';
 
 const PlayTimeBox = tw(WhiteBox)`
 	flex flex-row justify-center items-center
@@ -57,15 +58,16 @@ function HostGameRoom() : JSX.Element {
 
 	return (
 		<div className="flex flex-col items-center">
-			<HeaderBox> 이유경의 보물 찾기 </HeaderBox>
+			<Title title='이유경의 보물 찾기' subTitle='게임 진행중'/>
 			<div className='w-full flex flex-col items-center bg-white2 px-2 py-3 mt-2 rounded-t-2xl'>
 				<PlayTimeBox>
 					<p className='mx-3 font-black text-gray5'> 현재 남은 시간</p>
-					<div className='font-black text-main'><Timer start="2023-05-02 14:00:00" time={60}/></div>
+					<div className='font-black text-red text-xl'><Timer start="2023-05-03 16:00:00" time={60}/></div>
 				</PlayTimeBox>
 				<TreasureMap isHost={true}  title='보물 찾기 현황' treasures={treasures}/>
 				<div onClick={endGame}>야 끝내</div>
 			</div>
+			<div className='fixed w-full bottom-0 h-96 -z-10 bg-white2'/>
 		</div>
 	);
 }

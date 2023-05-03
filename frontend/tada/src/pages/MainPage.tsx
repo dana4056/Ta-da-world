@@ -54,8 +54,8 @@ function MainPage(): JSX.Element {
 
 	const LoginHost = (): JSX.Element => (
 		<div className='flex flex-col items-center justify-center'>
-			<a href={OAUTH_KAKAO}>
-				<img src={kakao_login} alt="" className='w-72' />
+			<a className='w-3/5' href={OAUTH_KAKAO}>
+				<img src={kakao_login} alt=""/>
 			</a>
 			<button
 				type='button'
@@ -69,7 +69,7 @@ function MainPage(): JSX.Element {
 
 	return (
 		<div className='flex flex-col items-center justify-center h-full'>
-			<img className='mb-5' src={logo} alt='logo' />
+			<img className='w-3/4 mb-5' src={logo} alt='logo' />
 			{activeComponent === 'User' ? <LoginUser /> : <LoginHost />}
 		</div>
 	);

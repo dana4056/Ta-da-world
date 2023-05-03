@@ -54,14 +54,6 @@ export const ModalHeader  = tw.div`
 	mb-3
 `;
 
-export const HeaderBox  = tw.div`
-	w-4/5 h-12
-	flex justify-center items-center
-	bg-white rounded-3xl shadow-lg
-	text-main text-xl font-black
-	mb-4
-`;
-
 export const WhiteBox  = tw.div`
 	w-11/12
 	flex flex-col items-center
@@ -85,7 +77,6 @@ const Semantics = {
 	Label,
 	Input,
 	Modal,
-	HeaderBox,
 	WhiteBox,
 	Circle
 };

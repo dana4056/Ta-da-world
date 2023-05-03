@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { change } from '../../stores/host';
 import { Circle } from '../../util/Semantics';
+import { TreasureInfo } from '../../util/Interface';
 import tw from 'tailwind-styled-components';
 
 import Info from './hostcreateroom/Info';
@@ -26,6 +27,42 @@ const SectionOpt = tw.div<StyledDivProps>`
 function HostCreateRoom() : JSX.Element {
 	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
 	const [section, setSection] = useState<string>('info');
+	const a  = 'https://d2ab9z4xn2ddpo.cloudfront.net/%EC%84%9E%EA%B8%B0.png';
+	const treasures : TreasureInfo[] = [
+		{
+			id: 1,
+			img: a,
+			lat: '37.5128064',
+			lng: '127.0284288',
+			hint: '학동역',
+			rewardImg: a,
+			reward: '나의 망므~',
+			status : false,
+			finderNick: null
+		},
+		{
+			id: 2,
+			img: a,
+			lat: '37.513035165378085',
+			lng: '127.02883155684492',
+			hint: '카페 마오지래',
+			rewardImg: '',
+			reward: '커피',
+			status : false,
+			finderNick: null
+		},
+		{
+			id: 3,
+			img: a,
+			lat: '37.512846012270565',
+			lng: '127.0285939551883',
+			hint: '주차장',
+			rewardImg: a,
+			reward: '',
+			status : false,
+			finderNick: null
+		},
+	];
 
 	const handleClick = (e:string) : void => {
 		setSection(e);
@@ -50,9 +87,9 @@ function HostCreateRoom() : JSX.Element {
 				</SectionOpt>
 			</div>
 			{section==='info' && <Info titleProps='api로받아야해' timeProps='60'/>}
-			{section==='list' && <List/>}
+			{section==='list' && <List treasures={treasures}/>}
 			{section==='register' && <Register/>}
-			{section !== 'register' &&<div className='w-full flex justify-end'> <Circle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </Circle></div>}
+			{section !== 'register' && <div className='w-full flex justify-end'> <Circle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </Circle></div>}
 		</div>
 	);
 }

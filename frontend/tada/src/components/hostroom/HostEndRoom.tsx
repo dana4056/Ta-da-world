@@ -2,10 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { change } from '../../stores/host';
 import tw from 'tailwind-styled-components';
-import { HeaderBox, WhiteBox, Button } from '../../util/Semantics';
+import { WhiteBox, Button } from '../../util/Semantics';
 import { TreasureInfo } from '../../util/Interface';
 import TreasureMap from '../common/TreasureMap';
-import BoxHeader from '../common/BoxHeader';
+import BoxHeader from '../common/HeaderBox';
+import Title from '../common/Title';
 
 interface Hunter {
 	name: string;
@@ -86,7 +87,7 @@ function HostEndRoom() : JSX.Element {
 
 	return (
 		<div className="flex flex-col items-center">
-			<HeaderBox> 이유경의 보물 찾기 </HeaderBox>
+			<Title title='이유경의 보물 찾기' subTitle='게임 결과'/>
 			<div className='w-full flex flex-col items-center bg-white2 px-2 py-3 mt-2 rounded-t-2xl'>
 				<PlayTimeBox>
 					<p className='mx-3 font-black text-gray5'>총 플레이 시간</p>
@@ -99,7 +100,7 @@ function HostEndRoom() : JSX.Element {
 					<div className='w-full h-full flex flex-col items-center space-x-2 overflow-x-scroll'>
 						{treasureHunter.map((hunter, index) => (
 							<div
-								className='w-5/6 h-16 flex justify-between items-center px-3 my-2 font-bold bg-white shadow-md rounded-2xl text-main'
+								className='w-11/12 h-16 flex justify-between items-center px-3 my-2 font-bold bg-white shadow-md rounded-2xl text-main'
 								key={index}
 							>
 								<div className='flex items-center'>

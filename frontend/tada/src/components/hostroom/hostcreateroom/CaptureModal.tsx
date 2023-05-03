@@ -2,8 +2,9 @@ import React, {useState, useRef} from 'react';
 import tw from 'tailwind-styled-components';
 import Webcam from 'react-webcam';
 import { Modal, ModalSection, Button, ModalHeader } from '../../../util/Semantics';
-import {BsX}  from 'react-icons/bs';
-
+import {BsX} from 'react-icons/bs';
+import {MdCameraswitch} from 'react-icons/md';
+import { change } from '../../../stores/host';
 
 interface openProps {
 	open: boolean;
@@ -22,6 +23,7 @@ const Modal2 = tw(Modal)<StyledDivProps>`
 
 function CaptureModal({ open, close}: openProps) : JSX.Element{
 	const [capture, setCapture] = useState<boolean>(true);
+	const [focus, setFocus] = useState<boolean>(true);
 	const [capturebase64, setCapturebase64] = useState<string>('');
 	const camref = useRef<any>(null);
 
@@ -37,6 +39,14 @@ function CaptureModal({ open, close}: openProps) : JSX.Element{
 		setCapture(true);
 	};
 
+	const changeFocus = () : void => {
+		setFocus(!focus);
+	};
+
+	const videoConstraints = {
+		facingMode: { exact: 'environment' }
+	};
+	  
 	return (
 		<Modal2 active = {open ? '1':''}>
 			{open ? (
@@ -48,12 +58,25 @@ function CaptureModal({ open, close}: openProps) : JSX.Element{
 						<BsX onClick={()=> {close('');}} size="32" color="#535453"/>
 					</ModalHeader>
 					{ capture ?
-						<Webcam
-							ref={camref}
-							mirrored={true}
-							screenshotFormat="image/jpeg"
-							className='rounded-lg'
-						/>
+						<div className='w-full flex flex-col j items-end'>
+							{focus ?
+								<Webcam
+									ref={camref}
+									mirrored={true}
+									screenshotFormat="image/jpeg"
+									className='rounded-lg mb-2 h-full'
+								/>
+								:
+								<Webcam
+									ref={camref}
+									mirrored={true}
+									screenshotFormat="image/jpeg"
+									className='rounded-lg mb-2 h-full'
+									videoConstraints={videoConstraints}
+								/>
+							}
+							<MdCameraswitch onClick={changeFocus} size="24" color="#535453"/>
+						</div>
 						:
 						<img src ={capturebase64}/>
 					}
