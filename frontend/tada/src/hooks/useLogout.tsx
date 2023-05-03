@@ -40,9 +40,10 @@ const useLogout = () => {
 					} else {
 						throw new Error(`REFRESH ERROR: ${newResponse.status}`);
 					}
+				} else {
+					throw new Error(`LOGOUT ERROR: ${response.status}`);
 				}
 			}
-			throw new Error(`LOGOUT ERROR: ${response.status}`);
 		} catch (error) {
 			if (error instanceof Error) {
 				setError(error.message);
