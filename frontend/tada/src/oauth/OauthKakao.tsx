@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useLogin from '../hooks/useLogin';
 
@@ -22,7 +22,7 @@ function OauthKakao(): JSX.Element {
 				headers: {
 					'Content-type': 'application/x-www-form-urlencoded'
 				},
-				body: `grant_type=authorization_code&client_id=${process.env.REACT_APP_API_KEY_KAKAO}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}kakao&code=${AUTH_CODE}`,
+				body: `grant_type=authorization_code&client_id=${process.env.REACT_APP_API_KEY_KAKAO}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI_SITE}kakao&code=${AUTH_CODE}`,
 			})
 				.then(res => res.json())
 				.then(data => {
