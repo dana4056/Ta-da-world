@@ -9,7 +9,7 @@ pipeline {
         }
     }
     options {
-        gitLabConnection('95086913-a1b2-4c08-8a34-382f19454773')
+        gitLabConnection('Ta-Da')
     }
     triggers {
         gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType:'All')
