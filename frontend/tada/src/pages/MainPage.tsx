@@ -20,6 +20,7 @@ function MainPage(): JSX.Element {
 	const API_KEY_KAKAO = process.env.REACT_APP_API_KEY_KAKAO;
 	// const API_KEY_KAKAO = '2abf0e7d3c124964d0048b430a5ce52c';
 	const REDIRECT_URI_SITE = process.env.REACT_APP_REDIRECT_URI;
+	// const REDIRECT_URI_SITE = process.env.REACT_APP_REDIRECT_URI_SITE;
 	// const REDIRECT_URI_SITE = 'http://localhost:3000/users/oauth2-';
 	const OAUTH_KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY_KAKAO}&redirect_uri=${REDIRECT_URI_SITE+'kakao'}&response_type=code`;
 
