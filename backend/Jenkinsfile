@@ -8,12 +8,6 @@ pipeline {
         updateGitlabCommitStatus name: 'build', state: 'success'
         }
     }
-    options {
-        gitLabConnection('Ta-Da')
-    }
-    triggers {
-        gitlab(triggerOnPush: true, triggerOnMergeRequest: true, branchFilterType:'All')
-    }
     environment {
         repository = "jaehui327/tada-back"
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
