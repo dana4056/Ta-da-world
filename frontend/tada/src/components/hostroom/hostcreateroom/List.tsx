@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from 'react'; 
 import { Label } from '../../../util/Semantics';
+<<<<<<< HEAD
+import ListModal from './ListModal';
+=======
 import TreasureModal from './TreasureModal ';
+>>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 import { TreasureInfo } from '../../../util/Interface';
 
 function List() : JSX.Element {
@@ -96,7 +100,7 @@ function List() : JSX.Element {
 
 	return (
 		<>
-			<TreasureModal open={modalOpen} close={closeModal} treasure={treasure}/>
+			<ListModal open={modalOpen} close={closeModal} treasure={treasure}/>
 			<div className=' h-full px-4'>
       		<Label>보물 지도</Label>
 				{treasureList.length ?

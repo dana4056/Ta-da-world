@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { change } from '../../stores/host';
+import { Circle } from '../../util/Semantics';
 import tw from 'tailwind-styled-components';
 
 import Info from './hostcreateroom/Info';
@@ -21,10 +24,16 @@ const SectionOpt = tw.div<StyledDivProps>`
 `;
 
 function HostCreateRoom() : JSX.Element {
+	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
 	const [section, setSection] = useState<string>('info');
 
 	const handleClick = (e:string) : void => {
 		setSection(e);
+	};
+
+	const startWait = () : void => {
+		//예외처리 기본정보 & 보물 등록된 데이터 있어야함
+		dispatch(change(2));
 	};
 	  
 	return (
@@ -43,6 +52,7 @@ function HostCreateRoom() : JSX.Element {
 			{section==='info' && <Info titleProps='api로받아야해' timeProps='60'/>}
 			{section==='list' && <List/>}
 			{section==='register' && <Register/>}
+			{section !== 'register' &&<div className='w-full flex justify-end'> <Circle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </Circle></div>}
 		</div>
 	);
 }
