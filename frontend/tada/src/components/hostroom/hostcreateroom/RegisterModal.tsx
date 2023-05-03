@@ -28,7 +28,7 @@ const Modal2 = tw(Modal)<StyledDivProps>`
   	`}
 `;
 
-function MapModal({open, close, latitude, longitude}: openProps) : JSX.Element{
+function RegisterModal({open, close, latitude, longitude}: openProps) : JSX.Element{
 	const [lat, setLat] = useState<string>(latitude);
 	const [lon, setLon] = useState<string>(longitude);
 
@@ -79,4 +79,4 @@ function MapModal({open, close, latitude, longitude}: openProps) : JSX.Element{
 	);
 }
 
-export default MapModal;
+export default RegisterModal;

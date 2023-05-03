@@ -17,7 +17,7 @@ export const GraButton = tw.div<StyledGraColor>`
 
 export const Button = tw.div`
   flex justify-center items-center 
-  w-full h-11 
+  w-full h-10 
   bg-blue rounded-lg 
   text-white font-bold
   m-1
@@ -51,25 +51,45 @@ export const ModalHeader  = tw.div`
 	flex justify-between items-center
 	w-full
 	text-gray4 text-lg font-bold
-	mb-2
+	mb-3
 `;
 
 export const HeaderBox  = tw.div`
 	w-4/5 h-12
 	flex justify-center items-center
+<<<<<<< HEAD
+	bg-white rounded-3xl shadow-lg
+=======
 	bg-white2 rounded-3xl
+>>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 	text-main text-xl font-black
 	mb-4
 `;
 
 export const WhiteBox  = tw.div`
+<<<<<<< HEAD
+	w-11/12
+=======
 	w-5/6
+>>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 	flex flex-col items-center
 	bg-white rounded-3xl
 	text-gray4 text-base font-bold
 	my-3 py-2 px-2
 `;
 
+<<<<<<< HEAD
+export const Circle  = tw.div`
+	w-14 h-14
+	flex items-center justify-center
+	bg-red rounded-full shadow-lg
+	text-white text-base font-black
+	py-2 px-2 mx-2 z-10
+`;
+
+
+=======
+>>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 const Semantics = {
 	Button,
 	GraButton,
@@ -77,7 +97,12 @@ const Semantics = {
 	Input,
 	Modal,
 	HeaderBox,
+<<<<<<< HEAD
+	WhiteBox,
+	Circle
+=======
 	WhiteBox
+>>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 };
 
 export default Semantics;

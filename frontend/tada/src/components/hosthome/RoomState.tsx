@@ -1,7 +1,11 @@
 import tw from 'tailwind-styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { change } from '../../stores/host';
+<<<<<<< HEAD
+=======
 import { useNavigate } from 'react-router-dom';
+>>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 import {GraButton} from '../../util/Semantics';
 
 interface hostRoomProps {

@@ -4,9 +4,9 @@ import Swal from 'sweetalert2';
 import { Label, Input, Button } from '../../../util/Semantics';
 import getCurrentLocation  from '../../../hooks/getCurrentLocation';
 import CaptureModal from './CaptureModal';
-import MapModal from './MapModal';
 import {BsCameraFill} from 'react-icons/bs';
 import {MdAddPhotoAlternate} from 'react-icons/md';
+import RegisterModal from './RegisterModal';
 
 const plus = require('../../../assets/images/plus.png');
 
@@ -204,7 +204,7 @@ function Register() : JSX.Element {
 	return (
 		<>
 			<CaptureModal open={modalOpen} close={closeCapturModal}/>
-			<MapModal open={modalOpen2} close={closeMapModal} latitude={lat} longitude={lon}/>
+			<RegisterModal open={modalOpen2} close={closeMapModal} latitude={lat} longitude={lon}/>
 			<div className='flex flex-col px-4 overflow-y-scroll'>
 				<>
 					<Label> 보물 사진 </Label>
