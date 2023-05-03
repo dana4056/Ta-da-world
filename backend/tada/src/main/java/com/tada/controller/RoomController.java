@@ -90,6 +90,12 @@ public class RoomController {
 			String hostId = jwtTokenProvider.getHostID(accessToken);
 			try {
 				Map<String, Long> response = roomService.createRoom(hostId);
+
+				if(response == null){
+					logger.error("방생성 실패: 이미 열려있는 방 있음");
+					status = HttpStatus.CONFLICT;
+					return new ResponseEntity<>(status);
+				}
 				return new ResponseEntity<>(response, status);
 			} catch (Exception e) {
 				logger.error("방생성 실패: {}", e.getMessage());
