@@ -2,10 +2,6 @@ import tw from 'tailwind-styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { change } from '../../stores/host';
-<<<<<<< HEAD
-=======
-import { useNavigate } from 'react-router-dom';
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 import {GraButton} from '../../util/Semantics';
 
 interface hostRoomProps {
@@ -43,7 +39,7 @@ function RoomState({ roomState }: hostRoomProps)  : JSX.Element {
 	};
 
 	return (
-		<div className='w-72 h-36 flex flex-col items-center justify-center border-b-8 shadow-lg shadow-main bg-white/80 rounded-3xl border-b-main3'>
+		<div className='flex flex-col items-center justify-center border-b-8 shadow-lg w-72 h-36 shadow-main bg-white/80 rounded-3xl border-b-main3'>
 			<GraText color={color[roomState]}>{commentlist[roomState]}</GraText>
 			<GraButton from={colorFrom[roomState]} to={colorTo[roomState]} onClick={navRoom}>{btnCommentlist[roomState]}</GraButton>
 		</div>

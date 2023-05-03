@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 import { useDispatch } from 'react-redux';
 import { change } from '../../stores/host';
 import tw from 'tailwind-styled-components';
 import { HeaderBox, WhiteBox } from '../../util/Semantics';
 import { TreasureInfo } from '../../util/Interface';
 import TreasureMap from '../common/TreasureMap';
-=======
-import { HeaderBox, WhiteBox } from '../../util/Semantics';
-import tw from 'tailwind-styled-components';
-import TreasureMap from './hostgameroom/TreasureMap';
-// import TreasureBoard from './hostgameroom/TreasureBoard';
-import { TreasureInfo } from '../../util/Interface';
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 import Timer from '../common/Timer';
 
 const PlayTimeBox = tw(WhiteBox)`
@@ -20,10 +12,7 @@ const PlayTimeBox = tw(WhiteBox)`
 `;
 
 function HostGameRoom() : JSX.Element {
-<<<<<<< HEAD
 	const dispatch = useDispatch();
-=======
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 	const a  = 'https://d2ab9z4xn2ddpo.cloudfront.net/%EC%84%9E%EA%B8%B0.png';
 
 	const treasures : TreasureInfo[] = [
@@ -62,29 +51,20 @@ function HostGameRoom() : JSX.Element {
 		},
 	];
 
-<<<<<<< HEAD
 	const endGame = () : void => {
 		dispatch(change(4));
 	};
 
-=======
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 	return (
 		<div className="flex flex-col items-center">
 			<HeaderBox> 이유경의 보물 찾기 </HeaderBox>
-			<div className="w-full h-full flex flex-col items-center bg-white2">
+			<div className="flex flex-col items-center w-full h-full bg-white2">
 				<PlayTimeBox>
 					<p className='mx-3 font-black text-gray5'> 현재 남은 시간</p>
-<<<<<<< HEAD
-					<div className='text-main font-black'><Timer start="2023-05-02 14:00:00" time={60}/></div>
+					<div className='font-black text-main'><Timer start="2023-05-02 14:00:00" time={60}/></div>
 				</PlayTimeBox>
 				<TreasureMap isHost={true}  title='보물 찾기 현황' treasures={treasures}/>
 				<div onClick={endGame}>야 끝내</div>
-=======
-					<Timer start="2023-05-01 16:26:00" time={15}/>
-				</PlayTimeBox>
-				<TreasureMap treasures={treasures}/>
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 			</div>
 		</div>
 	);

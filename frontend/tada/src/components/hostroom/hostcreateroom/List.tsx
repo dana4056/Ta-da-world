@@ -1,10 +1,6 @@
 import { useState, useEffect, useRef } from 'react'; 
 import { Label } from '../../../util/Semantics';
-<<<<<<< HEAD
 import ListModal from './ListModal';
-=======
-import TreasureModal from './TreasureModal ';
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 import { TreasureInfo } from '../../../util/Interface';
 
 function List() : JSX.Element {
@@ -101,12 +97,12 @@ function List() : JSX.Element {
 	return (
 		<>
 			<ListModal open={modalOpen} close={closeModal} treasure={treasure}/>
-			<div className=' h-full px-4'>
+			<div className='h-full px-4 '>
       		<Label>보물 지도</Label>
 				{treasureList.length ?
 					<>
-						<div className='w-full flex justify-end'>총 {treasureList.length}개</div>
-						<div id="map" className='w-full h-5/6 rounded-xl mb-1'/>
+						<div className='flex justify-end w-full'>총 {treasureList.length}개</div>
+						<div id="map" className='w-full mb-1 h-5/6 rounded-xl'/>
 					</>
 					:<div>아직 숨긴 보물이 없어요! 보물 찾으라는 이미지 넣어버리기 ㅋ</div>
 				}

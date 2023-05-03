@@ -6,15 +6,10 @@ import RoomState from '../components/hosthome/RoomState';
 
 function HostHomePage(): JSX.Element {
 	const roomState = useSelector((state: RootState) => state.host.roomState);
-<<<<<<< HEAD
 	
-=======
-	console.log('Home' + roomState);
-
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 	return (
 		<div className='h-full'>
-			<div className='h-5/6 flex flex-col justify-center items-center'>
+			<div className='flex flex-col items-center justify-center h-5/6'>
 				<RoomState roomState={roomState} />
 			</div>
 			<DeleteHost />

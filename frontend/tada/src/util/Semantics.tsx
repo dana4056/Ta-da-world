@@ -57,28 +57,19 @@ export const ModalHeader  = tw.div`
 export const HeaderBox  = tw.div`
 	w-4/5 h-12
 	flex justify-center items-center
-<<<<<<< HEAD
 	bg-white rounded-3xl shadow-lg
-=======
-	bg-white2 rounded-3xl
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 	text-main text-xl font-black
 	mb-4
 `;
 
 export const WhiteBox  = tw.div`
-<<<<<<< HEAD
 	w-11/12
-=======
-	w-5/6
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 	flex flex-col items-center
 	bg-white rounded-3xl
 	text-gray4 text-base font-bold
 	my-3 py-2 px-2
 `;
 
-<<<<<<< HEAD
 export const Circle  = tw.div`
 	w-14 h-14
 	flex items-center justify-center
@@ -88,8 +79,6 @@ export const Circle  = tw.div`
 `;
 
 
-=======
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 const Semantics = {
 	Button,
 	GraButton,
@@ -97,12 +86,8 @@ const Semantics = {
 	Input,
 	Modal,
 	HeaderBox,
-<<<<<<< HEAD
 	WhiteBox,
 	Circle
-=======
-	WhiteBox
->>>>>>> aa3f0f01e872a33c843a6fbe174bd210fa7c985e
 };
 
 export default Semantics;
