@@ -58,7 +58,7 @@ function HostGameRoom() : JSX.Element {
 	return (
 		<div className="flex flex-col items-center">
 			<HeaderBox> 이유경의 보물 찾기 </HeaderBox>
-			<div className="flex flex-col items-center w-full h-full bg-white2">
+			<div className='w-full flex flex-col items-center bg-white2 px-2 py-3 mt-2 rounded-t-2xl'>
 				<PlayTimeBox>
 					<p className='mx-3 font-black text-gray5'> 현재 남은 시간</p>
 					<div className='font-black text-main'><Timer start="2023-05-02 14:00:00" time={60}/></div>

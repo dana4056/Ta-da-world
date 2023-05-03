@@ -31,8 +31,8 @@ function RoomState({ roomState }: hostRoomProps)  : JSX.Element {
 
 
 	const navRoom = () : void  => {
-		if(roomState === 1){
-			dispatch(change(3));
+		if(roomState === 0){
+			dispatch(change(1));
 			//방 생성 api 호출
 		}
 		navigate('/hostroom');
