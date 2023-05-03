@@ -27,15 +27,17 @@ public class Treasure extends BaseTimeEntity{
 	@ManyToOne
 	@JoinColumn(name = "room_id")
 	private Room room;			// 게임방
-	private String img;
+	private String imgPath;
+	private String imgBasePath;
 	private String lat;
 	private String lng;
 	private String hint;
-	private String rewardImg;
+	private String rewardImgPath;
+	private String rewardImgBasePath;
 	private String reward;
 	private Boolean status;
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "finder_id")
 	private User finder;
 
 }
