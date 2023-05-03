@@ -77,7 +77,7 @@ function TreasureMap({isHost, treasures, title}: TreasureListProps) : JSX.Elemen
 					});
 
 					window.kakao.maps.event.addListener(marker, 'click', () => {
-						infowindow.open(map, marker);
+						// infowindow.open(map, marker);
 						openModal();
 						handleNO(i);
 					});
