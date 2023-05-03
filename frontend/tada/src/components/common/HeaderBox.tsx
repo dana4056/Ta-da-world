@@ -1,4 +1,3 @@
-
 interface StyledDivProps {
 	title: string;
     total: number;
@@ -6,7 +5,7 @@ interface StyledDivProps {
 }
 
 
-function BoxHeader({title, total, num}: StyledDivProps) : JSX.Element {
+function HeaderBox({title, total, num}: StyledDivProps) : JSX.Element {
 	return (
 		<div className='w-full mt-1 mb-3 flex items-center'>
 			<p className='mx-2 font-black text-gray5'>{title}</p>
@@ -23,4 +22,4 @@ function BoxHeader({title, total, num}: StyledDivProps) : JSX.Element {
 	);
 }
   
-export default BoxHeader;
+export default HeaderBox;

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {MdLock} from 'react-icons/md';
 import { WhiteBox } from '../../util/Semantics';
 import { TreasureInfo } from '../../util/Interface';
-import BoxHeader from '../common/BoxHeader';
+import BoxHeader from './HeaderBox';
 import TreasureModal from './TreasureModal';
 
 interface TreasureListProps {
@@ -126,7 +126,7 @@ function TreasureMap({isHost, treasures, title}: TreasureListProps) : JSX.Elemen
 						);
 					})}
 				</div>
-				<div id="map" className='w-full h-72 rounded-xl mb-1'/>
+				<div id="map" className='w-full h-80 rounded-xl mb-1'/>
 			</WhiteBox>
 		</>
 	);

@@ -3,108 +3,96 @@ import { Label } from '../../../util/Semantics';
 import ListModal from './ListModal';
 import { TreasureInfo } from '../../../util/Interface';
 
-function List() : JSX.Element {
+interface ListProps {
+    treasures: TreasureInfo[]
+}
+
+function List({treasures}: ListProps) : JSX.Element {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
-	const [treasure, setTreasure] = useState<TreasureInfo | null>(null);
-
-	const a  = 'https://d2ab9z4xn2ddpo.cloudfront.net/%EC%84%9E%EA%B8%B0.png';
-
-	const treasureList : TreasureInfo[] = [
-		{
-			id: 1,
-			img: a,
-			lat: '37.5128064',
-			lng: '127.0284288',
-			hint: '학동역',
-			rewardImg: a,
-			reward: '나의 망므~',
-			status : true,
-			finderNick:'한원석 안경'
-		},
-		{
-			id: 2,
-			img: a,
-			lat: '37.513035165378085',
-			lng: '127.02883155684492',
-			hint: '카페 마오지래',
-			rewardImg: '',
-			reward: '커피',
-			status : false,
-			finderNick: null
-		},
-		{
-			id: 3,
-			img: a,
-			lat: '37.512846012270565',
-			lng: '127.0285939551883',
-			hint: '주차장',
-			rewardImg: a,
-			reward: '',
-			status : true,
-			finderNick:'우겨ㅑㅇ'
-		},
-	];
+	const [no, setNO] = useState<number>(0);
+	const [lat, setLat] = useState<string>('');
+	const [lng, setLng] = useState<string>('');
 	
+	const handleNO  = (i:number) : void => {
+		setLat(treasures[i].lat);
+		setLng(treasures[i].lng);
+		setNO(i);
+	};
+
 	useEffect(() => {
-		if(treasureList){
+		if(treasures.length){
 			const container = document.getElementById('map'); //지도를 담을 영역의 DOM 레퍼런스
 			const options = { //지도를 생성할 때 필요한 기본 옵션
-				center: new window.kakao.maps.LatLng(treasureList[0].lat, treasureList[0].lng),
+				center: new window.kakao.maps.LatLng(lat, lng),
 				level: 2 //지도의 레벨(확대, 축소 정도)
 			};
 			
 			const map = new window.kakao.maps.Map(container, options); //지도 생성 및 객체 리턴
 			
-			const imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png'; 
-			const imageSize = new window.kakao.maps.Size(24, 35); 
+			const imageSrc = 'https://d2ab9z4xn2ddpo.cloudfront.net/treasure/find.png'; 
+			const imageSize = new window.kakao.maps.Size(32, 32); 
 			const markerImage = new window.kakao.maps.MarkerImage(imageSrc, imageSize); 
 
 			// 지도에 마커를 표시합니다
-			for (let i = 0; i < treasureList.length; i ++) {
+			for (let i = 0; i < treasures.length; i ++) {
 				const marker = new window.kakao.maps.Marker({
 					map: map, // 마커를 표시할 지도
-					position: new window.kakao.maps.LatLng(treasureList[i].lat, treasureList[i].lng), // 마커를 표시할 위치
+					position: new window.kakao.maps.LatLng(treasures[i].lat, treasures[i].lng), // 마커를 표시할 위치
 					clickable: true, // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
 					image : markerImage // 마커 이미지 
 				});
 
 				window.kakao.maps.event.addListener(marker, 'click', () => {
-					console.log('마커 클릭');
-					modalTreasureOpen(treasureList[i]);
+					handleNO(i);
+					modalTreasureOpen();
 				});
 			}
 		}
 
-	}, []);
+	}, [treasures, lat]);
 
 	useEffect(() => {
-		if(treasure){
-			setModalOpen(true);
+		if(treasures.length){
+			handleNO(0);
 		}
-	}, [treasure]);
+	}, []);
 
 	//모달창 열기
-	const modalTreasureOpen = (t : TreasureInfo): void => {
-		setTreasure(t);
+	const modalTreasureOpen = (): void => {
+		setModalOpen(true);
 	};
 	
 	//모달창 닫기
 	const closeModal = () : void => {
-		setTreasure(null);
 		setModalOpen(false);
 	};
 
 	return (
 		<>
-			<ListModal open={modalOpen} close={closeModal} treasure={treasure}/>
+			{ treasures.length ?
+				<ListModal open={modalOpen} close={closeModal} treasure={treasures[no]}/>
+				: null
+			}
+
 			<div className='h-full px-4 '>
       		<Label>보물 지도</Label>
-				{treasureList.length ?
+				{ treasures.length ?
 					<>
-						<div className='flex justify-end w-full'>총 {treasureList.length}개</div>
-						<div id="map" className='w-full mb-1 h-5/6 rounded-xl'/>
+						<div className='w-full flex justify-end px-1 text-sm'>총 {treasures.length}개</div>
+			  			<div className='w-full flex items-center py-2 mb-2 bg-white2 rounded-xl overflow-x-scroll'>
+							{treasures.map((treasure, index) => {
+								return ( 
+									<div key={index} style={{ backgroundImage: `url(${treasure.img})` }} className='w-12 h-12 mx-2 g-no-repeat bg-cover bg-center rounded-full' onClick={()=>handleNO(index)}/>
+								);
+							})}
+						</div>
+						<div id="map" className='w-full mb-1 h-3/4 rounded-xl'/>
 					</>
-					:<div>아직 숨긴 보물이 없어요! 보물 찾으라는 이미지 넣어버리기 ㅋ</div>
+					:
+					<div className='h-3/4 flex flex-col justify-center items-center'>
+						<img className='w-1/3' src='https://d2ab9z4xn2ddpo.cloudfront.net/treasure/find.png'/>
+						<div className='text-gray5 text-xl font-bold mt-2'> 아직 숨긴 보물이 없어요! </div>
+					</div>
 				}
 			</div>
 		</>
