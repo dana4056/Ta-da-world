@@ -1,11 +1,10 @@
 package com.tada.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.tada.domain.entity.Host;
+import com.tada.domain.dto.ResultDto;
 import com.tada.domain.entity.Room;
 import com.tada.service.HostService;
 import org.slf4j.Logger;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +31,6 @@ import com.tada.util.JwtTokenProvider;
 import com.tada.util.S3Service;
 
 import io.swagger.v3.oas.annotations.Operation;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @CrossOrigin
@@ -72,16 +69,17 @@ public class TreasureController {
 				logger.info("보상 이미지 경로 [프론트:{}], [백:{}]", rewardImgDto.getImgPath(), rewardImgDto.getImgBasePath());
 
 				treasureService.postTreasure(treasureImgDto, rewardImgDto, treasureRequest);
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>(new ResultDto("success"), HttpStatus.OK);
 			} catch (Exception e) {
 				logger.error("보물 등록 실패: {}", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				return new ResponseEntity<>(new ResultDto("fail"), status);
 			}
 		}else{  // 토큰이 만료된 경우
 			logger.info("보물 등록 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
 	}
 
 	@DeleteMapping("/{id}")
@@ -99,16 +97,17 @@ public class TreasureController {
 		if (jwtTokenProvider.validateToken(accessToken)) {
 			try {
 				treasureService.deleteTreasure(id);
-				return new ResponseEntity<>(status);
+				return new ResponseEntity<>(new ResultDto("success"), status);
 			} catch (Exception e) {
 				logger.error("보물 삭제 실패: {}", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				return new ResponseEntity<>(new ResultDto("fail"), status);
 			}
 		}else{  // 토큰이 만료된 경우
 			logger.info("보물 삭제 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
 	}
 
 	@GetMapping
@@ -129,9 +128,8 @@ public class TreasureController {
 		} catch (Exception e) {
 			logger.error("보물 리스트 조회 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-
-		return new ResponseEntity<>(status);
 	}
 
 	@GetMapping("/user")
@@ -144,8 +142,8 @@ public class TreasureController {
 		} catch (Exception e){
 			logger.error("게임 결과 보기 - 내가 찾은 보물 조회 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
 	}
 	@GetMapping("/rank")
 	@Operation(summary = "게임 결과 보기 - 랭킹", description = "게임 결과 페이지에서 볼 수 있는 랭킹")
@@ -159,14 +157,14 @@ public class TreasureController {
 		} catch (Exception e) {
 			logger.error("게임 결과 보기 - 랭킹 조회 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
 	}
 
-	private ResponseEntity<String> tokenExceptionHandling() {
+	private ResponseEntity<?> tokenExceptionHandling() {
 		logger.error("토큰 에러");
 		HttpStatus status = HttpStatus.FORBIDDEN;
-		return new ResponseEntity<>(status);
+		return new ResponseEntity<>(new ResultDto("fail"), status);
 	}
 }
 
