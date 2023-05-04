@@ -22,8 +22,7 @@ import lombok.NoArgsConstructor;
 public class User extends BaseTimeEntity{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private	Long id;			// 참가자 고유번호
+	private	String id;			// 참가자 고유번호
 	@ManyToOne
 	@JoinColumn(name = "room_id")
 	private Room room;			// 게임방

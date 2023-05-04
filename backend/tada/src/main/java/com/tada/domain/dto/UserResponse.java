@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserResponse {
 
-	private Long id;
+	private String id;
 	private String nick;
 	private int imgNo;
 
