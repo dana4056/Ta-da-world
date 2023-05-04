@@ -113,20 +113,20 @@ function TreasureMap({isHost, treasures, title}: TreasureListProps) : JSX.Elemen
 			<TreasureModal isHost={isHost} open={open} close={closeModal} treasure={treasures[no]}/>
 			<WhiteBox>
 				<BoxHeader title={title} total={total} num={count}/>
-				<div className='w-full flex overflow-x-scroll'>
+				<div className='flex w-full overflow-x-scroll'>
 					{treasures.map((treasure, index) => {
 						return ( 
 							<div key={index}>
-								<div style={{ backgroundImage: `url(${treasure.img})` }} className='w-12 h-12 mx-2 mb-3 mt-1 g-no-repeat bg-cover bg-center rounded-full' onClick={()=>handleNO(index)}>
+								<div style={{ backgroundImage: `url(${treasure.img})` }} className='w-12 h-12 mx-2 mt-1 mb-3 bg-center bg-cover rounded-full g-no-repeat' onClick={()=>handleNO(index)}>
 									{ treasure.status ?
-								 		null :	<div className='w-12 h-12 flex justify-center items-center rounded-full bg-gray4 bg-opacity-40'><MdLock color='white' size="24"/></div>		
+								 		null :	<div className='flex items-center justify-center w-12 h-12 rounded-full bg-gray4 bg-opacity-40'><MdLock color='white' size="24"/></div>		
 									}
 								</div>
 							</div>
 						);
 					})}
 				</div>
-				<div id="map" className='w-full h-80 rounded-xl mb-1'/>
+				<div id="map" className='w-full mb-1 h-80 rounded-xl'/>
 			</WhiteBox>
 		</>
 	);

@@ -1,4 +1,3 @@
-
 export interface TreasureInfo {
 	id: number;
 	img: string;
@@ -10,10 +9,3 @@ export interface TreasureInfo {
 	status: boolean;
 	finderNick : string | null;
 }
-
-
-// const Interface = {
-// 	TreasureInfo
-// };
-
-// export default Interface;
