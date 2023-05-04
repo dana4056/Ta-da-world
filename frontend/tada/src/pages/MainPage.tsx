@@ -26,7 +26,6 @@ function MainPage(): JSX.Element {
 	const API_KEY_KAKAO = process.env.REACT_APP_API_KEY_KAKAO;
 	// const API_KEY_KAKAO = '2abf0e7d3c124964d0048b430a5ce52c';
 	const REDIRECT_URI_SITE = process.env.REACT_APP_REDIRECT_URI;
-	// const REDIRECT_URI_SITE = process.env.REACT_APP_REDIRECT_URI_SITE;
 	// const REDIRECT_URI_SITE = 'http://localhost:3000/users/oauth2-';
 	const OAUTH_KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY_KAKAO}&redirect_uri=${
 		REDIRECT_URI_SITE + 'kakao'
@@ -39,12 +38,7 @@ function MainPage(): JSX.Element {
 	});
 
 	const moveName = (): void => {
-		dispatch(enterRoom(Number(roomNumber)));
 		navigate('/username');
-	};
-
-	const handleRoomNumberChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-		setRoomNumber(e.target.value);
 	};
 
 	const LoginUser = (): JSX.Element => (
@@ -54,8 +48,6 @@ function MainPage(): JSX.Element {
 					className='h-10 px-4 mb-5 border shadow-lg placeholder:text-sm placeholder:text-gray2 text-gray5 w-60 rounded-xl border-gray2'
 					type='text'
 					placeholder='참여코드를 입력하세요!'
-					value={roomNumber}
-					onChange={handleRoomNumberChange}
 				/>
 				<button
 					onClick={moveName}
@@ -76,8 +68,8 @@ function MainPage(): JSX.Element {
 
 	const LoginHost = (): JSX.Element => (
 		<div className='flex flex-col items-center justify-center'>
-			<a className='w-3/5' href={OAUTH_KAKAO}>
-				<img src={kakao_login} alt=""/>
+			<a href={OAUTH_KAKAO}>
+				<img src={kakao_login} alt='' className='w-72' />
 			</a>
 			<button
 				type='button'
@@ -91,7 +83,7 @@ function MainPage(): JSX.Element {
 
 	return (
 		<div className='flex flex-col items-center justify-center h-full'>
-			<img className='w-3/4 mb-5' src={logo} alt='logo' />
+			<img className='mb-5' src={logo} alt='logo' />
 			{activeComponent === 'User' ? <LoginUser /> : <LoginHost />}
 		</div>
 	);
