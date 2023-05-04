@@ -3,10 +3,12 @@ import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import host from './host';
 import user from './user';
+import watch from './watch';
 
 const rootReducer = combineReducers({
 	host,
 	user,
+	watch
 });
 
 const persistConfig = {

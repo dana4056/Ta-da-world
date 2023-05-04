@@ -13,7 +13,7 @@ function Header() : JSX.Element {
 	return (
 		<div className='w-full pt-1 pb-8 pr-3 flex justify-between items-center'>
 			<img className='w-32' src={logo} onClick={()=>navigate('/hosthome')}/>
-			<div className='text-white text-sm font-bold bg-orange rounded-full px-2 py-1' onClick={hostLogout}>로그아웃</div>
+			<div className='text-white text-xs font-bold bg-orange rounded-full px-2 py-1' onClick={hostLogout}>로그아웃</div>
 		</div>
 	);
 }

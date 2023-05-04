@@ -8,9 +8,9 @@ import useRefresh from './useRefresh';
 const useLogout = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const refresh  = useRefresh();
 	const [error, setError] = useState<string | null>(null);
 	const [cookie, , removeCookie] = useCookies(['accessToken']);
-	const  { refreshToken }  = useRefresh();
 	const logoutResponse = async() => {
 		const baseURL = 'https://ta-da.world/api';
 		const response = await fetch(`${baseURL}/hosts/logout`, {
@@ -31,7 +31,7 @@ const useLogout = () => {
 				navigate('/');
 			} else {
 				if (response.status === 401) {
-					await refreshToken();
+					await refresh.refreshToken();
 					const newResponse = await logoutResponse();
 					if (newResponse.ok) {
 						removeCookie('accessToken', {path: '/'});
