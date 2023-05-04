@@ -61,8 +61,8 @@ public class TreasureController {
 
 		if (jwtTokenProvider.validateToken(accessToken)) {
 			try {
-				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "treasure");
-				ImgPathDto rewardImgDto = s3Service.uploadFiles(rewardFile, "reward");
+				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "rooms/" + treasureRequest.getRoomId() + "/treasures");
+				ImgPathDto rewardImgDto = s3Service.uploadFiles(rewardFile, "rooms/" + treasureRequest.getRoomId() + "/rewards");
 
 				logger.info("보물 이미지 경로 [프론트:{}], [백:{}]", treasureImgDto.getImgPath(), treasureImgDto.getImgBasePath());
 				logger.info("보상 이미지 경로 [프론트:{}], [백:{}]", rewardImgDto.getImgPath(), rewardImgDto.getImgBasePath());
