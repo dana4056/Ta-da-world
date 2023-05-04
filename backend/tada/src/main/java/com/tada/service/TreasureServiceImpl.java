@@ -73,6 +73,18 @@ public class TreasureServiceImpl implements TreasureService{
 	}
 
 	@Override
+	public void changeTreasureStatus(Long id) throws Exception {
+		Treasure treasure = treasureRepository.findById(id)
+				.orElseThrow(() -> new NoSuchElementException("존재하지않는 보물임"));
+		try{
+			treasure.updateStatus();
+			treasureRepository.save(treasure);
+		}catch (Exception e){
+			throw e;
+		}
+	}
+
+	@Override
 	public List<TreasureResponse> getTreasureList(Long roomId) throws Exception{
 
 		try{

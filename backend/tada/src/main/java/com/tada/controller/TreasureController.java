@@ -62,6 +62,10 @@ public class TreasureController {
 
 		if (jwtTokenProvider.validateToken(accessToken)) {
 			try {
+				String hostId = jwtTokenProvider.getHostID(accessToken);
+				Room room = hostService.getRoomByHostId(hostId);
+				Long roomId = room.getId();
+				treasureRequest.setRoomId(roomId);
 				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "treasure");
 				ImgPathDto rewardImgDto = s3Service.uploadFiles(rewardFile, "reward");
 

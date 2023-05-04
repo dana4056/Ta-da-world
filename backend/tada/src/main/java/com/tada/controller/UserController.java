@@ -3,6 +3,7 @@ package com.tada.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.tada.service.TreasureService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ import lombok.RequiredArgsConstructor;
 public class UserController {
 
 	private final UserService userService;
+	private final TreasureService treasureService;
 	public static final Logger logger = LoggerFactory.getLogger(HostController.class);
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
@@ -42,21 +44,37 @@ public class UserController {
 	@MessageMapping("/send")
 	public void sendMsg(@Payload Map<String,Object> data) {
 
-		if ("ENTER".equals(data.get("messageType").toString())) {
+		if ("ENTER".equals(data.get("messageType").toString())) { // 방 입장했다는 요청 들어왔을 때
 			logger.debug(data.get("userId").toString() + " enter");
 			try {
-				userService.enterUser(data);
-				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data);
+				userService.enterUser(data); // 해당 유저가 방에 입장하는 로직
+				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
 			} catch (Exception e) {
 				logger.error("유저 방 입장중 에러 : {}", e);
 			}
 		} else if ("FIND".equals(data.get("messageType").toString())) {
-			logger.debug(data.get("userId").toString() + "find ");
+			logger.debug(data.get("userId").toString() + "find " + data.get("treasureId").toString());
 			try {
+				Long treasureId = (Long) data.get("treasureId");
 				//보물을 찾았을 때 -> 보물 상태 변경, 메시지로 전체 공지
-
+				treasureService.changeTreasureStatus(treasureId);
+				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
 			} catch (Exception e) {
 				logger.error("보물 찾기 처리 중 에러 : {}", e);
+			}
+		} else if ("NOTICE".equals(data.get("messageType").toString())) { // 공지사항
+			logger.debug("NOTICE!!" + data.get("context").toString());
+			try {
+				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
+			} catch (Exception e) {
+				logger.error("공지사항 전달 중 에러 발생 !! : {}", e);
+			}
+		} else if ("END".equals(data.get("messageType").toString())) { // 게임 종료
+			logger.debug("GAME END!");
+			try {
+				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
+			} catch (Exception e) {
+				logger.error("게임 종료 처리중 에러 발생! : {}", e);
 			}
 		}
 
