@@ -6,12 +6,12 @@ interface LocationObject {
 }
 
 function getCurrentLocation() {
-	const [data, setData] = useState<LocationObject>();
-	const [error, setError] = useState<string>();
+	const [data, setData] = useState<LocationObject | null>(null);
+	const [error, setError] = useState<string | null>(null);
 
 	// Geolocation의 `getCurrentPosition` 메소드에 대한 성공 callback 핸들러
-	const handleSuccess = (pos:any) : void => {
-		const { latitude, longitude } = pos.coords;
+	const handleSuccess = (position:any) : void => {
+		const { latitude, longitude } = position.coords;
 
 		setData({
 			latitude,
@@ -23,6 +23,7 @@ function getCurrentLocation() {
 	const handleError = (error:any) => {
 		setError(error.message);
 	};
+	
 
 	async function useCurrentLocation(options = {}) {
 		const { geolocation } = navigator;
