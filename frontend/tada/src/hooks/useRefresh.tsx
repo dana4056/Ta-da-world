@@ -4,7 +4,7 @@ import { useCookies } from 'react-cookie';
 interface HostData {
   accessToken: string,
   refreshToken: string,
-  roomState: number,
+  status: number,
   rommId: number
 }
 

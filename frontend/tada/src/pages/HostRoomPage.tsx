@@ -6,14 +6,14 @@ import HostGameRoom from '../components/hostroom/HostGameRoom';
 import HostEndRoom from '../components/hostroom/HostEndRoom';
 
 function HostRoomPage() : JSX.Element {
-	const roomState = useSelector((state: RootState) => state.host.roomState);
+	const status = useSelector((state: RootState) => state.host.status);
 
 	return (
 		<>
-			{roomState===1 && <HostCreateRoom/>}
-			{roomState===2 && <HostWaitRoom/>}
-			{roomState===3 && <HostGameRoom/>}
-			{roomState===4 && <HostEndRoom/>}
+			{status===1 && <HostCreateRoom/>}
+			{status===2 && <HostWaitRoom/>}
+			{status===3 && <HostGameRoom/>}
+			{status===4 && <HostEndRoom/>}
 		</>
 	);
 }
