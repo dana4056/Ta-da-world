@@ -1,15 +1,24 @@
 import React, { useState } from 'react';
 import { GraButton } from '../util/Semantics';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { enterCharacter } from '../stores/user';
 
 function UserCharacterPage(): JSX.Element {
 	const [selectedAvatar, setSelectedAvatar] = useState(1);
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const handleAvatarClick = (avatarNumber: number) => {
 		setSelectedAvatar(avatarNumber);
 	};
+
+	const handleNextClick = ():void => {
+		dispatch(enterCharacter(selectedAvatar));
+		navigate('/userwait');
+	};
+
 	const renderAvatars = () => {
 		const avatars = [];
 		for (let i = 1; i <= 9; i++) {
@@ -49,6 +58,7 @@ function UserCharacterPage(): JSX.Element {
 				</div>
 			</div>
 			<GraButton
+				onClick={handleNextClick}
 				className='fixed w-full h-20 text-2xl rounded-none bottom-7'
 				from='from-blue'
 				to='to-blue2'

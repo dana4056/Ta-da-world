@@ -2,15 +2,17 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
 import host from './host';
+import user from './user';
 
 const rootReducer = combineReducers({
-	host
+	host,
+	user,
 });
 
 const persistConfig = {
 	key: 'root',
 	storage,
-	whiteList: ['host'] // Whitelist only the 'host' state
+	whiteList: ['host'], // Whitelist only the 'host' state
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

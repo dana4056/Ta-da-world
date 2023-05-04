@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { enterNickname } from '../stores/user';
 import styles from '../assets/css/UserNamePage.module.css';
+
 
 const logo = require('../assets/images/logo.png');
 
 function UserNamePage(): JSX.Element {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
-	const [name, setName] = useState('');
+	const [name, setName] = useState<string>('');
 
 	const handleNameChange = (
 		event: React.ChangeEvent<HTMLInputElement>
@@ -16,6 +20,7 @@ function UserNamePage(): JSX.Element {
 	};
 
 	const moveCharacter = (): void => {
+		dispatch(enterNickname(name));
 		navigate('/usercharacter');
 	};
 

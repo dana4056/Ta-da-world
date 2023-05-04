@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { enterRoom } from '../stores/user';
 
 const logo = require('../assets/images/logo.png');
 const kakao_login = require('../assets/images/kakao_login.png');
 
 function MainPage(): JSX.Element {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
+	const [roomNumber, setRoomNumber] = useState<string>('');
 
 	const [activeComponent, setActiveComponent] = useState<'User' | 'Host'>(
 		'User'
@@ -22,10 +27,17 @@ function MainPage(): JSX.Element {
 	const REDIRECT_URI_SITE = process.env.REACT_APP_REDIRECT_URI;
 	// const REDIRECT_URI_SITE = process.env.REACT_APP_REDIRECT_URI_SITE;
 	// const REDIRECT_URI_SITE = 'http://localhost:3000/users/oauth2-';
-	const OAUTH_KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY_KAKAO}&redirect_uri=${REDIRECT_URI_SITE+'kakao'}&response_type=code`;
+	const OAUTH_KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY_KAKAO}&redirect_uri=${
+		REDIRECT_URI_SITE + 'kakao'
+	}&response_type=code`;
 
 	const moveName = (): void => {
+		dispatch(enterRoom(Number(roomNumber)));
 		navigate('/username');
+	};
+
+	const handleRoomNumberChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		setRoomNumber(e.target.value);
 	};
 
 	const LoginUser = (): JSX.Element => (
@@ -35,6 +47,8 @@ function MainPage(): JSX.Element {
 					className='h-10 px-4 mb-5 border shadow-lg placeholder:text-sm placeholder:text-gray2 text-gray5 w-60 rounded-xl border-gray2'
 					type='text'
 					placeholder='참여코드를 입력하세요!'
+					value={roomNumber}
+					onChange={handleRoomNumberChange}
 				/>
 				<button
 					onClick={moveName}
