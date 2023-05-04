@@ -7,7 +7,12 @@ import com.tada.domain.dto.UserRequest;
 import com.tada.domain.dto.UserResponse;
 
 public interface UserService {
-	Map<String, Long> saveUser(String code, UserRequest userRequest) throws Exception;
+
+	// 참가자 방 참여
+	void enterUser(Map<String, Object> data) throws Exception;
+
 
 	List<UserResponse> readUserList(Long roomId) throws Exception;
+
+	boolean checkNickname(String code, String nickname) throws Exception;
 }

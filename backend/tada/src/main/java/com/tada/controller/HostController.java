@@ -65,8 +65,10 @@ public class HostController {
             logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
             Room room = hostService.getRoomByHostId(hostId);
             if (room != null) { // 생성한 방이 있는 유저라면
-               hostResponse.setRoomId(room.getId());
-               hostResponse.setRoomStatus(room.getStatus());
+               hostResponse.setStatus(room.getStatus());
+               if (room.getStatus() == 2){  // 방이 대기실 상태라면
+                   hostResponse.setCode(room.getCode());
+               }
             }
             hostResponse.setAccessToken(accessToken);
             hostResponse.setRefreshToken(refreshToken);
@@ -170,7 +172,7 @@ public class HostController {
     @DeleteMapping("")
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원탈퇴 성공"),
+            @ApiResponse(responseCode = "200", description = "액세스토큰 재발급 성공"),
             @ApiResponse(responseCode = "401", description = "토큰 만료"),
             @ApiResponse(responseCode = "403", description = "토큰 에러(토큰 없음 / 권한 없음)"),
             @ApiResponse(responseCode = "500", description = "서버에러")

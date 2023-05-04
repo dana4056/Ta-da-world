@@ -10,10 +10,10 @@ public class HostResponse {
     private String accessToken;
     private String refreshToken;
 
-    private int roomStatus;
-    private Long roomId;
+    private int status;
+    private String code;
 
     public HostResponse() {
-        this.roomStatus = 0;
+        this.status = 0;
     }
 }

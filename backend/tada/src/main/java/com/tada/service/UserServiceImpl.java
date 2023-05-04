@@ -9,7 +9,6 @@ import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tada.domain.dto.UserRequest;
 import com.tada.domain.dto.UserResponse;
 import com.tada.domain.entity.Room;
 import com.tada.domain.entity.User;
@@ -28,26 +27,20 @@ public class UserServiceImpl implements UserService{
 
 
 	@Override	// 참가자 방 참여
-	public Map<String, Long> saveUser(String code, UserRequest userRequest) throws Exception{
-		Room room = roomRepository.findByCode(code).orElseThrow(() -> new NoSuchElementException("존재하지 않는 방"));
+	public void enterUser(Map<String, Object> data) throws Exception{
 
 		try{
+			Room room = roomRepository.findById((Long) data.get("roomId")).orElseThrow(() -> new NoSuchElementException("존재하지 않는 방"));
 			User user = User.builder()
-				.deviceId(userRequest.getDeviceId())
-				.nick(userRequest.getNick())
-				.imgNo(userRequest.getImgNo())
+				.deviceId((String)data.get("deviceId"))
+				.nick((String)data.get("nick"))
+				.imgNo((Integer)data.get("imgNo"))
 				.room(room)
 				.build();
-
 			userRepository.save(user);
 
-			Map<String, Long> response = new HashMap<>();
-			response.put("userId", user.getId());
-			response.put("roomId", room.getId());
 
-			return response;
-
-		}catch (Exception e){
+		} catch ( Exception e){
 			throw e;
 		}
 	}
@@ -67,6 +60,19 @@ public class UserServiceImpl implements UserService{
 			}
 			return userDtoList;
 		}catch (Exception e){
+			throw e;
+		}
+	}
+
+	public boolean checkNickname(String code, String nickname) throws Exception {
+		Room room = roomRepository.findByCode(code).orElseThrow(() -> new NoSuchElementException("존재하지 않는 방"));
+		try {
+			User user = userRepository.findByRoomIdAndNick(room.getId(), nickname);
+			if (user == null){
+				return false;
+			}
+			return true;
+		} catch (Exception e){
 			throw e;
 		}
 	}

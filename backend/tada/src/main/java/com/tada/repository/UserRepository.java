@@ -9,4 +9,5 @@ import com.tada.domain.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 	List<User> findAllByRoom_Id(Long roomId);
+	User findByRoomIdAndNick(Long roomId, String nick);
 }
