@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import tw from 'tailwind-styled-components';
 import Swal from 'sweetalert2';
 import { Label, Input, Button } from '../../../util/Semantics';
-import getCurrentLocation  from '../../../hooks/getCurrentLocation';
+import useCurrentLocation  from '../../../hooks/useCurrentLocation';
 import CaptureModal from './CaptureModal';
 import {BsCameraFill} from 'react-icons/bs';
 import {MdAddPhotoAlternate} from 'react-icons/md';
@@ -119,11 +119,11 @@ function Register() : JSX.Element {
 		setModalOpen2(false);
 	};
 		
-	const location : any = getCurrentLocation();
+	const location : any = useCurrentLocation();
 
 	useEffect(() => {
 		if(treasure){
-			location.useCurrentLocation(geolocationOptions);
+			location.getCurrentLocation(geolocationOptions);
 		}
 	}, [treasure]);
 
@@ -208,13 +208,13 @@ function Register() : JSX.Element {
 			<div className='flex flex-col px-4 overflow-y-scroll'>
 				<>
 					<Label> 보물 사진 </Label>
-					<div className='flex flex-col w-full items-center mb-8'>
+					<div className='flex flex-col items-center w-full mb-8'>
 						{treasure ?
-							<img src={treasure} className='mt-2 w-52 rounded-lg bg-white2 bg-auto'/>
+							<img src={treasure} className='mt-2 bg-auto rounded-lg w-52 bg-white2'/>
 							:
 							<img src={plus} onClick={openCaptureModal} className='w-48 h-48 mt-2 rounded-lg'/>
 						}
-						<div className='w-48 flex justify-end'>
+						<div className='flex justify-end w-48'>
 							<BsCameraFill onClick={openCaptureModal} size="24" color="#69BFFF"/>
 						</div>
 					</div>
@@ -235,16 +235,16 @@ function Register() : JSX.Element {
 						<Textarea value={hint||''} name="hint" id="hint" placeholder="보물의 힌트를 주세요!" onChange={handleHint}/>
 					</div>
 				</>
-				<div className=' border-b-gray border-b-2 mb-4'/>
+				<div className='mb-4 border-b-2 border-b-gray'/>
 				<>
 					<Label> 보상 사진 </Label>
-					<div className='flex flex-col w-full items-center mb-8'>
+					<div className='flex flex-col items-center w-full mb-8'>
 						{reward ?
-							<img src={reward} className='mt-2 w-52 rounded-lg bg-white2 bg-auto'/>
+							<img src={reward} className='mt-2 bg-auto rounded-lg w-52 bg-white2'/>
 							:
 							<img src={plus} className='w-48 h-48 mt-2 rounded-lg'/>
 						}
-						<div className='w-48 flex justify-end'>
+						<div className='flex justify-end w-48'>
 							<MdAddPhotoAlternate size="28" color="#69BFFF" onClick={()=>uploadImg()}/>
 						</div>
 						<input ref={fileInput} type="file" style={{ display: 'none' }} onChange={(e) => {handleUploadImg(e);}}/>
@@ -256,7 +256,7 @@ function Register() : JSX.Element {
 						<Textarea value={rewardDes||''} name="rewardDes" id="rewardDes" placeholder="보상 설명을 해주세요!" onChange={handleRewardDes}/>
 					</div>
 				</>
-				<div className='flex justify-center items-center mb-5'>
+				<div className='flex items-center justify-center mb-5'>
 					<Button onClick={checkAva}> 등록 </Button>
 				</div>
 			</div>
