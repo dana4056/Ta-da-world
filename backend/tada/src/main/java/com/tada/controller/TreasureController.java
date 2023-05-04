@@ -80,6 +80,21 @@ public class TreasureController {
 		return new ResponseEntity<>(status);
 	}
 
+	@PostMapping("/{id}")
+	@Operation(summary = "보물 답안 제출", description = "예상 보물 사진 촬영하여 업로드")
+	public ResponseEntity<?> postAnswer(@PathVariable Long id, @ModelAttribute("roomId") String roomId, @RequestParam("answerFile") MultipartFile answerFile) {
+		HttpStatus status = HttpStatus.OK;
+		try {
+			ImgPathDto answerImgDto = s3Service.uploadFiles(answerFile, "rooms/" + roomId + "/answers");
+			logger.info("정답 이미지 경로 [프론트:{}], [백:{}]", answerImgDto.getImgPath(), answerImgDto.getImgBasePath());
+			status = treasureService.postAnswer(id, answerImgDto);
+		} catch (Exception e) {
+			logger.error("정답 업로드 실패: {}", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<>(status);
+	}
+
 	@DeleteMapping("/{id}")
 	@Operation(summary = "보물 삭제", description = "호스트가 특정 보물 삭제")
 	public ResponseEntity<?> deleteTreasure(HttpServletRequest request, @PathVariable Long id){
