@@ -1,47 +1,68 @@
 import { useState, useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeTreasure } from '../../../stores/watch';
 import tw from 'tailwind-styled-components';
-import Swal from 'sweetalert2';
 import { Label, Input, Button } from '../../../util/Semantics';
 import useCurrentLocation  from '../../../hooks/useCurrentLocation';
 import CaptureModal from './CaptureModal';
-import {BsCameraFill} from 'react-icons/bs';
-import {MdAddPhotoAlternate} from 'react-icons/md';
 import RegisterModal from './RegisterModal';
-
-const plus = require('../../../assets/images/plus.png');
-
-
-const Textarea = tw.textarea`
-	text-base w-full
-	bg-white2 rounded-lg border-2 border-gray
-	py-3 px-3 mt-2 mb-8
-`;
-
-const MiniButton = tw.div`
-	flex justify-center items-center 
-	w-24 h-7 
-	bg-main3 rounded-lg 
-	text-white text-sm font-bold
-	ml-4
-`;
-
+import useApi from '../../../hooks/useApi';
+import {MdAddPhotoAlternate} from 'react-icons/md';
+import {BsCameraFill} from 'react-icons/bs';
+import Swal from 'sweetalert2';
 
 function Register() : JSX.Element {
+	const dispatch = useDispatch();
 	const [treasure, setTreasure] = useState<string>('');
 	const [lat, setLat] = useState<string>('0');
 	const [lon, setLon] = useState<string>('0');
 	const [hint, setHint] = useState<string>('');
 	const [reward, setReward] = useState<string>('');
+	const [rewardFile, setRewardFile] =  useState<any>();
 	const [rewardDes, setRewardDes] = useState<string>('');
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [modalOpen2, setModalOpen2] = useState<boolean>(false);
 	const fileInput = useRef<any>(null);
+	const location : any = useCurrentLocation();
+	const registerTresure = useApi();
 	const check : any = /^[0-9]+./; 
 	const geolocationOptions = {
 		enableHighAccuracy: true,
 		timeout: 1000 * 60 * 1, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
 		maximumAge: 1000 * 3600 * 24, // 24 hour
 	};
+
+	useEffect(() => {
+		if(treasure){
+			location.useCurrentLocation(geolocationOptions);
+		}
+	}, [treasure]);
+
+
+	useEffect(() => {
+		if(treasure){
+			setLat(location.data?.latitude);
+			setLon(location.data?.longitude);
+		}
+	}, [location.data]);
+
+	//보물 등록 api
+	useEffect(() => {
+		if(registerTresure.data){
+			if(registerTresure.data.status !== 200){
+				Swal.fire({
+					icon: 'warning',               
+					width: 300,
+					iconColor: '#2BDCDB',
+					html: '보물 등록 실패!', 
+					confirmButtonColor: '#2BDCDB',
+					confirmButtonText: '확인',
+				});
+			}else{
+				dispatch(changeTreasure(1));
+			}
+		}
+	}, [registerTresure.data]);
 
 	//힌트 작성	
 	const handleHint = (e : React.ChangeEvent<HTMLTextAreaElement>) : void  => {
@@ -70,10 +91,13 @@ function Register() : JSX.Element {
 
 	const handleUploadImg = (e : React.ChangeEvent<HTMLInputElement>):void => {
 		const target = e.currentTarget;
-		const files = (target.files as FileList)[0];
-		if(files){
+		const file = (target.files as FileList)[0];
+		const formData = new FormData();
+		formData.append('file', file);
+		setRewardFile(formData);
+		if(file){
 			const reader = new FileReader();
-			reader.readAsDataURL(files);
+			reader.readAsDataURL(file);
 			reader.onloadend = function(){
 				const base64 : any = reader.result;
 				setReward(base64);
@@ -119,14 +143,6 @@ function Register() : JSX.Element {
 		setModalOpen2(false);
 	};
 		
-	const location : any = useCurrentLocation();
-
-	useEffect(() => {
-		if(treasure){
-			location.getCurrentLocation(geolocationOptions);
-		}
-	}, [treasure]);
-
 	useEffect(() => {
 		if(treasure){
 			setLat(location.data?.latitude);
@@ -188,17 +204,28 @@ function Register() : JSX.Element {
 
 	//api 요청할 곳
 	const registerTreasure = () : void  => {
-		// const arr : TreasureInfo = 	{
-		// 	room_id: 1,
-		// 	img: treasure,
-		// 	lat: lat,
-		// 	lng: lon,
-		// 	hin: hint,
-		// 	reword_img: reward,
-		// 	reword: rewardDes
-		// };
-		// // console.log('저장 api 요청 '  + arr );
-		// console.log(arr);
+		const arr: string[] = treasure.split(',');
+		const mime: string | null = arr[0].match(/:(.*?);/)?.[1] || '';
+		const bstr: string = atob(arr[1]);
+		let n: number = bstr.length;
+		const u8arr: Uint8Array = new Uint8Array(n);
+	
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}
+				
+		const file = new File([u8arr], '사진', {type:mime});
+		const treasureFile = new FormData();
+		treasureFile.append('file', file);
+
+		registerTresure.fetchApiWithToken('POST', '/treasures', {
+			treasureFile : treasureFile,
+			rewardFile : rewardFile,
+			lat: lat,
+			lng: lon,
+			hin: hint,
+			reword: rewardDes
+		});
 	};
 
 	return (
@@ -263,5 +290,21 @@ function Register() : JSX.Element {
 		</>
 	);
 }
-  
+
+const plus = require('../../../assets/images/plus.png');
+
+const Textarea = tw.textarea`
+	text-base w-full
+	bg-white2 rounded-lg border-2 border-gray
+	py-3 px-3 mt-2 mb-8
+`;
+
+const MiniButton = tw.div`
+	flex justify-center items-center 
+	w-24 h-7 
+	bg-main3 rounded-lg 
+	text-white text-sm font-bold
+	ml-4
+`;
+
 export default Register;

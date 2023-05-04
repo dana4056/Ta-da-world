@@ -13,9 +13,9 @@ const useRefresh = () => {
 	const [data, setData] = useState<HostData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [cookie, setCookie, ] = useCookies(['accessToken']);
-	console.log('existing token: ', cookie.accessToken);
 	
 	const refreshToken = async () => {
+		console.log('existing token: ', cookie.accessToken);
 		try {
 			const baseURL = 'https://ta-da.world/api';
 			const response = await fetch(`${baseURL}/hosts/token/refresh`, {

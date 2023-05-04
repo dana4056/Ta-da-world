@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { change } from '../../stores/host';
+import { RootState } from '../../stores';
+import { useDispatch, useSelector } from 'react-redux';
+// import { change } from '../../stores/host';
 import { Circle } from '../../util/Semantics';
 import { TreasureInfo } from '../../util/Interface';
 import useApi from '../../hooks/useApi';
@@ -14,20 +15,39 @@ interface StyledDivProps {
 	active: string;
 }
 
-interface StyledDivProps {
-	active: string;
-}
-
 function HostCreateRoom() : JSX.Element {
 	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
 	const [section, setSection] = useState<string>('info');
-	const treasures : TreasureInfo[] = [];
-	// const [info, setInfo] = useState<>();
-	const roomInfo = useApi();
+	const [title, setTitle] = useState<string>('');
+	const [time, setTime] = useState<string>('');
+	const [treasures, setTreasures] = useState<TreasureInfo[]>([]);
+	const changeIngo = useSelector((state: RootState) => state.watch.info);
+	const changeTreasure = useSelector((state: RootState) => state.watch.treasure);
+	const roomInfoApi = useApi();
+	const TreasureApi = useApi();
+
+	//개임 정보
+	useEffect(()=>{
+		roomInfoApi.fetchGetApiWithToken('/rooms');
+	}, [changeIngo]);
 
 	useEffect(()=>{
-		// roomInfo.fetchApiWithToken('');
-	}, []);
+		if(roomInfoApi.data){
+			setTitle(roomInfoApi.data.name);
+			setTime(roomInfoApi.data.playTime);
+		}
+	}, [roomInfoApi.data]);
+
+	//보물 정보
+	useEffect(()=>{
+		TreasureApi.fetchGetApiWithToken('/treasures');
+	}, [changeTreasure]);
+
+	useEffect(()=>{
+		if(TreasureApi.data){
+			setTreasures(TreasureApi.data);
+		}
+	}, [TreasureApi.data]);
 
 	const handleClick = (e:string) : void => {
 		setSection(e);
@@ -35,7 +55,7 @@ function HostCreateRoom() : JSX.Element {
 
 	const startWait = () : void => {
 		//예외처리 기본정보 & 보물 등록된 데이터 있어야함
-		dispatch(change(2));
+		// dispatch(change(2));
 	};
 	  
 	return (
@@ -51,7 +71,7 @@ function HostCreateRoom() : JSX.Element {
 					보물등록
 				</SectionOpt>
 			</div>
-			{section==='info' && <Info titleProps='api로받아야해' timeProps='60'/>}
+			{section==='info' && <Info title={title} time={time}/>}
 			{section==='list' && <List treasures={treasures}/>}
 			{section==='register' && <Register/>}
 			{section !== 'register' && <div className='w-full flex justify-end'> <Circle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </Circle></div>}
