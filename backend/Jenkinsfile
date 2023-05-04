@@ -37,6 +37,10 @@ pipeline {
         }
         stage('Build Gradle') {
             steps {
+                sh 'rm backend/tada/src/main/resources/application.properties'
+                sh 'cp /var/lib/jenkins/workspace/backend/application.yml backend/tada/src/main/resources/'
+                sh 'cp /var/lib/jenkins/workspace/backend/application-aws.yml backend/tada/src/main/resources/'
+                sh 'cp /var/lib/jenkins/workspace/backend/application-db.yml backend/tada/src/main/resources/'
                 dir ('backend/tada') {
                     echo 'Build Gradle'
                     sh 'pwd'
