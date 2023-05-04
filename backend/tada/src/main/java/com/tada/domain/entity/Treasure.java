@@ -40,5 +40,8 @@ public class Treasure extends BaseTimeEntity{
 	@JoinColumn(name = "finder_id")
 	private User finder;
 
+	public void updateStatus(){
+		this.status = true;
+	}
 }
 

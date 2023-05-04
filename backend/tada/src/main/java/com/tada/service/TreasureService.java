@@ -14,6 +14,7 @@ public interface TreasureService {
 
 	void postTreasure(ImgPathDto treasureImgDto, ImgPathDto rewardImgDto, TreasureRequest treasureRequest) throws Exception;
 	void deleteTreasure(Long id) throws Exception;
+	void changeTreasureStatus(Long id) throws Exception;
 	List<TreasureResponse> getTreasureList(Long roomId) throws Exception;
 	List<TreasureResponse> getResultInUser(Long roomId, Long userId) throws Exception;
 	List<RankResponse> getResultInHost(Long roomId) throws Exception;
