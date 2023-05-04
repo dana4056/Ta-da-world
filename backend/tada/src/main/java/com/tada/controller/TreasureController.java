@@ -5,6 +5,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.tada.domain.entity.Host;
+import com.tada.domain.entity.Room;
+import com.tada.service.HostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -41,6 +44,7 @@ public class TreasureController {
 
 	private final TreasureService treasureService;
 	private final JwtTokenProvider jwtTokenProvider;
+	private final HostService hostService;
 	private final S3Service s3Service;
 	public static final Logger logger = LoggerFactory.getLogger(HostController.class);
 
@@ -109,27 +113,24 @@ public class TreasureController {
 
 	@GetMapping
 	@Operation(summary = "보물 리스트 불러오기", description = "호스트가 등록한 보물 리스트 조회")
-	public ResponseEntity<?> getTreasureList(HttpServletRequest request, @RequestParam("room") Long roomId){
+	public ResponseEntity<?> getTreasureList(HttpServletRequest request, @RequestParam(required = false) Long roomId){
 		HttpStatus status = HttpStatus.OK;
-		String header = request.getHeader("Authorization");
-		String accessToken = jwtTokenProvider.getTokenByHeader(header);
 
-		if(accessToken == null){ // 토큰이 제대로 담겨오지 않은 경우
-			return tokenExceptionHandling();
-		}
-
-		if (jwtTokenProvider.validateToken(accessToken)) {
-			try {
-				List<TreasureResponse> list = treasureService.getTreasureList(roomId);
-				return new ResponseEntity<List<TreasureResponse>>(list, status);
-			} catch (Exception e) {
-				logger.error("보물 리스트 조회 실패: {}", e.getMessage());
-				status = HttpStatus.INTERNAL_SERVER_ERROR;
+		try {
+			if ( roomId == null ) { // 룸 id 없으면 호스트가 보낸거니까 헤더에서 갖고와야함
+				String header = request.getHeader("Authorization");
+				String accessToken = jwtTokenProvider.getTokenByHeader(header);
+				String hostId = jwtTokenProvider.getHostID(accessToken);
+				Room room = hostService.getRoomByHostId(hostId);
+				roomId = room.getId();
 			}
-		}else{  // 토큰이 만료된 경우
-			logger.info("보물 리스트 조회 실패: 액세스 토큰 만료");
-			status = HttpStatus.UNAUTHORIZED;
+			List<TreasureResponse> list = treasureService.getTreasureList(roomId);
+			return new ResponseEntity<List<TreasureResponse>>(list, status);
+		} catch (Exception e) {
+			logger.error("보물 리스트 조회 실패: {}", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
+
 		return new ResponseEntity<>(status);
 	}
 
