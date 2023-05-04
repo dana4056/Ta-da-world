@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tada.domain.dto.ResultDto;
 import com.tada.domain.dto.UserRequest;
 import com.tada.domain.dto.UserResponse;
 import com.tada.service.UserService;
@@ -92,7 +93,7 @@ public class UserController {
 		}catch (Exception e) {
 			logger.error("참가자 리스트 조회 실패 : {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			return new ResponseEntity<>(status);
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
 	}
 
@@ -109,7 +110,7 @@ public class UserController {
 		}catch (Exception e) {
 			logger.error("참가자 리스트 조회 실패 : {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			return new ResponseEntity<>(status);
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
 	}
 }

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.tada.domain.dto.ResultDto;
 import com.tada.domain.entity.Room;
 import com.tada.service.HostService;
 import io.swagger.annotations.Api;
@@ -50,8 +51,6 @@ public class RoomController {
 	public ResponseEntity<?> readRoom(@RequestParam(required = false) Long roomId, HttpServletRequest request){
 		RoomResponse response = null;
 		HttpStatus status = HttpStatus.OK;
-
-
 		try{
 			if (roomId==null) { // 룸 id 없으면 호스트가 보낸거니까 헤더에서 갖고와야함
 				String header = request.getHeader("Authorization");
@@ -61,12 +60,12 @@ public class RoomController {
 				roomId = room.getId();
 			}
 			response = roomService.readRoom(roomId);
+			return new ResponseEntity<RoomResponse>(response, status);
 		}catch (Exception e){
 			logger.error("방 기본 정보 조회 오류 : {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			return new ResponseEntity<>(status);
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<RoomResponse>(response, status);
 	}
 
 	@PostMapping("/host")
@@ -94,18 +93,19 @@ public class RoomController {
 				if(response == null){
 					logger.error("방생성 실패: 이미 열려있는 방 있음");
 					status = HttpStatus.CONFLICT;
-					return new ResponseEntity<>(status);
+					return new ResponseEntity<>(new ResultDto("fail"), status);
 				}
 				return new ResponseEntity<>(response, status);
 			} catch (Exception e) {
 				logger.error("방생성 실패: {}", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				return new ResponseEntity<>(new ResultDto("fail"), status);
 			}
 		}else{  // 토큰이 만료된 경우
 			logger.info("방생성 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
 	}
 
 	@PutMapping("/host")
@@ -134,15 +134,17 @@ public class RoomController {
 				Room room = hostService.getRoomByHostId(hostId);
 				Long roomId = room.getId();
 				roomService.modifyRoom(roomId, roomRequest);
+				return new ResponseEntity<>(new ResultDto("success"), status);
 			} catch (Exception e) {
 				logger.error("방 정보 수정 실패: {}", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				return new ResponseEntity<>(new ResultDto("fail"), status);
 			}
 		}else{  // 토큰이 만료된 경우
 			logger.info("방 정보 수정 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
 	}
 
 
@@ -174,16 +176,17 @@ public class RoomController {
 				Room room = hostService.getRoomByHostId(hostId);
 				Long roomId = room.getId();
 				roomService.modifyRoomStatus(roomId, statusRequest);
+				return new ResponseEntity<>(new ResultDto("success"), status);
 			} catch (Exception e) {
 				logger.error("방 상태 변경 실패: {}", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				return new ResponseEntity<>(new ResultDto("fail"), status);
 			}
 		}else{  // 토큰이 만료된 경우
 			logger.info("방 상태 변경 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
-
 	}
 
 
@@ -218,12 +221,13 @@ public class RoomController {
 			} catch (Exception e) {
 				logger.error("방 상태 조회 실패: {}", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
+				return new ResponseEntity<>(new ResultDto("fail"), status);
 			}
 		}else{  // 토큰이 만료된 경우
 			logger.info("방 상태 조회 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
 	}
 
 	@GetMapping("/check")
@@ -240,7 +244,7 @@ public class RoomController {
 		try {
 			Long roomId = roomService.checkCode(code);
 			if (roomId == null) {
-				return new ResponseEntity<>(status);
+				return new ResponseEntity<>(new ResultDto("success"), status);
 			} else {
 				roomResponse.setId(roomId);
 				return new ResponseEntity<>(roomResponse,status);
@@ -248,15 +252,15 @@ public class RoomController {
 		} catch (Exception e) {
 			logger.error("방 상태 조회 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			return new ResponseEntity<>(new ResultDto("fail"), status);
 		}
-		return new ResponseEntity<>(status);
 	}
 
 
-	private ResponseEntity<String> tokenExceptionHandling() {
+	private ResponseEntity<?> tokenExceptionHandling() {
 		logger.error("토큰 에러");
 		HttpStatus status = HttpStatus.FORBIDDEN;
-		return new ResponseEntity<>(status);
+		return new ResponseEntity<>(new ResultDto("fail"), status);
 	}
 
 }
