@@ -6,45 +6,42 @@ const LOGIN = 'host/LOGIN' as const;
 const LOGOUT = 'host/LOGOUT' as const;
 
 // 액션 생성함수를 선언합니다
-export const change = ( roomNumber: number) => ({
+export const change = (roomNumber: number) => ({
 	type: CHANGE,
-	payload: roomNumber
+	payload: roomNumber,
 });
 export const login = (refreshToken: string) => ({
 	type: LOGIN,
-	payload: refreshToken
+	payload: refreshToken,
 });
 export const logout = () => ({
-	type: LOGOUT
+	type: LOGOUT,
 });
 
 // 모든 액션 겍체들에 대한 타입을 준비해줍니다.
 // ReturnType<typeof _____> 는 특정 함수의 반환값을 추론해줍니다
 // 상단부에서 액션타입을 선언 할 떄 as const 를 하지 않으면 이 부분이 제대로 작동하지 않습니다.
 type HostAction =
-  | ReturnType<typeof change>
-  | ReturnType<typeof login>
-	| ReturnType<typeof logout>
+	| ReturnType<typeof change>
+	| ReturnType<typeof login>
+	| ReturnType<typeof logout>;
 
 // 이 리덕스 모듈에서 관리 할 상태의 타입을 선언합니다
 type HostState = {
-  roomState: number;
+	roomState: number;
 	refreshToken: string;
 };
 
 // 초기상태를 선언합니다.
 const initialState: HostState = {
 	roomState: 1,
-	refreshToken: ''
+	refreshToken: '',
 };
 
 // 리듀서를 작성합니다.
 // 리듀서에서는 state 와 함수의 반환값이 일치하도록 작성하세요.
 // 액션에서는 우리가 방금 만든 CounterAction 을 타입으로 설정합니다.
-function host(
-	state: HostState = initialState,
-	action: HostAction
-): HostState {
+function host(state: HostState = initialState, action: HostAction): HostState {
 	switch (action.type) {
 	case CHANGE:
 		return { roomState: action.payload, refreshToken: state.refreshToken };

@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores';
 
 interface User {
 	id: number;
@@ -9,6 +11,9 @@ interface User {
 const userProfile = require('../assets/images/dummy_userprofile.png');
 
 function UserWaitPage(): JSX.Element {
+	const userState = useSelector((state: RootState) => state.user);
+	
+	console.log(userState);
 	const user: User = {
 		id: 1,
 		name: '친구많은한원석',
