@@ -3,6 +3,7 @@ package com.tada.controller;
 
 import com.tada.domain.dto.HostRequest;
 import com.tada.domain.dto.HostResponse;
+import com.tada.domain.dto.ResultDto;
 import com.tada.domain.entity.Room;
 import com.tada.service.HostService;
 import com.tada.util.JwtTokenProvider;
@@ -72,13 +73,13 @@ public class HostController {
             }
             hostResponse.setAccessToken(accessToken);
             hostResponse.setRefreshToken(refreshToken);
+            return new ResponseEntity<>(hostResponse, status);
+
         } catch (Exception e) {
             logger.error("로그인 실패 : {}", e);
             status = HttpStatus.INTERNAL_SERVER_ERROR;
-            return new ResponseEntity<>(status);
+            return new ResponseEntity<>(new ResultDto("fail"), status);
         }
-
-        return new ResponseEntity<>(hostResponse, status);
     }
 
 
@@ -95,10 +96,9 @@ public class HostController {
         String header = request.getHeader("Authorization");
         String accessToken = jwtTokenProvider.getTokenByHeader(header);
 
+
         if(accessToken == null){ // 토큰이 제대로 담겨오지 않은 경우
-            logger.error("토큰 에러");
-            status = HttpStatus.FORBIDDEN;
-            return new ResponseEntity<>(status);
+            return tokenExceptionHandling();
         }
 
 
@@ -108,16 +108,18 @@ public class HostController {
                 logger.info("로그아웃 시도");
                 hostService.logoutHost(hostId);
                 status = HttpStatus.OK;
+                return new ResponseEntity<>(new ResultDto("success"), status);
             } catch (Exception e) {
                 logger.error("로그아웃 실패 : {}", e);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
+                return new ResponseEntity<>(new ResultDto("fail"), status);
             }
         }else{  // 토큰이 만료된 경우
 
             logger.info("로그아웃 실패 액세스 토큰 만료");
             status = HttpStatus.UNAUTHORIZED;
+            return new ResponseEntity<>(new ResultDto("fail"), status);
         }
-        return new ResponseEntity<>(status);
     }
 
     @PostMapping("/token/refresh")
@@ -137,7 +139,7 @@ public class HostController {
         if(refreshToken == null){ // 토큰이 제대로 담겨오지 않은 경우
             logger.error("리프레쉬 토큰 에러");
             status = HttpStatus.FORBIDDEN;
-            return new ResponseEntity<>(status);
+            return new ResponseEntity<>(new ResultDto("fail"), status);
         }
 
 
@@ -148,6 +150,7 @@ public class HostController {
                 if (hostRefreshToken == null ) {
                     logger.debug("로그인되지 않은 host");
                     status = HttpStatus.UNAUTHORIZED;
+                    return new ResponseEntity<>(new ResultDto("fail"), status);
                 } else if (hostRefreshToken.equals(refreshToken)){ // 로그인 되어있고 리프레시 토큰도 일치할 경우
                     String accessToken = jwtTokenProvider.createAccessToken("hostId", hostId);
                     logger.debug("access-token : {}", accessToken);
@@ -157,16 +160,18 @@ public class HostController {
                     return new ResponseEntity<>(hostResponse, status);
                 } else {
                     status = HttpStatus.UNAUTHORIZED;
+                    return new ResponseEntity<>(new ResultDto("fail"), status);
                 }
             } catch (Exception e) {
                 logger.error("액세스 토큰 재발급 실패 : {}", e);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
+                return new ResponseEntity<>(new ResultDto("fail"), status);
             }
         }else{  // 리프레쉬 토큰이 만료된 경우
             logger.info("액세스 토큰 재발급 실패 리프레쉬 토큰 만료");
             status = HttpStatus.UNAUTHORIZED;
+            return new ResponseEntity<>(new ResultDto("fail"), status);
         }
-        return new ResponseEntity<>(status);
     }
 
     @DeleteMapping("")
@@ -183,9 +188,7 @@ public class HostController {
         String accessToken = jwtTokenProvider.getTokenByHeader(header);
 
         if(accessToken == null){ // 토큰이 제대로 담겨오지 않은 경우
-            logger.error("토큰 에러");
-            status = HttpStatus.FORBIDDEN;
-            return new ResponseEntity<>(status);
+            return tokenExceptionHandling();
         }
 
 
@@ -195,15 +198,22 @@ public class HostController {
                 logger.info("회원탈퇴 시도");
                 hostService.deleteHost(hostId);
                 status = HttpStatus.OK;
+                return new ResponseEntity<>(new ResultDto("success"), status);
             } catch (Exception e) {
                 logger.error("회원탈퇴 실패 : {}", e);
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
+                return new ResponseEntity<>(new ResultDto("fail"), status);
             }
         }else{  // 토큰이 만료된 경우
-
             logger.info("회원탈퇴 실패 액세스 토큰 만료");
             status = HttpStatus.UNAUTHORIZED;
+            return new ResponseEntity<>(new ResultDto("fail"), status);
         }
-        return new ResponseEntity<>(status);
+    }
+
+    private ResponseEntity<?> tokenExceptionHandling() {
+        logger.error("토큰 에러");
+        HttpStatus status = HttpStatus.FORBIDDEN;
+        return new ResponseEntity<>(new ResultDto("fail"), status);
     }
 }
