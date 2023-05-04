@@ -1,24 +1,30 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../stores';
 import Header from '../components/nav/Header';
 
 const RootLayout = (): JSX.Element => {
-	const location = useLocation();
+	const ishost = useSelector((state: RootState) => state.host.refreshToken);
 
-	const excludedPaths: string[] = [
-		'/',
-		'/username',
-		'/userloading',
-		'/usercharacter',
-	];
-
-	return (
-		<div className='flex flex-col items-center w-full h-screen min-h-screen'>
-			{!excludedPaths.includes(location.pathname) && <Header />}
-			<main className='w-full h-full'>
-				<Outlet />
-			</main>
-		</div>
-	);
+	if(ishost){
+		return (
+			<div className='flex flex-col items-center w-full h-screen min-h-screen'>
+				<Header/>
+				<main className='w-full h-full'>
+					<Outlet />
+				</main>
+			</div>
+		);
+	}else{
+		return(
+			<div className='flex flex-col items-center w-full h-screen min-h-screen'>
+				<main className='w-full h-full'>
+					<Outlet />
+				</main>
+			</div>
+		);
+	}
+	
 };
 
 export default RootLayout;

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../stores';
 import { enterRoom } from '../stores/user';
 
 const logo = require('../assets/images/logo.png');
@@ -9,7 +10,7 @@ const kakao_login = require('../assets/images/kakao_login.png');
 function MainPage(): JSX.Element {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-
+	const ishost = useSelector((state: RootState) => state.host.refreshToken);
 	const [roomNumber, setRoomNumber] = useState<string>('');
 
 	const [activeComponent, setActiveComponent] = useState<'User' | 'Host'>(
@@ -30,6 +31,12 @@ function MainPage(): JSX.Element {
 	const OAUTH_KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY_KAKAO}&redirect_uri=${
 		REDIRECT_URI_SITE + 'kakao'
 	}&response_type=code`;
+
+	useEffect(()=>{
+		if(ishost){
+			navigate('/hosthome');
+		}
+	});
 
 	const moveName = (): void => {
 		dispatch(enterRoom(Number(roomNumber)));

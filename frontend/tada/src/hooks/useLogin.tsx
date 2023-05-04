@@ -6,13 +6,15 @@ import { login } from '../stores/host';
 interface LoginData {
   accessToken: string
   refreshToken: string
+  status: number
+  code: string
 }
 
 const useLogin = () => {
 	const dispatch = useDispatch();
 	const [data, setData] = useState<LoginData | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const [, setCookie, ] = useCookies(['accessToken']);
+	const [, setCookie, ] = useCookies(['accessToken', 'status', 'code']);
 	
 	// hostId, type
 	const handleLogin = async (id: string, type: string) => {
@@ -32,9 +34,11 @@ const useLogin = () => {
 			const json = await response.json() as LoginData;
 			console.log('LOGIN DATA: ', json);
 			setData(json);
-			const { accessToken, refreshToken } = json;
+			const { accessToken, refreshToken, status, code } = json;
 			setCookie('accessToken', accessToken, { path: '/' });
-			dispatch(login(refreshToken));
+			setCookie('status', status, { path: '/' });
+			setCookie('code', code, { path: '/' });
+			dispatch(login({refreshToken, status, code}));
 		} catch (error) {
 			if (error instanceof Error) {
 				setError(error.message);

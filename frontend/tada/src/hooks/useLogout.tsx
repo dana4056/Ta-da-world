@@ -50,6 +50,10 @@ const useLogout = () => {
 			} else {
 				setError('An unknown error occurred');
 			}
+		} finally {
+			removeCookie('accessToken', {path: '/'});
+			dispatch(logout());
+			navigate('/');
 		}
 	};
 

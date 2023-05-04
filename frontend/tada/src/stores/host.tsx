@@ -10,10 +10,13 @@ export const change = (roomNumber: number) => ({
 	type: CHANGE,
 	payload: roomNumber,
 });
-export const login = (refreshToken: string) => ({
+
+export const login = ( hostData: HostState ) => ({
 	type: LOGIN,
-	payload: refreshToken,
+	payload: hostData,
+
 });
+
 export const logout = () => ({
 	type: LOGOUT,
 });
@@ -28,14 +31,16 @@ type HostAction =
 
 // 이 리덕스 모듈에서 관리 할 상태의 타입을 선언합니다
 type HostState = {
-	roomState: number;
 	refreshToken: string;
+	status:number;
+	code:string;
 };
 
 // 초기상태를 선언합니다.
 const initialState: HostState = {
-	roomState: 1,
+	status: 0,
 	refreshToken: '',
+	code:''
 };
 
 // 리듀서를 작성합니다.
@@ -44,11 +49,11 @@ const initialState: HostState = {
 function host(state: HostState = initialState, action: HostAction): HostState {
 	switch (action.type) {
 	case CHANGE:
-		return { roomState: action.payload, refreshToken: state.refreshToken };
+		return { status: state.status, refreshToken: state.refreshToken, code: state.code};
 	case LOGIN:
-		return { roomState: state.roomState, refreshToken: action.payload };
+		return { status: action.payload.status , refreshToken: action.payload.refreshToken, code: action.payload.code};
 	case LOGOUT:
-		return { roomState: state.roomState, refreshToken: '' };
+		return { status: -1, refreshToken: '' , code: ''};
 	default:
 		return state;
 	}
