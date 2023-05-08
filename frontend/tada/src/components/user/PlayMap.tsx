@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import useWatchLocation from '../../hooks/useWatchLocation';
+import { WatchLocation } from '../../util/Interface';
+import { getDistanceFromLatLonInKm } from '../../util/Calculate';
 // 리덕스와 연동하여 이미지는 차후 변경해줘야함
 const playerImage = require('../../assets/images/avatar4.jpg');
 const treasureImage = require('../../assets/images/opentreasure.png');
@@ -63,17 +65,6 @@ const treasures: Treasure[] = [
 	}
 ];
 
-interface LocationData {
-  latitude : number,
-  longitude : number
-}
-
-interface WatchLocation {
-data: LocationData | null
-error: string | null
-getCurrentLocation: () => void
-}
-
 function PlayMap(): JSX.Element {
 	const playerLocation: WatchLocation = useWatchLocation();
 	// create a marker only if markerRef.current is not initialized
@@ -121,8 +112,6 @@ function PlayMap(): JSX.Element {
 				}
 			}
 		}
-
-
 	}, [playerLocation.data]);
 
 	useEffect(() => {

@@ -78,20 +78,20 @@ function List({treasures}: ListProps) : JSX.Element {
       		<Label>보물 지도</Label>
 				{ treasures.length ?
 					<>
-						<div className='w-full flex justify-end px-1 text-sm'>총 {treasures.length}개</div>
-			  			<div className='w-full flex items-center py-2 mb-2 bg-white2 rounded-xl overflow-x-scroll'>
+						<div className='flex justify-end w-full px-1 text-sm'>총 {treasures.length}개</div>
+			  			<div className='flex items-center w-full py-2 mb-2 overflow-x-scroll bg-white2 rounded-xl'>
 							{treasures.map((treasure, index) => {
 								return ( 
-									<div key={index} style={{ backgroundImage: `url(${treasure.img})` }} className='w-12 h-12 mx-2 g-no-repeat bg-cover bg-center rounded-full' onClick={()=>handleNO(index)}/>
+									<div key={index} style={{ backgroundImage: `url(${treasure.imgPath})` }} className='w-12 h-12 mx-2 bg-center bg-cover rounded-full g-no-repeat' onClick={()=>handleNO(index)}/>
 								);
 							})}
 						</div>
 						<div id="map" className='w-full mb-1 h-3/4 rounded-xl'/>
 					</>
 					:
-					<div className='h-3/4 flex flex-col justify-center items-center'>
+					<div className='flex flex-col items-center justify-center h-3/4'>
 						<img className='w-1/3' src='https://d2ab9z4xn2ddpo.cloudfront.net/treasure/find.png'/>
-						<div className='text-gray5 text-xl font-bold mt-2'> 아직 숨긴 보물이 없어요! </div>
+						<div className='mt-2 text-xl font-bold text-gray5'> 아직 숨긴 보물이 없어요! </div>
 					</div>
 				}
 			</div>
