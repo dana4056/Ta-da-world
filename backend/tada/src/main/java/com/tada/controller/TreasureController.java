@@ -50,7 +50,7 @@ public class TreasureController {
 	@Operation(summary = "보물 등록", description = "호스트가 보물 하나씩 등록")
 	public ResponseEntity<?> postTreasure(HttpServletRequest request,
 		@RequestPart("treasureFile") MultipartFile treasureFile,
-	    @RequestPart("rewardFile") MultipartFile rewardFile,
+	    @RequestPart(value = "rewardFile",required = false) MultipartFile rewardFile,
 		@RequestPart(required = false) TreasureRequest treasureRequest){
 
 		HttpStatus status = HttpStatus.OK;
@@ -68,12 +68,16 @@ public class TreasureController {
 				Long roomId = room.getId();
 				treasureRequest.setRoomId(roomId);
 				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "treasure");
-				ImgPathDto rewardImgDto = s3Service.uploadFiles(rewardFile, "reward");
+				ImgPathDto rewardImgDto = null;
+				if (rewardFile != null) {
+					rewardImgDto = s3Service.uploadFiles(rewardFile, "reward");
+					logger.info("보상 이미지 경로 [프론트:{}], [백:{}]", rewardImgDto.getImgPath(), rewardImgDto.getImgBasePath());
+
+				}
 
 				logger.info("보물 이미지 경로 [프론트:{}], [백:{}]", treasureImgDto.getImgPath(), treasureImgDto.getImgBasePath());
-				logger.info("보상 이미지 경로 [프론트:{}], [백:{}]", rewardImgDto.getImgPath(), rewardImgDto.getImgBasePath());
-
 				treasureService.postTreasure(treasureImgDto, rewardImgDto, treasureRequest);
+
 				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), HttpStatus.OK);
 			} catch (Exception e) {
 				logger.error("보물 등록 실패: {}", e);
