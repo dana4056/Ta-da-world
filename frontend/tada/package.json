@@ -60,6 +60,7 @@
 		]
 	},
 	"devDependencies": {
-		"@types/react-transition-group": "^4.4.5"
+		"@stomp/stompjs": "^7.0.0",
+		"@types/sockjs-client": "^1.5.1"
 	}
 }

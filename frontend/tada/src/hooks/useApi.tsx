@@ -19,13 +19,13 @@ const useApi = () => {
 	//[1] accessToken이 필요없는 요청 not GET
 	async function fetchApi(method: string, url: string, requestBody: any) {
 		try {
-			const response = await fetch(baseURL+url, {
+			const response = await fetch(baseURL + url, {
 				method: method,
 				headers: {
 					'Content-Type': 'application/json',
 					// Origin: '*'
 				},
-				body: JSON.stringify(requestBody)
+				body: JSON.stringify(requestBody),
 			});
 			if (!response.ok) throw new Error(`HTTP ERROR: ${response.status}`);
 			const json = await response.json();
@@ -43,12 +43,12 @@ const useApi = () => {
 	//[1] accessToken이 필요없는 요청 GET
 	async function fetchGetApi(url: string) {
 		try {
-			const response = await fetch(baseURL+url, {
+			const response = await fetch(baseURL + url, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
 					// Origin: '*'
-				}
+				},
 			});
 			if (!response.ok) throw new Error(`HTTP ERROR: ${response.status}`);
 			const json = await response.json();
@@ -63,37 +63,44 @@ const useApi = () => {
 		}
 	}
 
-
 	//[2] accessToken이 필요한 요청인 경우 not Get
-	async function fetchApiWithToken(method: string, url: string,  requestBody :any) {
-		console.log('api요청 method ',  method, '리퀘스트 바디(json) : ', JSON.stringify(requestBody));
+	async function fetchApiWithToken(
+		method: string,
+		url: string,
+		requestBody: any
+	) {
+		console.log(
+			'api요청 method ',
+			method,
+			'리퀘스트 바디(json) : ',
+			JSON.stringify(requestBody)
+		);
 		try {
-			const response = await fetch(baseURL+url, {
+			const response = await fetch(baseURL + url, {
 				method: method,
 				headers: {
 					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${cookie.accessToken}`
+					Authorization: `Bearer ${cookie.accessToken}`,
 				},
-				body : JSON.stringify(requestBody)
+				body: JSON.stringify(requestBody),
 			});
 
 			const json = await response.json();
 			console.log('받은 데이터 ', json);
 			setData(json);
-
 		} catch (error: any) {
 			console.log('api 요청 실패', error);
 			if (error.status === 401) {
 				console.log('토큰 리프레시');
 				await refresh.refreshToken();
 				try {
-					const newResponse = await fetch(baseURL+url, {
+					const newResponse = await fetch(baseURL + url, {
 						method: method,
 						headers: {
 							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${cookie.accessToken}`,
+							Authorization: `Bearer ${cookie.accessToken}`,
 						},
-						body: JSON.stringify(requestBody)
+						body: JSON.stringify(requestBody),
 					});
 					const json = await newResponse.json();
 					console.log('받은 데이터 ', json);
@@ -101,11 +108,11 @@ const useApi = () => {
 				} catch (error: any) {
 					//강제 로그아웃
 					console.log('토큰 리프레시 실패 로그아웃');
-					removeCookie('accessToken', {path: '/'});
+					removeCookie('accessToken', { path: '/' });
 					dispatch(logout());
 					navigate('/');
 				}
-			} else{
+			} else {
 				setError(error);
 				throw new Error(`HTTP ERROR: ${error.status}`);
 			}
@@ -113,35 +120,34 @@ const useApi = () => {
 			setLoading(false);
 		}
 	}
-	
+
 	//[2] accessToken이 필요한 요청인 경우 Get
 	async function fetchGetApiWithToken(url: string) {
 		console.log('api요청 GET');
 		try {
-			const response = await fetch(baseURL+url, {
+			const response = await fetch(baseURL + url, {
 				method: 'GET',
 				headers: {
 					'Content-Type': 'application/json',
-					'Authorization': `Bearer ${cookie.accessToken}`
-				}
+					Authorization: `Bearer ${cookie.accessToken}`,
+				},
 			});
 
 			const json = await response.json();
 			console.log('받은 데이터 ', json);
 			setData(json);
-
 		} catch (error: any) {
 			console.log('api 요청 실패', error);
 			if (error.status === 401) {
 				console.log('토큰 리프레시');
 				await refresh.refreshToken();
 				try {
-					const newResponse = await fetch(baseURL+url, {
+					const newResponse = await fetch(baseURL + url, {
 						method: 'GET',
 						headers: {
 							'Content-Type': 'application/json',
-							'Authorization': `Bearer ${cookie.accessToken}`,
-						}
+							Authorization: `Bearer ${cookie.accessToken}`,
+						},
 					});
 					const json = await newResponse.json();
 					console.log('받은 데이터 ', json);
@@ -149,11 +155,11 @@ const useApi = () => {
 				} catch (error: any) {
 					//강제 로그아웃
 					console.log('토큰 리프레시 실패 로그아웃');
-					removeCookie('accessToken', {path: '/'});
+					removeCookie('accessToken', { path: '/' });
 					dispatch(logout());
 					navigate('/');
 				}
-			} else{
+			} else {
 				setError(error);
 				throw new Error(`HTTP ERROR: ${error.status}`);
 			}
@@ -162,7 +168,15 @@ const useApi = () => {
 		}
 	}
 
-	return { data, loading, error, fetchApi, fetchGetApi, fetchApiWithToken, fetchGetApiWithToken };
+	return {
+		data,
+		loading,
+		error,
+		fetchApi,
+		fetchGetApi,
+		fetchApiWithToken,
+		fetchGetApiWithToken,
+	};
 };
 
 export default useApi;

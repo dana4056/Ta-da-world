@@ -1,6 +1,26 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
+
+const baseURL = 'https://ta-da.world/api';
+
+// 웹소켓
+// const stompConnet = () => {
+// 	try {
+// 		const stomp = Stomp.over(function () {
+// 			return new SockJS(`${baseURL}/ws/room`);
+// 		});
+// 		stomp.connect({}, (message) => {
+// 			console.log('STOMP connected');
+// 			const data = {
+// 				messageType: 'ENTER',
+// 				userId:
+// 			}
+// 		})
+// 	}
+// }
 
 interface User {
 	id: number;
@@ -12,7 +32,7 @@ const userProfile = require('../assets/images/dummy_userprofile.png');
 
 function UserWaitPage(): JSX.Element {
 	const userState = useSelector((state: RootState) => state.user);
-	
+
 	console.log(userState);
 	const user: User = {
 		id: 1,
