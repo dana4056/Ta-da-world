@@ -94,6 +94,72 @@ const treasures: TreasureInfo[] = [
 		reward: '물',
 		status: true,
 		finderNick: ''
+	},
+	{
+		id: 9,
+		imgPath: '',
+		lat: '37.35121368492915',
+		lng: '127.1084811925532',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '탐앤탐스',
+		status: true,
+		finderNick: ''
+	},
+	{
+		id: 10,
+		imgPath: '',
+		lat: '37.351573523656604',
+		lng: '127.10663352070739',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '야생화공원',
+		status: true,
+		finderNick: ''
+	},
+	{
+		id: 11,
+		imgPath: '',
+		lat: '37.3532213855854',
+		lng: '127.10775889819736',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '솔빛유치원',
+		status: true,
+		finderNick: ''
+	},
+	{
+		id: 12,
+		imgPath: '',
+		lat: '37.35318581120607',
+		lng: '127.10724529359813',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '집 뒤',
+		status: true,
+		finderNick: ''
+	},
+	{
+		id: 13,
+		imgPath: '',
+		lat: '37.35310056092826',
+		lng: '127.10686141830374',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '109동',
+		status: true,
+		finderNick: ''
+	},
+	{
+		id: 14,
+		imgPath: '',
+		lat: '37.353222702955776',
+		lng: '127.10630288983339',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '집 놀이터',
+		status: true,
+		finderNick: ''
 	}
 ];
 
@@ -129,7 +195,7 @@ function PlayMap(): JSX.Element {
 						parseFloat(treasures[i].lat),
 						parseFloat(treasures[i].lng)
 					);
-					if (distance < 0.1) {
+					if (distance < 0.05) {
 						const marker = new window.kakao.maps.Marker({
 							map: map,
 							position: new window.kakao.maps.LatLng(treasures[i].lat, treasures[i].lng),
