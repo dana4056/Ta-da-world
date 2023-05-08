@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { useNavigate } from 'react-router';
 
 interface HostData {
   accessToken: string,
@@ -9,19 +10,24 @@ interface HostData {
 }
 
 const useRefresh = () => {
-	// const navigate = useNavigate()
+	const navigate = useNavigate();
 	const [data, setData] = useState<HostData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [cookie, setCookie, ] = useCookies(['accessToken']);
+	const state = JSON.parse(localStorage.getItem('persist:root') || '{}');
+	const host = JSON.parse(state.host);
 	
 	const refreshToken = async () => {
+		if (!state) {
+			navigate('/');
+		}
 		console.log('existing token: ', cookie.accessToken);
 		try {
 			const baseURL = 'https://ta-da.world/api';
 			const response = await fetch(`${baseURL}/hosts/token/refresh`, {
 				method: 'POST',
 				headers: {
-					'Authorization': `Bearer ${cookie.accessToken}`
+					'Authorization': `Bearer ${host.refreshToken}`
 				}
 			});
 			if (!response.ok) throw new Error(`HTTP ERROR: ${response.status}`);
