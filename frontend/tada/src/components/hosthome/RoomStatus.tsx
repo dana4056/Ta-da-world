@@ -31,22 +31,22 @@ function RoomStatus({ status }: hostRoomProps)  : JSX.Element {
 	const color : Array<string> = ['text-blue', 'text-main',  'text-orange2', 'text-red', 'text-green'];
 	const colorTo : Array<string> = ['to-blue2', 'to-main', 'to-orange2', 'to-red', 'to-blue'];
 	const colorFrom : Array<string> = ['from-blue', 'from-main3',  'from-orange', 'from-orange2', 'from-green'];
-	const createRoom = useApi();
+	const createRoom = useApi(); //방 상태 변경
+	const roomstatusApi = useApi(); //방 상태 조회
 
 	const navRoom = () : void  => {
 		if(status === 0){
-			createRoom.fetchApiWithToken('POST', '/rooms/host', '');
+			createRoom.fetchApiWithToken('PATCH', '/rooms/host', {status: 1});
 		} else{
 			navigate('/hostroom');
 		}
 	};
 
+	//방 상태 변경 api
 	useEffect(() => {
-		if(createRoom.data){
-			console.log(createRoom.data);
-			// dispatch(change(1));
-			// navigate('/hostroom');
-		} else if(createRoom.error){
+		if(createRoom.data?.success){
+			roomstatusApi.fetchNotBodyApiWithToken('GET', '/rooms/host/status');
+		} else if(createRoom.data){
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
@@ -57,6 +57,22 @@ function RoomStatus({ status }: hostRoomProps)  : JSX.Element {
 			});
 		}
 	}, [createRoom.data]);
+
+	useEffect(() => {
+		if(roomstatusApi.data?.success && roomstatusApi.data.data.status === 1){
+			dispatch(change(1));
+			navigate('/hostroom');
+		} else if(roomstatusApi.data){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '방 생성에 실패했습니다.', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		}
+	}, [roomstatusApi.data]);
 
 
 	return (

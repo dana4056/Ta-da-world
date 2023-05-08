@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { RootState } from '../../stores';
 import { useDispatch, useSelector } from 'react-redux';
-// import { change } from '../../stores/host';
+import Swal from 'sweetalert2';
+import { changecode } from '../../stores/host';
+
 import { Circle } from '../../util/Semantics';
 import { TreasureInfo } from '../../util/Interface';
 import useApi from '../../hooks/useApi';
@@ -10,6 +12,7 @@ import tw from 'tailwind-styled-components';
 import Info from './hostcreateroom/Info';
 import List from './hostcreateroom/List';
 import Register from './hostcreateroom/Register';
+
 
 interface StyledDivProps {
 	active: string;
@@ -25,38 +28,124 @@ function HostCreateRoom() : JSX.Element {
 	const changeTreasure = useSelector((state: RootState) => state.watch.treasure);
 	const roomInfoApi = useApi();
 	const TreasureApi = useApi();
+	const startApi = useApi(); //방 상태 변경
+	const roomstatusApi = useApi(); //방상태 조회
+	
+	//게임 시작
+	useEffect(()=>{
+		if(startApi.data?.success){
+			console.log('방 상태 변경완료?');
+			roomstatusApi.fetchNotBodyApiWithToken('GET', '/rooms/host/status');
+		} else if(startApi.data){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '게임 시작 실패! 다시 시도해주세요!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		}
+	}, [startApi.data]);
+
+	useEffect(()=>{
+		if(roomstatusApi.data?.success){
+			console.log('방 상태 조회 ', roomstatusApi.data.data);
+			if(roomstatusApi.data.data.status === 2 ){
+				//소켓 열기
+				console.log('방 상태가 2');
+				const code = roomstatusApi.data.data.code;
+				const status = 2;
+				const refreshToken = '';
+				dispatch(changecode({refreshToken, status, code}));
+			}
+		} else if(roomstatusApi.data){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '게임 시작 실패! 다시 시도해주세요!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		}
+	}, [roomstatusApi.data]);
+
 
 	//개임 정보
 	useEffect(()=>{
-		roomInfoApi.fetchGetApiWithToken('/rooms');
+		roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
 	}, [changeIngo]);
 
 	useEffect(()=>{
-		if(roomInfoApi.data){
-			setTitle(roomInfoApi.data.name);
-			setTime(roomInfoApi.data.playTime);
+		if(roomInfoApi.data?.success){
+			setTitle(roomInfoApi.data.data.name);
+			setTime(roomInfoApi.data.data.playTime);
 		}
 	}, [roomInfoApi.data]);
 
 	//보물 정보
 	useEffect(()=>{
-		TreasureApi.fetchGetApiWithToken('/treasures');
+		TreasureApi.fetchNotBodyApiWithToken('GET', '/treasures');
 	}, [changeTreasure]);
 
 	useEffect(()=>{
-		if(TreasureApi.data){
-			setTreasures(TreasureApi.data);
+		if(TreasureApi.data?.success){
+			setTreasures(TreasureApi.data.data);
 		}
 	}, [TreasureApi.data]);
+
 
 	const handleClick = (e:string) : void => {
 		setSection(e);
 	};
 
 	const startWait = () : void => {
-		//예외처리 기본정보 & 보물 등록된 데이터 있어야함
-		// dispatch(change(2));
+		if(title===''){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '게임 이름을 설정해주세요!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		} else if(time===''){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '게임 시간을 설정해주세요!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		} else if(treasures.length === 0){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '보물을 하나 이상 등록해주세요!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		} else{
+			Swal.fire({
+				text: '게임 대기방을 여시겠습니까?',
+				width: 300,
+				showCancelButton: true,
+				iconColor: '#2BDCDB ',
+				confirmButtonColor: '#2BDCDB ',
+				confirmButtonText: '시작',
+				cancelButtonText: '취소'
+			}).then(function(e){
+				if(e.isConfirmed === true) {
+					//방 변경
+					startApi.fetchApiWithToken('PATCH', '/rooms/host', {status: 2});
+				}
+			});
+		}	
 	};
+
 	  
 	return (
 		<div className="h-full flex flex-col rounded-t-lg bg-white">

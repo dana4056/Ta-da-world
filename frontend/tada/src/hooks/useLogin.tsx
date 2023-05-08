@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../stores/host';
 
 interface LoginData {
+	data: any
   accessToken: string
   refreshToken: string
   status: number
@@ -34,10 +35,8 @@ const useLogin = () => {
 			const json = await response.json() as LoginData;
 			console.log('LOGIN DATA: ', json);
 			setData(json);
-			const { accessToken, refreshToken, status, code } = json;
+			const { accessToken, refreshToken, status, code } = json.data;
 			setCookie('accessToken', accessToken, { path: '/' });
-			setCookie('status', status, { path: '/' });
-			setCookie('code', code, { path: '/' });
 			dispatch(login({refreshToken, status, code}));
 		} catch (error) {
 			if (error instanceof Error) {
