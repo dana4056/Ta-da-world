@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../stores';
 import { enterRoom } from '../stores/user';
 import useApi from '../hooks/useApi';
-import Semantics from '../util/Semantics';
-import styles from '../assets/css/UserNamePage.module.css';
 
 const logo = require('../assets/images/logo.png');
 const kakao_login = require('../assets/images/kakao_login.png');
@@ -47,24 +45,21 @@ function MainPage(): JSX.Element {
 	const moveName = async (): Promise<void> => {
 		// roomCode 유효성 검사
 		await roomState.fetchGetApi(`/rooms/check?code=${roomCode}`);
-
-		if (roomState.data?.message === 'Success') {
-			dispatch(enterRoom(roomCode));
-			navigate('./username');
-		} else {
-			console.log(roomState.data);
-		}
 	};
-	// useEffect(() => {
-	// 	if (roomState.data) {
-	// 		if (roomState.data.message === 'Success') {
-	// 			// console.log(roomState.data);
-	// 			dispatch(enterRoom(roomCode));
-	// 			navigate('/username');
-	// 		}
-	// 		console.log(roomState);
-	// 	}
-	// }, [roomState.data]);
+	useEffect(() => {
+		if (roomState.data) {
+			if (roomState.data.message === 'Success') {
+				// console.log(roomState.data);
+				dispatch(enterRoom(roomCode));
+				navigate('/username');
+			} else if (roomState.data.message === 'not exist') {
+				console.log('fuck you');
+				// not exist일 때 처리
+			} else {
+				console.log(roomState);
+			}
+		}
+	}, [roomState.data]);
 
 	const LoginUser = (): JSX.Element => (
 		<>
@@ -74,7 +69,6 @@ function MainPage(): JSX.Element {
 					placeholder='참여코드를 입력하세요!'
 					value={roomCode}
 					onChange={(e) => setRoomCode(e.target.value)}
-					isvalid={roomState.data?.message !== 'not exist'}
 				/>
 				<CustomButton
 					onClick={moveName}
