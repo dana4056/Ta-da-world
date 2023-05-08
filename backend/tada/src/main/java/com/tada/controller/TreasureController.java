@@ -13,15 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tada.domain.dto.ImgPathDto;
@@ -57,9 +49,9 @@ public class TreasureController {
 	@PostMapping
 	@Operation(summary = "보물 등록", description = "호스트가 보물 하나씩 등록")
 	public ResponseEntity<?> postTreasure(HttpServletRequest request,
-		@RequestParam("treasureFile") MultipartFile treasureFile,
-		@RequestParam("rewardFile") MultipartFile rewardFile,
-		@ModelAttribute TreasureRequest treasureRequest){
+		@RequestPart("treasureFile") MultipartFile treasureFile,
+	    @RequestPart("rewardFile") MultipartFile rewardFile,
+		@RequestPart(required = false) TreasureRequest treasureRequest){
 
 		HttpStatus status = HttpStatus.OK;
 		String header = request.getHeader("Authorization");
@@ -84,7 +76,7 @@ public class TreasureController {
 				treasureService.postTreasure(treasureImgDto, rewardImgDto, treasureRequest);
 				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), HttpStatus.OK);
 			} catch (Exception e) {
-				logger.error("보물 등록 실패: {}", e.getMessage());
+				logger.error("보물 등록 실패: {}", e);
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 				return new ResponseEntity<>(status);
 			}
