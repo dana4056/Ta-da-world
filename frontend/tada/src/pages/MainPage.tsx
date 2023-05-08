@@ -9,8 +9,6 @@ const logo = require('../assets/images/logo.png');
 const kakao_login = require('../assets/images/kakao_login.png');
 
 function MainPage(): JSX.Element {
-	const { CustomInput, CustomButton } = Semantics;
-
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const ishost = useSelector((state: RootState) => state.host.refreshToken);
@@ -64,23 +62,19 @@ function MainPage(): JSX.Element {
 	const LoginUser = (): JSX.Element => (
 		<>
 			<div className='flex flex-col items-center justify-center mb-3 border-b-8 shadow-lg shadow-main bg-white/80 w-72 h-36 rounded-3xl border-b-main3'>
-				<CustomInput
+				<input
+					className='h-10 px-4 mb-5 border shadow-lg placeholder:text-sm placeholder:text-gray2 text-gray5 w-60 rounded-xl border-gray2'
 					type='text'
 					placeholder='참여코드를 입력하세요!'
 					value={roomCode}
 					onChange={(e) => setRoomCode(e.target.value)}
 				/>
-				<CustomButton
+				<button
 					onClick={moveName}
-					isvalid={roomState.data?.message !== 'not exist'}
-					className={
-						roomState.data?.message === 'not exist' ? styles.shake : ''
-					}
+					className='h-10 font-semibold text-white shadow-lg rounded-xl w-60 bg-gradient-to-r from-blue to-blue2'
 				>
-					{roomState.data?.message === 'not exist'
-						? '잘못된 코드를 입력하셨습니다'
-						: '확인'}
-				</CustomButton>
+					입장
+				</button>
 			</div>
 			<button
 				type='button'
