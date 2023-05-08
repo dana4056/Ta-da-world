@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import { GraButton } from '../util/Semantics';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../stores';
 import { enterCharacter } from '../stores/user';
 
 function UserCharacterPage(): JSX.Element {
+
+	const userState = useSelector((state: RootState) => state.user);
+
+	console.log(userState);
+	
 	const [selectedAvatar, setSelectedAvatar] = useState(1);
 
 	const navigate = useNavigate();
