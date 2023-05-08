@@ -10,5 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResultDto {
-	private String status;
+	private String message;
+	private boolean success;
+
 }
