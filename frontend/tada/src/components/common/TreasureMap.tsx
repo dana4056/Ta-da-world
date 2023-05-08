@@ -117,7 +117,7 @@ function TreasureMap({isHost, treasures, title}: TreasureListProps) : JSX.Elemen
 					{treasures.map((treasure, index) => {
 						return ( 
 							<div key={index}>
-								<div style={{ backgroundImage: `url(${treasure.img})` }} className='w-12 h-12 mx-2 mt-1 mb-3 bg-center bg-cover rounded-full g-no-repeat' onClick={()=>handleNO(index)}>
+								<div style={{ backgroundImage: `url(${treasure.imgPath})` }} className='w-12 h-12 mx-2 mt-1 mb-3 bg-center bg-cover rounded-full g-no-repeat' onClick={()=>handleNO(index)}>
 									{ treasure.status ?
 								 		null :	<div className='flex items-center justify-center w-12 h-12 rounded-full bg-gray4 bg-opacity-40'><MdLock color='white' size="24"/></div>		
 									}

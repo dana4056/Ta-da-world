@@ -32,14 +32,14 @@ function TreasureInfoBox({treasure, isHost}: TreasureInfoProps) : JSX.Element {
 		<>
 			<WhiteBox>
 				<Header>보물</Header>
-				<Img active ='1' src={treasure?.img}/>
+				<Img active ='1' src={treasure?.imgPath}/>
 				<Text> Hint: {treasure?.hint}</Text>
 			</WhiteBox>
 			{isHost?
 				<WhiteBox>
 					<Header>보상</Header>
-					{ treasure?.rewardImg ?
-						<Img active = {treasure.reward ? '1':''} src={treasure.rewardImg}/>
+					{ treasure?.rewardImgPath ?
+						<Img active = {treasure.reward ? '1':''} src={treasure.rewardImgPath}/>
 						: null
 					}
 					{ treasure?.reward ?
