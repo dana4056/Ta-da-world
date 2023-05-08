@@ -3,15 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../stores';
 import { enterRoom } from '../stores/user';
+import useApi from '../hooks/useApi';
+import Semantics from '../util/Semantics';
+import styles from '../assets/css/UserNamePage.module.css';
 
 const logo = require('../assets/images/logo.png');
 const kakao_login = require('../assets/images/kakao_login.png');
 
 function MainPage(): JSX.Element {
+	const { CustomInput, CustomButton } = Semantics;
+
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const ishost = useSelector((state: RootState) => state.host.refreshToken);
-	const [roomNumber, setRoomNumber] = useState<string>('');
+	const [roomCode, setRoomCode] = useState<string>('');
+
+	const roomState = useApi();
 
 	const [activeComponent, setActiveComponent] = useState<'User' | 'Host'>(
 		'User'
@@ -31,30 +38,55 @@ function MainPage(): JSX.Element {
 		REDIRECT_URI_SITE + 'kakao'
 	}&response_type=code`;
 
-	useEffect(()=>{
-		if(ishost){
+	useEffect(() => {
+		if (ishost) {
 			navigate('/hosthome');
 		}
 	});
 
-	const moveName = (): void => {
-		navigate('/username');
+	const moveName = async (): Promise<void> => {
+		// roomCode 유효성 검사
+		await roomState.fetchGetApi(`/rooms/check?code=${roomCode}`);
+
+		if (roomState.data?.message === 'Success') {
+			dispatch(enterRoom(roomCode));
+			navigate('./username');
+		} else {
+			console.log(roomState.data);
+		}
 	};
+	// useEffect(() => {
+	// 	if (roomState.data) {
+	// 		if (roomState.data.message === 'Success') {
+	// 			// console.log(roomState.data);
+	// 			dispatch(enterRoom(roomCode));
+	// 			navigate('/username');
+	// 		}
+	// 		console.log(roomState);
+	// 	}
+	// }, [roomState.data]);
 
 	const LoginUser = (): JSX.Element => (
 		<>
 			<div className='flex flex-col items-center justify-center mb-3 border-b-8 shadow-lg shadow-main bg-white/80 w-72 h-36 rounded-3xl border-b-main3'>
-				<input
-					className='h-10 px-4 mb-5 border shadow-lg placeholder:text-sm placeholder:text-gray2 text-gray5 w-60 rounded-xl border-gray2'
+				<CustomInput
 					type='text'
 					placeholder='참여코드를 입력하세요!'
+					value={roomCode}
+					onChange={(e) => setRoomCode(e.target.value)}
+					isvalid={roomState.data?.message !== 'not exist'}
 				/>
-				<button
+				<CustomButton
 					onClick={moveName}
-					className='h-10 font-semibold text-white shadow-lg rounded-xl w-60 bg-gradient-to-r from-blue to-blue2'
+					isvalid={roomState.data?.message !== 'not exist'}
+					className={
+						roomState.data?.message === 'not exist' ? styles.shake : ''
+					}
 				>
-					입장
-				</button>
+					{roomState.data?.message === 'not exist'
+						? '잘못된 코드를 입력하셨습니다'
+						: '확인'}
+				</CustomButton>
 			</div>
 			<button
 				type='button'
