@@ -43,7 +43,7 @@ function useWatchLocation(): WatchLocation {
 
 		watchId.current = geolocation.watchPosition(handleSuccess, handleError, {
 			...options,
-			maximumAge: 3000, // Track location every 3 seconds
+			maximumAge: 100, // Track location every 0.1 seconds
 		});
 	}, []);
 
