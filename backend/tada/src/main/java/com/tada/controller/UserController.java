@@ -1,5 +1,6 @@
 package com.tada.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +34,17 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/users")
 public class UserController {
 
+	private static final String SUCCESS = "Success";
+	private static final String FAIL = "Fail";
+	private static final String UNAUTHORIZED = "Token expired";
+	private static final String TOKEN_ERROR = "wrong token received";
+	private static final boolean TRUE = true;
+	private static final boolean FALSE = false;
 	private final UserService userService;
 	private final TreasureService treasureService;
 	public static final Logger logger = LoggerFactory.getLogger(HostController.class);
 
 	private final SimpMessagingTemplate simpMessagingTemplate;
-
 
 
 	@MessageMapping("/send")
@@ -86,14 +92,19 @@ public class UserController {
 	@Operation(summary = "닉네임 중복 확인", description = "해당 방에 닉네임 중복된 사람이 있는지 확인.")
 	public ResponseEntity<?> checkUserNickname(@RequestParam String code, @RequestParam String nickname){
 		HttpStatus status = HttpStatus.OK;
-
 		try{
 			boolean isDuplicate = userService.checkNickname(code,nickname);
-			return new ResponseEntity<>(isDuplicate, status);
+			if(isDuplicate) {
+				return new ResponseEntity<>(new ResultDto("duplicate",FALSE), status);
+			} else {
+				return new ResponseEntity<>(new ResultDto("unduplicate",TRUE), status);
+			}
+
+
 		}catch (Exception e) {
 			logger.error("참가자 리스트 조회 실패 : {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			return new ResponseEntity<>(new ResultDto("fail"), status);
+			return new ResponseEntity<>(status);
 		}
 	}
 
@@ -103,14 +114,18 @@ public class UserController {
 		+"room: 방 고유번호")
 	public ResponseEntity<?> readUserList(@RequestParam("room") Long roomId){
 		HttpStatus status = HttpStatus.OK;
+		Map<String, Object> resultMap = new HashMap<>();
 
 		try{
 			List<UserResponse> list = userService.readUserList(roomId);
-			return new ResponseEntity<List<UserResponse>>(list, status);
+			resultMap.put("data",list);
+			resultMap.put("message",SUCCESS);
+			resultMap.put("success",TRUE);
+			return new ResponseEntity<>(resultMap, status);
 		}catch (Exception e) {
 			logger.error("참가자 리스트 조회 실패 : {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			return new ResponseEntity<>(new ResultDto("fail"), status);
+			return new ResponseEntity<>(status);
 		}
 	}
 }

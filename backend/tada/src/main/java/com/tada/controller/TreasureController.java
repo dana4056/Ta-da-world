@@ -1,6 +1,8 @@
 package com.tada.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -39,6 +41,13 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/treasures")
 public class TreasureController {
 
+	private static final String SUCCESS = "Success";
+	private static final String FAIL = "Fail";
+	private static final String UNAUTHORIZED = "Token expired";
+	private static final String TOKEN_ERROR = "wrong token received";
+	private static final boolean TRUE = true;
+	private static final boolean FALSE = false;
+
 	private final TreasureService treasureService;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final HostService hostService;
@@ -73,16 +82,16 @@ public class TreasureController {
 				logger.info("보상 이미지 경로 [프론트:{}], [백:{}]", rewardImgDto.getImgPath(), rewardImgDto.getImgBasePath());
 
 				treasureService.postTreasure(treasureImgDto, rewardImgDto, treasureRequest);
-				return new ResponseEntity<>(new ResultDto("success"), HttpStatus.OK);
+				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), HttpStatus.OK);
 			} catch (Exception e) {
 				logger.error("보물 등록 실패: {}", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
-				return new ResponseEntity<>(new ResultDto("fail"), status);
+				return new ResponseEntity<>(status);
 			}
 		}else{  // 토큰이 만료된 경우
 			logger.info("보물 등록 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
-			return new ResponseEntity<>(new ResultDto("fail"), status);
+			return new ResponseEntity<>(new ResultDto(UNAUTHORIZED,FALSE), status);
 		}
 	}
 
@@ -101,16 +110,16 @@ public class TreasureController {
 		if (jwtTokenProvider.validateToken(accessToken)) {
 			try {
 				treasureService.deleteTreasure(id);
-				return new ResponseEntity<>(new ResultDto("success"), status);
+				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), status);
 			} catch (Exception e) {
 				logger.error("보물 삭제 실패: {}", e.getMessage());
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
-				return new ResponseEntity<>(new ResultDto("fail"), status);
+				return new ResponseEntity<>(status);
 			}
 		}else{  // 토큰이 만료된 경우
 			logger.info("보물 삭제 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
-			return new ResponseEntity<>(new ResultDto("fail"), status);
+			return new ResponseEntity<>(new ResultDto(UNAUTHORIZED,FALSE), status);
 		}
 	}
 
@@ -118,7 +127,7 @@ public class TreasureController {
 	@Operation(summary = "보물 리스트 불러오기", description = "호스트가 등록한 보물 리스트 조회")
 	public ResponseEntity<?> getTreasureList(HttpServletRequest request, @RequestParam(required = false) Long roomId){
 		HttpStatus status = HttpStatus.OK;
-
+		Map<String, Object> resultMap = new HashMap<>();
 		try {
 			if ( roomId == null ) { // 룸 id 없으면 호스트가 보낸거니까 헤더에서 갖고와야함
 				String header = request.getHeader("Authorization");
@@ -128,11 +137,15 @@ public class TreasureController {
 				roomId = room.getId();
 			}
 			List<TreasureResponse> list = treasureService.getTreasureList(roomId);
-			return new ResponseEntity<List<TreasureResponse>>(list, status);
+			resultMap.put("data",list);
+			resultMap.put("message",SUCCESS);
+			resultMap.put("success",TRUE);
+
+			return new ResponseEntity<>(resultMap, status);
 		} catch (Exception e) {
 			logger.error("보물 리스트 조회 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			return new ResponseEntity<>(new ResultDto("fail"), status);
+			return new ResponseEntity<>(status);
 		}
 	}
 
@@ -140,13 +153,17 @@ public class TreasureController {
 	@Operation(summary = "게임 결과 보기 - 내가 찾은 보물", description = "참가자 입장에서 보이는 게임 결과 데이터")
 	public ResponseEntity<?> getResultPageInUser(@RequestParam("room") Long roomId, @RequestParam("user") Long userId){
 		HttpStatus status = HttpStatus.OK;
+		Map<String, Object> resultMap = new HashMap<>();
 		try{
 			List<TreasureResponse> list = treasureService.getResultInUser(roomId, userId);
-			return new ResponseEntity<List<TreasureResponse>>(list, status);
+			resultMap.put("data",list);
+			resultMap.put("message",SUCCESS);
+			resultMap.put("success",TRUE);
+			return new ResponseEntity<>(resultMap, status);
 		} catch (Exception e){
 			logger.error("게임 결과 보기 - 내가 찾은 보물 조회 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			return new ResponseEntity<>(new ResultDto("fail"), status);
+			return new ResponseEntity<>(status);
 		}
 	}
 	@GetMapping("/rank")
@@ -154,21 +171,24 @@ public class TreasureController {
 	public ResponseEntity<?> getResultPageInHost(@RequestParam("room") Long roomId){
 
 		HttpStatus status = HttpStatus.OK;
-
+		Map<String, Object> resultMap = new HashMap<>();
 		try {
 			List<RankResponse> response = treasureService.getResultInHost(roomId);
-			return new ResponseEntity<List<RankResponse>>(response, status);
+			resultMap.put("data",response);
+			resultMap.put("message",SUCCESS);
+			resultMap.put("success",TRUE);
+			return new ResponseEntity<>(resultMap, status);
 		} catch (Exception e) {
 			logger.error("게임 결과 보기 - 랭킹 조회 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
-			return new ResponseEntity<>(new ResultDto("fail"), status);
+			return new ResponseEntity<>(status);
 		}
 	}
 
 	private ResponseEntity<?> tokenExceptionHandling() {
 		logger.error("토큰 에러");
 		HttpStatus status = HttpStatus.FORBIDDEN;
-		return new ResponseEntity<>(new ResultDto("fail"), status);
+		return new ResponseEntity<>(new ResultDto(TOKEN_ERROR,FALSE), status);
 	}
 }
 
