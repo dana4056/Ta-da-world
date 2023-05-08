@@ -166,8 +166,7 @@ public class RoomController {
 		+ "<b>[변경 가능한 상태 목록]</b><br>"
 		+ "- 1: 방 생성 및 수정 (방을 생성하고 정보를 수정하고 있는 상태로, 대기방 가기전)<br>"
 		+ "- 3: 게임중 (게임을 하고 있는 상태로, 게임 현황을 볼 수 있음)<br>"
-		+ "- 4: 게임 종료 (게임이 종료되고 게임 결과창이 보이는 상태)<br><br>"
-		+ "상태코드 0과 2로는 변경X / 2로 변경하는 API 별도 존재!!")
+		+ "- 4: 게임 종료 (게임이 종료되고 게임 결과창이 보이는 상태)<br><br>")
 	@ApiResponses(value = {
 		@ApiResponse(responseCode = "200", description = "방 상태 변경 성공"),
 		@ApiResponse(responseCode = "401", description = "액세스 토큰 만료"),
@@ -230,7 +229,7 @@ public class RoomController {
 		if (jwtTokenProvider.validateToken(accessToken)) {
 			String hostId = jwtTokenProvider.getHostID(accessToken);
 			try {
-				Map<String, Integer> response = roomService.readRoomStatus(hostId);
+				Map<String, Object> response = roomService.readRoomStatus(hostId);
 				resultMap.put("data",response);
 				resultMap.put("message",SUCCESS);
 				resultMap.put("success",TRUE);

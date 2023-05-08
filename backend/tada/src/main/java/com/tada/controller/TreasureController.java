@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.tada.domain.dto.ResultDto;
 import com.tada.domain.entity.Room;
 import com.tada.service.HostService;
+import com.tada.util.ImageProcess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -40,6 +41,7 @@ public class TreasureController {
 	private static final boolean TRUE = true;
 	private static final boolean FALSE = false;
 
+	private final ImageProcess imageProcess;
 	private final TreasureService treasureService;
 	private final JwtTokenProvider jwtTokenProvider;
 	private final HostService hostService;
@@ -67,12 +69,13 @@ public class TreasureController {
 				Room room = hostService.getRoomByHostId(hostId);
 				Long roomId = room.getId();
 				treasureRequest.setRoomId(roomId);
+				treasureFile = imageProcess.resizeImage(treasureFile, 450);
 				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "treasure");
 				ImgPathDto rewardImgDto = null;
 				if (rewardFile != null) {
+					rewardFile = imageProcess.resizeImage(rewardFile, 450);
 					rewardImgDto = s3Service.uploadFiles(rewardFile, "reward");
 					logger.info("보상 이미지 경로 [프론트:{}], [백:{}]", rewardImgDto.getImgPath(), rewardImgDto.getImgBasePath());
-
 				}
 
 				logger.info("보물 이미지 경로 [프론트:{}], [백:{}]", treasureImgDto.getImgPath(), treasureImgDto.getImgBasePath());
