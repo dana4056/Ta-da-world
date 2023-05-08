@@ -16,7 +16,7 @@ function UserNamePage(): JSX.Element {
 	const roomCodeFromRedux = useSelector(
 		(state: RootState) => state.user.roomCode
 	);
-	// console.log('Room Code', roomCodeFromRedux);ekotQrpTA
+	console.log('Room Code', roomCodeFromRedux);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
@@ -28,7 +28,6 @@ function UserNamePage(): JSX.Element {
 		event: React.ChangeEvent<HTMLInputElement>
 	): Promise<void> => {
 		setName(event.target.value);
-		// /check?code=ekotQrpTA&nickname=%ED%95%9C%EC%9B%90%EC%84%9D
 		await checkDuplication.fetchGetApi(
 			`/users/check?code=${roomCodeFromRedux}&nickname=${name}`
 		);
@@ -54,11 +53,11 @@ function UserNamePage(): JSX.Element {
 					placeholder='닉네임을 입력해주세요!'
 					value={name}
 					onChange={handleNameChange}
-					isvalid={isNameValid}
+					valid={isNameValid}
 				/>
 				<CustomButton
 					onClick={moveCharacter}
-					isvalid={isNameValid}
+					valid={isNameValid}
 					className={isNameValid === false ? styles.shake : ''}
 				>
 					{isNameValid === false ? '이미 사용중인 닉네임입니다' : '확인'}

@@ -6,18 +6,18 @@ interface StyledGraColor {
 }
 
 interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-	isvalid: boolean | null;
+	valid: boolean | null;
 }
 
 export const CustomInput = tw.input<CustomInputProps>`
 	h-10 px-4 mb-5 border shadow-lg placeholder:text-sm placeholder:text-gray2 text-gray5 w-60 rounded-xl
-	${({ isvalid }) => (isvalid === false ? 'border-2 border-red' : 'border-gray2')}
+	${({ valid }) => (valid === false ? 'border-2 border-red' : 'border-gray2')}
 `;
 
-export const CustomButton = tw.button<{ isvalid: boolean | null }>`
+export const CustomButton = tw.button<{ valid: boolean | null }>`
 h-10 text-white shadow-lg rounded-xl w-60
-	${({ isvalid }) => {
-		if (isvalid === false) {
+	${({ valid }) => {
+		if (valid === false) {
 			return 'bg-red text-sm';
 		}
 		return 'bg-gradient-to-r from-orange to-orange2 font-semibold';

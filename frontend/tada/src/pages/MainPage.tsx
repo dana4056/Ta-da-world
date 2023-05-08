@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
-import { enterRoom } from '../stores/user';
-import useApi from '../hooks/useApi';
+import LoginUserComponent from '../components/user/LoginUserComponent';
 
 const logo = require('../assets/images/logo.png');
 const kakao_login = require('../assets/images/kakao_login.png');
 
 function MainPage(): JSX.Element {
 	const navigate = useNavigate();
-	const dispatch = useDispatch();
 	const ishost = useSelector((state: RootState) => state.host.refreshToken);
-	const [roomCode, setRoomCode] = useState<string>('');
-
-	const roomState = useApi();
 
 	const [activeComponent, setActiveComponent] = useState<'User' | 'Host'>(
 		'User'
@@ -40,52 +35,6 @@ function MainPage(): JSX.Element {
 		}
 	});
 
-	const moveName = async (): Promise<void> => {
-		// roomCode 유효성 검사
-		await roomState.fetchGetApi(`/rooms/check?code=${roomCode}`);
-	};
-	useEffect(() => {
-		if (roomState.data) {
-			if (roomState.data.message === 'Success') {
-				// console.log(roomState.data);
-				dispatch(enterRoom(roomCode));
-				navigate('/username');
-			} else if (roomState.data.message === 'not exist') {
-				console.log('fuck you');
-				// not exist일 때 처리
-			} else {
-				console.log(roomState);
-			}
-		}
-	}, [roomState.data]);
-
-	const LoginUser = (): JSX.Element => (
-		<>
-			<div className='flex flex-col items-center justify-center mb-3 border-b-8 shadow-lg shadow-main bg-white/80 w-72 h-36 rounded-3xl border-b-main3'>
-				<input
-					className='h-10 px-4 mb-5 border shadow-lg placeholder:text-sm placeholder:text-gray2 text-gray5 w-60 rounded-xl border-gray2'
-					type='text'
-					placeholder='참여코드를 입력하세요!'
-					value={roomCode}
-					onChange={(e) => setRoomCode(e.target.value)}
-				/>
-				<button
-					onClick={moveName}
-					className='h-10 font-semibold text-white shadow-lg rounded-xl w-60 bg-gradient-to-r from-blue to-blue2'
-				>
-					입장
-				</button>
-			</div>
-			<button
-				type='button'
-				onClick={handleClick}
-				className='text-sm text-white border-b'
-			>
-				<p>{'>'} 호스트는 이쪽으로 입장해주세요</p>
-			</button>
-		</>
-	);
-
 	const LoginHost = (): JSX.Element => (
 		<div className='flex flex-col items-center justify-center'>
 			<a href={OAUTH_KAKAO}>
@@ -104,7 +53,11 @@ function MainPage(): JSX.Element {
 	return (
 		<div className='flex flex-col items-center justify-center h-full'>
 			<img className='mb-5' src={logo} alt='logo' />
-			{activeComponent === 'User' ? <LoginUser /> : <LoginHost />}
+			{activeComponent === 'User' ? (
+				<LoginUserComponent onHostClick={handleClick} />
+			) : (
+				<LoginHost />
+			)}
 		</div>
 	);
 }
