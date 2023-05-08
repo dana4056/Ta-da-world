@@ -24,19 +24,17 @@ function Info({title, time} : RoomInfoProps) : JSX.Element {
 	}, [title, time]);
 
 	useEffect(() =>{
-		if(saveApi.data){
-			if(saveApi.data.status){
-				dispatch(changeInfo(1));
-			}else{
-				Swal.fire({
-					icon: 'warning',               
-					width: 300,
-					iconColor: swalColor,
-					text: '게임 정보 수정 실패!', 
-					confirmButtonColor: swalColor,
-					confirmButtonText: '확인',
-				});
-			}
+		if(saveApi.data?.success){
+			dispatch(changeInfo(1));
+		}else if(saveApi.data){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: swalColor,
+				text: '게임 정보 수정 실패!', 
+				confirmButtonColor: swalColor,
+				confirmButtonText: '확인',
+			});
 		}
 	}, [saveApi.data]);
 
@@ -50,7 +48,7 @@ function Info({title, time} : RoomInfoProps) : JSX.Element {
 
 	const checkAva = () : void  => {
 		//유효성 검사 //게임 제목 18자까지
-		if (title === '') {
+		if (inputTitle === '') {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
@@ -59,7 +57,7 @@ function Info({title, time} : RoomInfoProps) : JSX.Element {
 				confirmButtonColor: swalColor,
 				confirmButtonText: '확인',
 			});
-		} else if(time === '') {
+		} else if(inputTime === '') {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
@@ -68,7 +66,7 @@ function Info({title, time} : RoomInfoProps) : JSX.Element {
 				confirmButtonColor: swalColor,
 				confirmButtonText: '확인',
 			});
-		} else if(!check.test(time)) {
+		} else if(!check.test(inputTime)) {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,

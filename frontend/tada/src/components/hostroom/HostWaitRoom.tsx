@@ -1,16 +1,18 @@
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { change } from '../../stores/host';
 import { Button } from '../../util/Semantics';
 import BoxHeader from '../common/HeaderBox';
 import Title from '../common/Title';
+import useApi from '../../hooks/useApi';
 
 interface User {
 	id: number;
 	name: string;
 	profileImage: string;
 }
-const userProfile = require('../../assets/images/dummy_userprofile.png');
 
+const userProfile = require('../../assets/images/dummy_userprofile.png');
 
 function HostWaitRoom() : JSX.Element {
 	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
@@ -18,16 +20,20 @@ function HostWaitRoom() : JSX.Element {
 		{ id: 2, name: '친구없는한원석', profileImage: userProfile },
 		{ id: 3, name: '기침하는한원석', profileImage: userProfile },
 		{ id: 4, name: '재채기쟁이한원석', profileImage: userProfile },
-		{ id: 5, name: '친구없는한원석', profileImage: userProfile },
-		{ id: 6, name: '기침하는한원석', profileImage: userProfile },
-		// { id: 7, name: '재채기쟁이한원석', profileImage: userProfile },
-		// { id: 8, name: '재채기쟁이한원석', profileImage: userProfile },
-		// { id: 9, name: '재채기쟁이한원석', profileImage: userProfile },
-		// { id: 10, name: '재채기쟁이한원석', profileImage: userProfile }
+		{ id: 5, name: '친구없는한원석', profileImage: userProfile }
 	];
 	
+	const roomStatusApi = useApi(); //방 상태 조회
+	const startApi = useApi(); //방 상태 변경
+	// useEffect(()=>{
+
+	// }, []);
+
 	const startGame = () : void => {
-		dispatch(change(3));
+		//소켓 구독하기
+		// startApi.fetchApiWithToken('PATCH', '/rooms/host', {status: 1});
+		// roomStatusApi.fetchNotBodyApiWithToken('GET', '/rooms/host/status');
+		// dispatch(change(1));
 	};
 	
 	return (

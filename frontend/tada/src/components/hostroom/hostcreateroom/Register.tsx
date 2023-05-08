@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeTreasure } from '../../../stores/watch';
 import tw from 'tailwind-styled-components';
+import Swal from 'sweetalert2';
+
 import { Label, Input, Button } from '../../../util/Semantics';
 import useCurrentLocation  from '../../../hooks/useCurrentLocation';
 import CaptureModal from './CaptureModal';
@@ -9,7 +11,6 @@ import RegisterModal from './RegisterModal';
 import useApi from '../../../hooks/useApi';
 import {MdAddPhotoAlternate} from 'react-icons/md';
 import {BsCameraFill} from 'react-icons/bs';
-import Swal from 'sweetalert2';
 
 function Register() : JSX.Element {
 	const dispatch = useDispatch();
@@ -18,7 +19,6 @@ function Register() : JSX.Element {
 	const [lon, setLon] = useState<string>('0');
 	const [hint, setHint] = useState<string>('');
 	const [reward, setReward] = useState<string>('');
-	const [rewardFile, setRewardFile] =  useState<any>();
 	const [rewardDes, setRewardDes] = useState<string>('');
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [modalOpen2, setModalOpen2] = useState<boolean>(false);
@@ -32,6 +32,7 @@ function Register() : JSX.Element {
 		maximumAge: 1000 * 3600 * 24, // 24 hour
 	};
 
+	// 보물 실시간 위치
 	useEffect(() => {
 		if(treasure){
 			location.useCurrentLocation(geolocationOptions);
@@ -48,19 +49,30 @@ function Register() : JSX.Element {
 
 	//보물 등록 api
 	useEffect(() => {
-		if(registerTresure.data){
-			if(registerTresure.data.status !== 200){
-				Swal.fire({
-					icon: 'warning',               
-					width: 300,
-					iconColor: '#2BDCDB',
-					html: '보물 등록 실패!', 
-					confirmButtonColor: '#2BDCDB',
-					confirmButtonText: '확인',
-				});
-			}else{
-				dispatch(changeTreasure(1));
-			}
+		if(registerTresure.data?.success){
+			dispatch(changeTreasure(1));
+			setTreasure('');
+			setLon('');
+			setLat('');
+			setHint('');
+			setReward('');
+			setRewardDes('');
+			Swal.fire({          
+				width: 300,
+				iconColor: '#2BDCDB',
+				html: '보물 등록 성공!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		}else if(registerTresure.data){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				html: '보물 등록 실패!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
 		}
 	}, [registerTresure.data]);
 
@@ -92,9 +104,7 @@ function Register() : JSX.Element {
 	const handleUploadImg = (e : React.ChangeEvent<HTMLInputElement>):void => {
 		const target = e.currentTarget;
 		const file = (target.files as FileList)[0];
-		const formData = new FormData();
-		formData.append('file', file);
-		setRewardFile(formData);
+
 		if(file){
 			const reader = new FileReader();
 			reader.readAsDataURL(file);
@@ -204,28 +214,44 @@ function Register() : JSX.Element {
 
 	//api 요청할 곳
 	const registerTreasure = () : void  => {
+		const formData = new FormData();
+
 		const arr: string[] = treasure.split(',');
 		const mime: string | null = arr[0].match(/:(.*?);/)?.[1] || '';
 		const bstr: string = atob(arr[1]);
 		let n: number = bstr.length;
 		const u8arr: Uint8Array = new Uint8Array(n);
-	
 		while (n--) {
 			u8arr[n] = bstr.charCodeAt(n);
+		}				
+		const file = new File([u8arr], '사진', {type:mime});
+		formData.append('treasureFile', file);
+
+
+		const arr2: string[] = reward.split(',');
+		const mime2: string | null = arr2[0].match(/:(.*?);/)?.[1] || '';
+		const bstr2: string = atob(arr2[1]);
+		let n2: number = bstr2.length;
+		const u8arr2: Uint8Array = new Uint8Array(n2);
+	
+		while (n2--) {
+			u8arr2[n2] = bstr2.charCodeAt(n2);
 		}
 				
-		const file = new File([u8arr], '사진', {type:mime});
-		const treasureFile = new FormData();
-		treasureFile.append('file', file);
-
-		registerTresure.fetchApiWithToken('POST', '/treasures', {
-			treasureFile : treasureFile,
-			rewardFile : rewardFile,
+		const file2 = new File([u8arr2], '사진', {type:mime2});
+		formData.append('rewardFile', file2);
+		console.log(file2);
+		const treasureInfo = {
 			lat: lat,
 			lng: lon,
-			hin: hint,
-			reword: rewardDes
-		});
+			hint: hint,
+			reward: rewardDes
+		};
+		
+		const treasureRequest = new Blob([JSON.stringify(treasureInfo)], { type: 'application/json' });
+		formData.append('treasureRequest', treasureRequest );
+	
+		registerTresure.fetchApiWithTokenMuti('POST', '/treasures', formData);
 	};
 
 	return (

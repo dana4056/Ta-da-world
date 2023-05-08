@@ -2,6 +2,7 @@
 // 뒤에 as const 를 붙여줌으로써 나중에 액션 객체를 만들게 action.type 의 값을 추론하는 과정에서
 // action.type 이 string 으로 추론되지 않고 'counter/INCREASE' 와 같이 실제 문자열 값으로 추론 되도록 해줍니다.
 const CHANGE = 'host/CHANGE' as const;
+const CHANGECODE = 'host/CHANGECODE' as const;
 const LOGIN = 'host/LOGIN' as const;
 const LOGOUT = 'host/LOGOUT' as const;
 
@@ -9,6 +10,12 @@ const LOGOUT = 'host/LOGOUT' as const;
 export const change = (roomNumber: number) => ({
 	type: CHANGE,
 	payload: roomNumber,
+});
+
+// 액션 생성함수를 선언합니다
+export const changecode = (hostData: HostState) => ({
+	type: CHANGECODE,
+	payload: hostData,
 });
 
 export const login = ( hostData: HostState ) => ({
@@ -26,6 +33,7 @@ export const logout = () => ({
 // 상단부에서 액션타입을 선언 할 떄 as const 를 하지 않으면 이 부분이 제대로 작동하지 않습니다.
 type HostAction =
 	| ReturnType<typeof change>
+	| ReturnType<typeof changecode>
 	| ReturnType<typeof login>
 	| ReturnType<typeof logout>;
 
@@ -49,7 +57,9 @@ const initialState: HostState = {
 function host(state: HostState = initialState, action: HostAction): HostState {
 	switch (action.type) {
 	case CHANGE:
-		return { status: state.status, refreshToken: state.refreshToken, code: state.code};
+		return { status: action.payload, refreshToken: state.refreshToken, code: state.code};
+	case CHANGECODE:
+		return { status: action.payload.status, refreshToken: state.refreshToken, code:action.payload.code};
 	case LOGIN:
 		return { status: action.payload.status , refreshToken: action.payload.refreshToken, code: action.payload.code};
 	case LOGOUT:
