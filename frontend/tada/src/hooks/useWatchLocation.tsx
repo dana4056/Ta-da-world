@@ -30,7 +30,7 @@ function useWatchLocation(): WatchLocation {
 		setError(error.message);
 	};
 
-	const getCurrentLocation = useCallback((options = {}) => {
+	const getCurrentLocation = useCallback(() => {
 		const { geolocation } = navigator;
   
 		if (!geolocation) {
@@ -42,8 +42,9 @@ function useWatchLocation(): WatchLocation {
 		// geolocation.getCurrentPosition(handleSuccess, handleError, options);
 
 		watchId.current = geolocation.watchPosition(handleSuccess, handleError, {
-			...options,
-			maximumAge: 100, // Track location every 0.1 seconds
+			enableHighAccuracy: true,
+			timeout: Infinity,
+			maximumAge: 0, // Track location every 0 seconds
 		});
 	}, []);
 
