@@ -5,13 +5,13 @@ interface LocationData {
   longitude : number
 }
 
-interface PlayerLocation {
+interface WatchLocation {
   data: LocationData | null
   error: string | null
   getCurrentLocation: () => void
 }
 
-function usePlayerLocation(): PlayerLocation {
+function useWatchLocation(): WatchLocation {
 	const [data, setData] = useState<LocationData | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const watchId = useRef<number | null>(null);
@@ -59,4 +59,4 @@ function usePlayerLocation(): PlayerLocation {
 	return { data, error, getCurrentLocation };
 }
 
-export default usePlayerLocation;
+export default useWatchLocation;
