@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styles from '../../assets/css/HintDetailPage.module.css';
 
 const note = require('../../assets/images/note.png');
@@ -59,27 +58,10 @@ function HintDetail({
 		>
 			<img className='absolute' src={note} alt='' />
 			<div className='relative z-10 text-center'>
-				<TransitionGroup>
-					<CSSTransition
-						key={treasure.id}
-						timeout={500}
-						classNames={{
-							enter: styles['slide-transition-enter'],
-							enterActive: styles['slide-transition-enter-active'],
-							exit: styles['slide-transition-exit'],
-							exitActive: styles['slide-transition-exit-active'],
-						}}
-					>
-						<div>
-							<p className='mb-10 text-xl font-semibold'>
-								보물 {treasure.id + 1}의 힌트
-							</p>
-							<p className='mb-5 text-lg font-semibold text-gray4'>
-								{treasure.hint}
-							</p>
-						</div>
-					</CSSTransition>
-				</TransitionGroup>
+				<p className='mb-10 text-xl font-semibold'>
+					보물 {treasure.id + 1}의 힌트
+				</p>
+				<p className='mb-5 text-lg font-semibold text-gray4'>{treasure.hint}</p>
 				<button
 					className='px-4 py-2 mt-10 bg-white rounded-full '
 					onClick={onClose}
