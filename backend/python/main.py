@@ -1,8 +1,29 @@
 from typing import Union
 
 from fastapi import FastAPI, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI()
+app = FastAPI(
+    servers=[
+        {"url":"http://localhost:8000"},
+        {"url":"https://ta-da.world"}
+    ]
+)
+
+origins = [
+    "http://ta-da.world",
+    "https://ta-da.world",
+    "http://localhost",
+    "http://localhost:8080",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/papi")
 def read_root():
