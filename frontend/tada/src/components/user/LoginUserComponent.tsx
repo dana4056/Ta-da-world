@@ -4,16 +4,13 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { enterRoom } from '../../stores/user';
 import useApi from '../../hooks/useApi';
-import Semantics from '../../util/Semantics';
 import styles from '../../assets/css/LoginUserComponent.module.css';
-
-const {CustomInput, CustomButton} = Semantics;
 
 interface LoginUserProps {
 	onHostClick: () => void;
 }
 
-const LoginUserComponent: React.FC<LoginUserProps> = ({ onHostClick }) => {
+function LoginUserComponent({ onHostClick }: LoginUserProps): JSX.Element {
 	const dispatch = useDispatch();
 	const [roomCode, setRoomCode] = useState<string>('');
 	const [isError, setIsError] = useState<boolean>(false);
@@ -40,27 +37,31 @@ const LoginUserComponent: React.FC<LoginUserProps> = ({ onHostClick }) => {
 		}
 	}, [roomState.data]);
 
-
 	return (
 		<>
 			<div className='flex flex-col items-center justify-center mb-3 border-b-8 shadow-lg shadow-main bg-white/80 w-72 h-36 rounded-3xl border-b-main3'>
-				<CustomInput
+				<input
 					type='text'
 					placeholder='참여코드를 입력하세요!'
 					value={roomCode}
-					onChange={(e) =>{
+					onChange={(e) => {
 						setIsError(false);
-						 setRoomCode(e.target.value);
+						setRoomCode(e.target.value);
 					}}
-					valid={!isError}
+					className={`h-10 px-4 mb-5 border shadow-lg placeholder:text-sm placeholder:text-gray2 text-gray5 w-60 rounded-xl ${
+						!isError ? 'border-gray2' : 'border-2 border-red'
+					}`}
 				/>
-				<CustomButton
+				<button
 					onClick={moveName}
-					valid={!isError}
-					className={!isError === false ? `${styles.shake}` : 'from-blue to-blue2'}
+					className={`h-10 text-white shadow-lg rounded-xl w-60 ${
+						!isError === false
+							? `${styles.shake} bg-red text-sm`
+							: 'from-blue to-blue2 bg-gradient-to-r font-semibold'
+					}`}
 				>
-					{isError ? '잘못된 입장 코드입니다.':'입장' }
-				</CustomButton>
+					{isError ? '잘못된 입장 코드입니다.' : '입장'}
+				</button>
 			</div>
 			<button
 				type='button'
@@ -71,6 +72,6 @@ const LoginUserComponent: React.FC<LoginUserProps> = ({ onHostClick }) => {
 			</button>
 		</>
 	);
-};
+}
 
 export default LoginUserComponent;

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
 import SockJS from 'sockjs-client';
 import { Stomp, Frame } from '@stomp/stompjs';
+import useApi from '../hooks/useApi';
 
 const baseURL = 'https://ta-da.world/api';
 
@@ -12,8 +13,6 @@ interface User {
 	nickname: string;
 	profileImage: string;
 }
-
-const userProfile = require('../assets/images/dummy_userprofile.png');
 
 // string to number hash
 function hashStringToNumber(str: string) {
@@ -28,6 +27,7 @@ function hashStringToNumber(str: string) {
 function UserWaitPage(): JSX.Element {
 	const userState = useSelector((state: RootState) => state.user);
 
+	console.log(userState);
 	const userId = `${userState.roomId}_${hashStringToNumber(
 		userState.nickname
 	)}`;
@@ -40,12 +40,12 @@ function UserWaitPage(): JSX.Element {
 	};
 
 	// 웹소켓
-	const stompConnet = () => {
+	const stompConnet = (): void => {
 		try {
-			const stomp = Stomp.over(function () {
+			const stomp = Stomp.over(() => {
 				return new SockJS(`${baseURL}/ws/room`);
 			});
-			stomp.connect({}, (message: Frame) => {
+			stomp.connect({}, () => {
 				console.log('STOMP connected');
 				const data = {
 					messageType: 'ENTER',
@@ -53,9 +53,9 @@ function UserWaitPage(): JSX.Element {
 					roomId: `${user.roomId}`,
 					nickname: `${user.nickname}`,
 				};
-				stomp.send('/pub/send', {}, JSON.stringify(data));
+				stomp.send(`${baseURL}/pub/send`, {}, JSON.stringify(data));
 				stomp.subscribe(
-					`/sub/${userState.roomCode}`,
+					`${baseURL}/sub/${userState.roomCode}`,
 					(Ms) => {
 						const msObj = JSON.parse(Ms.body);
 						if (msObj.messageType === 'ENTER') {
@@ -73,18 +73,17 @@ function UserWaitPage(): JSX.Element {
 			console.log(error);
 		}
 	};
+
+	// 게임 참가 유저 리스트
+	const userList = useApi();
+
 	useEffect(() => {
 		stompConnet();
+		async (): Promise<void> => {
+			await userList.fetchGetApi(`/rooms/users?room=${user.roomId}`);
+		};
+		console.log(userList.data);
 	}, []);
-
-	// const members: User[] = [
-	// 	{ id: 2, name: '친구없는한원석', profileImage: userProfile },
-	// 	{ id: 3, name: '기침하는한원석', profileImage: userProfile },
-	// 	{ id: 4, name: '재채기쟁이한원석', profileImage: userProfile },
-	// 	{ id: 5, name: '친구없는한원석', profileImage: userProfile },
-	// 	{ id: 6, name: '기침하는한원석', profileImage: userProfile },
-	// 	{ id: 7, name: '재채기쟁이한원석', profileImage: userProfile },
-	// ];
 
 	return (
 		<div className='w-full h-full bg-white2'>

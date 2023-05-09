@@ -6,7 +6,7 @@ interface StyledGraColor {
 }
 
 interface CustomInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-	valid: boolean | null;
+	valid: any;
 }
 
 export const CustomInput = tw.input<CustomInputProps>`
@@ -14,7 +14,7 @@ export const CustomInput = tw.input<CustomInputProps>`
 	${({ valid }) => (valid === false ? 'border-2 border-red' : 'border-gray2')}
 `;
 
-export const CustomButton = tw.button<{ valid: boolean | null }>`
+export const CustomButton = tw.button<{ valid: any }>`
 h-10 text-white shadow-lg rounded-xl w-60
 	${({ valid }) => {
 		if (valid === false) {
