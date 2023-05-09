@@ -262,12 +262,13 @@ function PlayMap(): JSX.Element {
 
 	useEffect(() => {
 		console.log('WATCH PLAYER');
-		playerLocation.getCurrentLocation();
-	}, []);
-
+		renderMarkers();
+	}, [playerLocation.data]);
+	
 	useInterval(
 		() => {
-			renderMarkers();
+			playerLocation.getCurrentLocation();
+			console.log('location: ', playerLocation.data);
 		},
 		1000
 	);
