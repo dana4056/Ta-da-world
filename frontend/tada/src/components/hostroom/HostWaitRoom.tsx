@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../stores';
 import { change } from '../../stores/host';
+import SockJS from 'sockjs-client'; //WebSocket과 유사한 객체를 제공하는 브라우저 라이브러리
+import { Stomp } from '@stomp/stompjs'; //HTTP에서 모델링 되는 Frame 기반 프로토콜
 import { Button } from '../../util/Semantics';
 import BoxHeader from '../common/HeaderBox';
 import Title from '../common/Title';
@@ -16,12 +19,40 @@ const userProfile = require('../../assets/images/dummy_userprofile.png');
 
 function HostWaitRoom() : JSX.Element {
 	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
+	const code = useSelector((state: RootState) => state.host.code);
 	const members: User[] = [
 		{ id: 2, name: '친구없는한원석', profileImage: userProfile },
 		{ id: 3, name: '기침하는한원석', profileImage: userProfile },
 		{ id: 4, name: '재채기쟁이한원석', profileImage: userProfile },
 		{ id: 5, name: '친구없는한원석', profileImage: userProfile }
 	];
+
+	useEffect(()=>{
+		connectHaner();
+	}, []);
+
+	const connectHaner = ():void => {
+		const stomp = Stomp.over(() => {
+		  const sock = new SockJS('https://ta-da.world/api/ws/room');
+		  return sock;
+		});
+		stomp.connect({}, () => {
+			stomp.subscribe(`https://ta-da.world/api/sub/${code}`,
+			  (message) => {
+					console.log(message);
+					// setMessage(JSON.parse(message.body));
+	  //  type: string;  // TALK(메세지) or ENTER(입장할 때)
+	  //  roomId: string;  // 방의 주소
+	  //  sender: string;  // 보낸 사람
+	  //  message: string;  // 메세지
+	  //}
+			  },
+			  {
+				// 여기에도 유효성 검증을 위한 header 넣어 줄 수 있음
+			  }
+			);
+		});
+	};
 	
 	const roomStatusApi = useApi(); //방 상태 조회
 	const startApi = useApi(); //방 상태 변경
