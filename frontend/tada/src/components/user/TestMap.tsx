@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useInterval } from '../../hooks/useInterval';
-// import useWatchLocation from '../../hooks/useWatchLocation';
-import useCurrentLocation from '../../hooks/useCurrentLocation';
+import useWatchLocation from '../../hooks/useWatchLocation';
 import { TreasureInfo, CurrentLocation } from '../../util/Interface';
 import { getDistanceFromLatLonInKm } from '../../util/Calculate';
 
@@ -201,20 +199,35 @@ const treasures: TreasureInfo[] = [
 	}
 ];
 
-function PlayMap(): JSX.Element {
-	const playerLocation: CurrentLocation = useCurrentLocation();
+function TestMap(): JSX.Element {
+	const playerLocation: CurrentLocation = useWatchLocation();
 	const [treasureNumber, setTreasureNumber] = useState<number>(0);
 	const [open, setOpen] = useState<boolean>(false);
 
-	const renderMarkers = () => {
-		console.log('RENDERING!');
+	const openModal = (): void => {
+		setOpen(true);
+	};
+
+	const closeModal = (): void => {
+		setOpen(false);
+	};
+
+	useEffect(() => {
+		console.log('WATCH PLAYER');
+		playerLocation.getCurrentLocation();
+	}, []);
+
+	useEffect(() => {
 		if (playerLocation.data) {
+			console.log('new location rendering: ', playerLocation.data);
 			const container = document.getElementById('map');
 			const options = {
 				center: new window.kakao.maps.LatLng(playerLocation.data.latitude, playerLocation.data.longitude),
 				level: 1
 			};
+      
 			const map = new window.kakao.maps.Map(container, options);
+
 			const imageSize = new window.kakao.maps.Size(45, 45);
 			const playerMarkerImage = new window.kakao.maps.MarkerImage(playerImage, imageSize);
 			const playerMarker = new window.kakao.maps.Marker({
@@ -225,6 +238,7 @@ function PlayMap(): JSX.Element {
 
 			if (treasures) {
 				const treasureMarkerImage = new window.kakao.maps.MarkerImage(treasureImage, imageSize);
+
 				for (let i = 0; i < treasures.length; i ++) {
 					const distance = getDistanceFromLatLonInKm(
 						playerLocation.data.latitude,
@@ -239,7 +253,7 @@ function PlayMap(): JSX.Element {
 							clickable: true,
 							image: treasureMarkerImage
 						});
-					
+						
 						window.kakao.maps.event.addListener(marker, 'click', () => {
 							console.log('treasure id: ', treasures[i].id);
 							setTreasureNumber(treasures[i].id);
@@ -248,29 +262,12 @@ function PlayMap(): JSX.Element {
 					}
 				}
 			}
-		} else {
-			console.log('RENDERING FAILED!');
 		}
-	};
-
-	const openModal = (): void => {
-		setOpen(true);
-	};
-	const closeModal = (): void => {
-		setOpen(false);
-	};
+	}, [playerLocation.data]);
 
 	useEffect(() => {
-		console.log('WATCH PLAYER');
-		playerLocation.getCurrentLocation();
-	}, []);
-
-	useInterval(
-		() => {
-			renderMarkers();
-		},
-		1000
-	);
+		console.log('current treasure number: ', treasureNumber);
+	}, [treasureNumber]);
 
 	return (
 		<>
@@ -280,4 +277,4 @@ function PlayMap(): JSX.Element {
 	);
 }
 
-export default PlayMap;
+export default TestMap;

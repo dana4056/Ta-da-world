@@ -25,7 +25,7 @@ function useCurrentLocation() {
 	};
 	
 
-	async function useCurrentLocation(options = {}) {
+	async function getCurrentLocation(options = {}) {
 		const { geolocation } = navigator;
 
 		// 사용된 브라우저에서 지리적 위치(Geolocation)가 정의되지 않은 경우 오류로 처리합니다.
@@ -38,7 +38,7 @@ function useCurrentLocation() {
 		await geolocation.getCurrentPosition(handleSuccess, handleError, options);
 	}
 
-	return { data, error, useCurrentLocation };
+	return { data, error, getCurrentLocation };
 }
 
 export default useCurrentLocation;

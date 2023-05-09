@@ -5,9 +5,10 @@ import { Modal, ModalSection, Button, ModalHeader } from '../../util/Semantics';
 import {BsX} from 'react-icons/bs';
 import {MdCameraswitch} from 'react-icons/md';
 
-interface openProps {
+interface FindModalProps {
 	open: boolean;
 	close: (s:string) => void;
+	treasureId: number
 }
 
 interface StyledDivProps {
@@ -20,7 +21,8 @@ const Modal2 = tw(Modal)<StyledDivProps>`
   `}
 `;
 
-function FindModal({ open, close}: openProps) : JSX.Element{
+function FindModal({open, close, treasureId}: FindModalProps) : JSX.Element{
+	console.log('MODAL: ', treasureId);
 	const [capture, setCapture] = useState<boolean>(true);
 	const [focus, setFocus] = useState<boolean>(true);
 	const [capturebase64, setCapturebase64] = useState<string>('');
@@ -57,20 +59,20 @@ function FindModal({ open, close}: openProps) : JSX.Element{
 						<BsX onClick={()=> {close('');}} size="32" color="#535453"/>
 					</ModalHeader>
 					{ capture ?
-						<div className='w-full flex flex-col j items-end'>
+						<div className='flex flex-col items-end w-full j'>
 							{focus ?
 								<Webcam
 									ref={camref}
 									mirrored={true}
 									screenshotFormat="image/jpeg"
-									className='rounded-lg mb-2 h-full'
+									className='h-full mb-2 rounded-lg'
 								/>
 								:
 								<Webcam
 									ref={camref}
 									mirrored={true}
 									screenshotFormat="image/jpeg"
-									className='rounded-lg mb-2 h-full'
+									className='h-full mb-2 rounded-lg'
 									videoConstraints={videoConstraints}
 								/>
 							}
@@ -79,7 +81,7 @@ function FindModal({ open, close}: openProps) : JSX.Element{
 						:
 						<img src ={capturebase64}/>
 					}
-					<div className='w-full flex justify-center mt-3'>
+					<div className='flex justify-center w-full mt-3'>
 						{ capture ?
 							<Button onClick={captureScreenshot}>사진 촬영</Button>
 							:
