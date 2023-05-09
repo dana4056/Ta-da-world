@@ -232,7 +232,7 @@ function PlayMap(): JSX.Element {
 						parseFloat(treasures[i].lat),
 						parseFloat(treasures[i].lng)
 					);
-					if (distance < 0.1) {
+					if (distance < 0.05) {
 						const marker = new window.kakao.maps.Marker({
 							map: map,
 							position: new window.kakao.maps.LatLng(treasures[i].lat, treasures[i].lng),
