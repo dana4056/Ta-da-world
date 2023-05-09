@@ -4,6 +4,7 @@ from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
+    docs_url="/papi/docs",
     servers=[
         {"url":"http://localhost:8000"},
         {"url":"https://ta-da.world"}
