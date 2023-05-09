@@ -41,10 +41,10 @@ pipeline {
         }
         stage('Build Yarn') {
             steps {
+                sh 'cp /var/lib/jenkins/workspace/frontend/.env frontend/tada/'
                 dir ('frontend/tada') {
                     echo 'Build Yarn'
                     sh 'pwd'
-                    sh 'cp /var/lib/jenkins/workspace/frontend/.env frontend/tada/'
                     sh 'node -v'
                     sh 'npm -v'
                     sh 'npm install -g yarn'
