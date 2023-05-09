@@ -15,7 +15,7 @@ export interface LocationData {
   longitude : number
 }
 
-export interface WatchLocation {
+export interface CurrentLocation {
   data: LocationData | null
   error: string | null
   getCurrentLocation: () => void

@@ -35,7 +35,7 @@ function Register() : JSX.Element {
 	// 보물 실시간 위치
 	useEffect(() => {
 		if(treasure){
-			location.useCurrentLocation(geolocationOptions);
+			location.getCurrentLocation(geolocationOptions);
 		}
 	}, [treasure]);
 
