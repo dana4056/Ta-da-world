@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     docs_url="/papi/docs",
+    openapi_url="/papi/openapi.json",
     servers=[
         {"url":"http://localhost:8000"},
         {"url":"https://ta-da.world"}
