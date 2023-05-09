@@ -102,16 +102,19 @@ public class RoomServiceImpl implements RoomService{
 	}
 
 	@Override	// 방 상태 조회
-	public Map<String, Integer> readRoomStatus(String hostId) throws Exception{
+	public Map<String, Object> readRoomStatus(String hostId) throws Exception{
 		try{
 			Room room = roomRepository.findByHost_IdAndStatusLessThan(hostId,
 				RoomStatus.CLOSED.getCode());
-			Map<String, Integer> response = new HashMap<>();
+			Map<String, Object> response = new HashMap<>();
 			if(room == null){
 				response.put("status", RoomStatus.NOT_EXIST.getCode());
 				return response;
 			}else{
 				response.put("status", room.getStatus());
+				if(room.getStatus()==RoomStatus.WAITING.getCode()){
+					response.put("code", room.getCode());
+				}
 				return response;
 			}
 		}catch (Exception e){

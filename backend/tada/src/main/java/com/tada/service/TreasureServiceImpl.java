@@ -50,6 +50,12 @@ public class TreasureServiceImpl implements TreasureService{
 			.orElseThrow(() -> new NoSuchElementException("존재하지 않는 게임방"));
 
 		try{
+			String rewardImgPath = "";
+			String rewardImgBasePath = "";
+			if (rewardImgDto!=null) {
+				rewardImgPath = rewardImgDto.getImgPath();
+				rewardImgBasePath = rewardImgDto.getImgBasePath();
+			}
 			Treasure treasure = Treasure.builder()
 				.room(room)
 				.imgPath(treasureImgDto.getImgPath())
@@ -57,8 +63,8 @@ public class TreasureServiceImpl implements TreasureService{
 				.lat(request.getLat())
 				.lng(request.getLng())
 				.hint(request.getHint())
-				.rewardImgPath(rewardImgDto.getImgPath())
-				.rewardImgBasePath(rewardImgDto.getImgBasePath())
+				.rewardImgPath(rewardImgPath)
+				.rewardImgBasePath(rewardImgBasePath)
 				.reward(request.getReward())
 				.status(false)
 				.build();
