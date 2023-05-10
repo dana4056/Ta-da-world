@@ -1,8 +1,14 @@
 from typing import Union
 
 from fastapi import FastAPI
-from demo import main as demo_main
+from models.inference import inference as infer
+from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+
+class Item(BaseModel):
+    answerUrl: str
+    treasureUrl: str
+
 
 app = FastAPI(
     docs_url="/papi/docs",
@@ -38,7 +44,8 @@ def read_root():
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
-@app.post("/papi/find-treasure")
-def post_img():
-
-    return {"result": demo_main()}
+@app.post("/papi/treasures/answers")
+def post_img(item : Item):
+    print("hi")
+    result = infer(item.answerUrl, item.treasureUrl)
+    return {"result": result}
