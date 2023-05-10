@@ -23,7 +23,7 @@ matplotlib==3.7.1
 mpmath==1.3.0
 networkx==3.1
 numpy==1.24.3
-opencv-contrib-python==4.7.0.72
+opencv-python==4.7.0.72
 packaging==23.1
 Pillow==9.5.0
 pydantic==1.10.7
