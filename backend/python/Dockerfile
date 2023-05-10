@@ -7,6 +7,8 @@ COPY ./img/ /app/img/
 COPY ./models/ /app/models/
 COPY ./requirements.txt /app/
 
+RUN apt-get update
+RUN apt-get -y install libgl1-mesa-glx
 RUN pip install -r requirements.txt
 
 EXPOSE 8000
