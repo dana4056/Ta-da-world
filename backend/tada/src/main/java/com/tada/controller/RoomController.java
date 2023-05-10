@@ -75,7 +75,7 @@ public class RoomController {
 
 			return new ResponseEntity<>(resultMap, status);
 		}catch (Exception e){
-			logger.error("방 기본 정보 조회 오류 : {}", e.getMessage());
+			logger.error("방 기본 정보 조회 오류 : {}", e);
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			return new ResponseEntity<>(status);
 		}
@@ -110,7 +110,7 @@ public class RoomController {
 				}
 				return new ResponseEntity<>(response, status);
 			} catch (Exception e) {
-				logger.error("방생성 실패: {}", e.getMessage());
+				logger.error("방생성 실패: {}", e);
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 				return new ResponseEntity<>(status);
 			}
@@ -149,7 +149,7 @@ public class RoomController {
 				roomService.modifyRoom(roomId, roomRequest);
 				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), status);
 			} catch (Exception e) {
-				logger.error("방 정보 수정 실패: {}", e.getMessage());
+				logger.error("방 정보 수정 실패: {}", e);
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 				return new ResponseEntity<>(status);
 			}
@@ -190,7 +190,7 @@ public class RoomController {
 				roomService.modifyRoomStatus(roomId, statusRequest);
 				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), status);
 			} catch (Exception e) {
-				logger.error("방 상태 변경 실패: {}", e.getMessage());
+				logger.error("방 상태 변경 실패: {}", e);
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 				return new ResponseEntity<>(status);
 			}
@@ -236,7 +236,7 @@ public class RoomController {
 
 				return new ResponseEntity<>(resultMap, status);
 			} catch (Exception e) {
-				logger.error("방 상태 조회 실패: {}", e.getMessage());
+				logger.error("방 상태 조회 실패: {}", e);
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
 				return new ResponseEntity<>(status);
 			}
@@ -270,7 +270,7 @@ public class RoomController {
 				return new ResponseEntity<>(resultMap,status);
 			}
 		} catch (Exception e) {
-			logger.error("방 상태 조회 실패: {}", e.getMessage());
+			logger.error("방 상태 조회 실패: {}", e);
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			return new ResponseEntity<>(status);
 		}
