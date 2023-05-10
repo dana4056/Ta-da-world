@@ -108,7 +108,7 @@ public class RoomController {
 					status = HttpStatus.CONFLICT;
 					return new ResponseEntity<>(new ResultDto("already exist room.", FALSE), status);
 				}
-				return new ResponseEntity<>(response, status);
+				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE),status);
 			} catch (Exception e) {
 				logger.error("방생성 실패: {}", e);
 				status = HttpStatus.INTERNAL_SERVER_ERROR;
