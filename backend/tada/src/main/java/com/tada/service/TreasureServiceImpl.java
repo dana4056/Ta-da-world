@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import com.tada.domain.dto.*;
+import com.tada.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -14,10 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tada.controller.HostController;
 import com.tada.domain.RoomStatus;
-import com.tada.domain.dto.ImgPathDto;
-import com.tada.domain.dto.RankResponse;
-import com.tada.domain.dto.TreasureRequest;
-import com.tada.domain.dto.TreasureResponse;
 import com.tada.domain.entity.Host;
 import com.tada.domain.entity.Room;
 import com.tada.domain.entity.Treasure;
@@ -33,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class TreasureServiceImpl implements TreasureService{
 	private final TreasureRepository treasureRepository;
 	private final RoomRepository roomRepository;
+	private final UserRepository userRepository;
 
 	public static final Logger logger = LoggerFactory.getLogger(HostController.class);
 
@@ -79,10 +78,12 @@ public class TreasureServiceImpl implements TreasureService{
 	}
 
 	@Override
-	public void changeTreasureStatus(Long id) throws Exception {
+	public void changeTreasureStatus(Long id, String finderId) throws Exception {
 		Treasure treasure = treasureRepository.findById(id)
 				.orElseThrow(() -> new NoSuchElementException("존재하지않는 보물임"));
+		User user = userRepository.findById(finderId).orElseThrow(() -> new NoSuchElementException("존재하지않는 사용자임"));
 		try{
+			treasure.updateFinderId(user);
 			treasure.updateStatus();
 			treasureRepository.save(treasure);
 		}catch (Exception e){
