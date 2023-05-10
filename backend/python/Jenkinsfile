@@ -43,6 +43,7 @@ pipeline {
         }
         stage('Build Docker') {
             steps {
+                sh 'cp /var/lib/jenkins/workspace/python/.aws backend/python/ -r'
                 dir ('backend/python') {
                     echo 'Build Docker'
                     script {
