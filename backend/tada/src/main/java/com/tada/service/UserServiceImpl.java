@@ -30,11 +30,10 @@ public class UserServiceImpl implements UserService{
 	public void enterUser(Map<String, Object> data) throws Exception{
 
 		try{
-			Room room = roomRepository.findById((Long) data.get("roomId")).orElseThrow(() -> new NoSuchElementException("존재하지 않는 방"));
-			User user = User.builder()
-				.deviceId((String)data.get("deviceId"))
-				.nick((String)data.get("nick"))
-				.imgNo((Integer)data.get("imgNo"))
+			Room room = roomRepository.findById(Long.parseLong(data.get("roomId").toString())).orElseThrow(() -> new NoSuchElementException("존재하지 않는 방"));
+			User user = User.builder().id(data.get("userId").toString())
+				.nick(data.get("nickname").toString())
+				.imgNo(Integer.parseInt(data.get("imgNo").toString()))
 				.room(room)
 				.build();
 			userRepository.save(user);
