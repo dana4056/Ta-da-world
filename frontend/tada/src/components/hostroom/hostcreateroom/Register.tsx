@@ -228,19 +228,21 @@ function Register() : JSX.Element {
 		formData.append('treasureFile', file);
 
 
-		const arr2: string[] = reward.split(',');
-		const mime2: string | null = arr2[0].match(/:(.*?);/)?.[1] || '';
-		const bstr2: string = atob(arr2[1]);
-		let n2: number = bstr2.length;
-		const u8arr2: Uint8Array = new Uint8Array(n2);
-	
-		while (n2--) {
-			u8arr2[n2] = bstr2.charCodeAt(n2);
+		if(reward.length){
+			const arr2: string[] = reward.split(',');
+			const mime2: string | null = arr2[0].match(/:(.*?);/)?.[1] || '';
+			const bstr2: string = atob(arr2[1]);
+			let n2: number = bstr2.length;
+			const u8arr2: Uint8Array = new Uint8Array(n2);
+		
+			while (n2--) {
+				u8arr2[n2] = bstr2.charCodeAt(n2);
+			}
+					
+			const file2 = new File([u8arr2], '사진', {type:mime2});
+			formData.append('rewardFile', file2);
 		}
-				
-		const file2 = new File([u8arr2], '사진', {type:mime2});
-		formData.append('rewardFile', file2);
-		console.log(file2);
+
 		const treasureInfo = {
 			lat: lat,
 			lng: lon,

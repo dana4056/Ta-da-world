@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import { change } from '../../stores/host';
 import tw from 'tailwind-styled-components';
 import { WhiteBox, Button } from '../../util/Semantics';
@@ -7,6 +9,7 @@ import { TreasureInfo } from '../../util/Interface';
 import TreasureMap from '../common/TreasureMap';
 import BoxHeader from '../common/HeaderBox';
 import Title from '../common/Title';
+import useApi from '../../hooks/useApi';
 
 interface Hunter {
 	name: string;
@@ -24,7 +27,13 @@ const userProfile = require('../../assets/images/dummy_userprofile.png');
 function HostEndRoom() : JSX.Element {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const a  = 'https://d2ab9z4xn2ddpo.cloudfront.net/%EC%84%9E%EA%B8%B0.png';
+	const [treasures, setTreasures] = useState<TreasureInfo[]>([]);
+	const [title, setTitle] = useState<string>('');
+	const [time, setTime] = useState<string>('');
+	const roomInfoApi = useApi(); //기본 방 정보 조회
+	const TreasureApi = useApi(); //보물 조회
+	const endApi = useApi(); //방상ㅌ애 변경
+	const roomstatusApi = useApi(); //방상태 조회
 
 	const treasureHunter : Hunter[] = [
 		{
@@ -43,58 +52,79 @@ function HostEndRoom() : JSX.Element {
 		}
 	];
 
-	const treasures : TreasureInfo[] = [
-		{
-			id: 1,
-			imgPath: a,
-			lat: '37.5128064',
-			lng: '127.0284288',
-			hint: '학동역',
-			rewardImgPath: a,
-			reward: '나의 망므~',
-			status : true,
-			finderNick:'한원석 안경'
-		},
-		{
-			id: 2,
-			imgPath: a,
-			lat: '37.513035165378085',
-			lng: '127.02883155684492',
-			hint: '카페 마오지래',
-			rewardImgPath: '',
-			reward: '커피',
-			status : false,
-			finderNick: null
-		},
-		{
-			id: 3,
-			imgPath: a,
-			lat: '37.512846012270565',
-			lng: '127.0285939551883',
-			hint: '주차장',
-			rewardImgPath: a,
-			reward: '',
-			status : true,
-			finderNick:'우겨ㅑㅇ'
-		},
-	];
+	//보물 정보
+	useEffect(()=>{
+		TreasureApi.fetchNotBodyApiWithToken('GET', '/treasures');
+	}, []);
 
+	useEffect(()=>{
+		if(TreasureApi.data?.success){
+			setTreasures(TreasureApi.data.data);
+		}
+	}, [TreasureApi.data]);
+
+	//개임 정보
+	useEffect(()=>{
+		roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
+	}, []);
+	
+	useEffect(()=>{
+		if(roomInfoApi.data?.success){
+			setTitle(roomInfoApi.data.data.name);
+			setTime(roomInfoApi.data.data.playTime);
+		}
+	}, [roomInfoApi.data]);
+
+	//게임 끝
+	useEffect(()=>{
+		if(endApi.data?.success){
+			roomstatusApi.fetchNotBodyApiWithToken('GET', '/rooms/host/status');
+		} else if(endApi.data){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '게임 종료 실패! 다시 시도해주세요!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		}
+	}, [endApi.data]);
+
+	useEffect(()=>{
+		if(roomstatusApi.data?.success){
+			console.log('방 상태 조회 ', roomstatusApi.data.data);
+			if(roomstatusApi.data.data.status === 0 ){
+				console.log('방 상태가 0');
+				dispatch(change(0));
+				navigate('/hosthome');
+			}
+		} else if(roomstatusApi.data){
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '게임 종료 실패! 다시 시도해주세요!',  
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
+		}
+	}, [roomstatusApi.data]);
 
 	const endGame = () : void => {
-		dispatch(change(0));
-		navigate('/hosthome');
+		endApi.fetchApiWithToken('PATCH', '/rooms/host', {status: 5});
 	};
 
 	return (
 		<div className="flex flex-col items-center">
-			<Title title='이유경의 보물 찾기' subTitle='게임 결과'/>
+			<Title title={title} subTitle='게임 결과'/>
 			<div className='flex flex-col items-center w-full px-2 py-3 mt-2 bg-white2 rounded-t-2xl'>
 				<PlayTimeBox>
 					<p className='mx-3 font-black text-gray5'>총 플레이 시간</p>
-					<p className='font-black text-main'>30</p>
+					<p className='font-black text-main'>{time}</p>
 					<p className='mx-3 font-black text-gray5'>분</p>
 				</PlayTimeBox>
-				<TreasureMap isHost={true} title ='보물 찾기 결과' treasures={treasures}/>
+				{treasures.length && <TreasureMap isHost={true} title ='보물 찾기 결과' treasures={treasures}/>}
 				<WhiteBox className='h-72'>
 					<BoxHeader title='보물 사냥꾼 순위' total={0} num={treasureHunter.length}/>
 					<div className='flex flex-col items-center w-full h-full space-x-2 overflow-x-scroll'>

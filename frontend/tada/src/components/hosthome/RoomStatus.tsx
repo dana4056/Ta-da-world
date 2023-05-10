@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { change } from '../../stores/host';
+import { RootState } from '../../stores';
 import tw from 'tailwind-styled-components';
 import {GraButton} from '../../util/Semantics';
 import useApi from '../../hooks/useApi';
@@ -25,7 +26,8 @@ export const GraText = tw.div<color>`
 
 function RoomStatus({ status }: hostRoomProps)  : JSX.Element {
 	const navigate = useNavigate();
-	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
+	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다\
+	const code = useSelector((state: RootState) => state.host.code);
 	const commentlist: Array<string> = ['게임 방을 만들어봐요!', '현재 방 생성중', '게임을 시작해봐요!', '게임이 진행되고 있어요', '게임이 끝났어요'];
 	const btnCommentlist: Array<string> = ['방 만들기', '방 수정', '대기방 가기', '진행 현황 보기', '결과창 보기'];
 	const color : Array<string> = ['text-blue', 'text-main',  'text-orange2', 'text-red', 'text-green'];
@@ -36,7 +38,8 @@ function RoomStatus({ status }: hostRoomProps)  : JSX.Element {
 
 	const navRoom = () : void  => {
 		if(status === 0){
-			createRoom.fetchApiWithToken('PATCH', '/rooms/host', {status: 1});
+			//방 생성
+			createRoom.fetchNotBodyApiWithToken('POST', '/rooms/host');
 		} else{
 			navigate('/hostroom');
 		}
@@ -76,10 +79,13 @@ function RoomStatus({ status }: hostRoomProps)  : JSX.Element {
 
 
 	return (
-		<div className='flex flex-col items-center justify-center border-b-8 shadow-lg w-72 h-36 shadow-main bg-white/80 rounded-3xl border-b-main3'>
-			<GraText color={color[status]}>{commentlist[status]}</GraText>
-			<GraButton from={colorFrom[status]} to={colorTo[status]} onClick={navRoom}>{btnCommentlist[status]}</GraButton>
-		</div>
+		<>
+			{status===2 && <div className='mb-2 text-white font-blod'>방 입장 코드: {code}</div>}
+			<div className='flex flex-col items-center justify-center border-b-8 shadow-lg w-72 h-36 shadow-main bg-white/80 rounded-3xl border-b-main3'>
+				<GraText color={color[status]}>{commentlist[status]}</GraText>
+				<GraButton from={colorFrom[status]} to={colorTo[status]} onClick={navRoom}>{btnCommentlist[status]}</GraButton>
+			</div>
+		</>
 	);
 }
 
