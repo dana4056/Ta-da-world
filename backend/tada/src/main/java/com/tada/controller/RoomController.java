@@ -42,6 +42,7 @@ public class RoomController {
 	private static final boolean TRUE = true;
 	private static final boolean FALSE = false;
 
+	private final SimpMessagingTemplate simpMessagingTemplate;
 
 	private final RoomService roomService;
 	private final HostService hostService;
@@ -188,6 +189,12 @@ public class RoomController {
 				Room room = hostService.getRoomByHostId(hostId);
 				Long roomId = room.getId();
 				roomService.modifyRoomStatus(roomId, statusRequest);
+				int roomStatus =  statusRequest.get("status");
+				if(roomStatus == 3){ // 게임 시작인 경우
+					Map<String, Object> data = new HashMap<String, Object>();
+					data.put("type","START");
+					simpMessagingTemplate.convertAndSend("/sub/" + roomId.toString(), data); // 모든사람들에게 뿌림
+				}
 				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), status);
 			} catch (Exception e) {
 				logger.error("방 상태 변경 실패: {}", e);

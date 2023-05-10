@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import com.tada.domain.dto.*;
+import com.tada.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ import lombok.RequiredArgsConstructor;
 public class TreasureServiceImpl implements TreasureService{
 	private final TreasureRepository treasureRepository;
 	private final RoomRepository roomRepository;
+	private final UserRepository userRepository;
 
 	@Autowired
 	private ApiService<Response> apiService;
@@ -111,10 +114,12 @@ public class TreasureServiceImpl implements TreasureService{
 	}
 
 	@Override
-	public void changeTreasureStatus(Long id) throws Exception {
+	public void changeTreasureStatus(Long id, String finderId) throws Exception {
 		Treasure treasure = treasureRepository.findById(id)
 				.orElseThrow(() -> new NoSuchElementException("존재하지않는 보물임"));
+		User user = userRepository.findById(finderId).orElseThrow(() -> new NoSuchElementException("존재하지않는 사용자임"));
 		try{
+			treasure.updateFinderId(user);
 			treasure.updateStatus();
 			treasureRepository.save(treasure);
 		}catch (Exception e){
