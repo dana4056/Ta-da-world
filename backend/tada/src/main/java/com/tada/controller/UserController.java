@@ -54,6 +54,7 @@ public class UserController {
 			logger.debug(data.get("userId").toString() + " enter");
 			try {
 				userService.enterUser(data); // 해당 유저가 방에 입장하는 로직
+				// 레디스 사용할거면 여기서 레디스 삭제하는 로직 넣어야함
 				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
 			} catch (Exception e) {
 				logger.error("유저 방 입장중 에러 : {}", e);

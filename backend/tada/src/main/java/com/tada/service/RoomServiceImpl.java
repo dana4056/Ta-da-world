@@ -48,7 +48,7 @@ public class RoomServiceImpl implements RoomService{
 				Map<String, Long> response = new HashMap<>();
 				response.put("id", savedRoom.getId());
 				return response;
-			}else {
+			} else {
 				return null;
 			}
 		} catch (Exception e){
@@ -75,7 +75,7 @@ public class RoomServiceImpl implements RoomService{
 			if(status == RoomStatus.PLAYING.getCode()){
 				room.updateStartTime();
 			}
-			room.updateStatus(statusRequest.get("status"));
+			room.updateStatus(status);
 			roomRepository.save(room);
 		} catch (Exception e){
 			throw e;
