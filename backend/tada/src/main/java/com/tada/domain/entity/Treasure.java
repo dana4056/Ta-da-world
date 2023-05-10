@@ -43,5 +43,8 @@ public class Treasure extends BaseTimeEntity{
 	public void updateStatus(){
 		this.status = true;
 	}
+	public void updateFinderId(User finder){
+		this.finder = finder;
+	}
 }
 

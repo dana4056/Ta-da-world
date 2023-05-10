@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.tada.domain.entity.User;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, String> {
 
 	List<User> findAllByRoom_Id(Long roomId);
 	User findByRoomIdAndNick(Long roomId, String nick);

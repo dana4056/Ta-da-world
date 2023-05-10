@@ -62,9 +62,10 @@ public class UserController {
 		} else if ("FIND".equals(data.get("messageType").toString())) {
 			logger.debug(data.get("userId").toString() + "find " + data.get("treasureId").toString());
 			try {
-				Long treasureId = (Long) data.get("treasureId");
+				Long treasureId = Long.parseLong(data.get("treasureId").toString());
+				String finderId = data.get("userId").toString();
 				//보물을 찾았을 때 -> 보물 상태 변경, 메시지로 전체 공지
-				treasureService.changeTreasureStatus(treasureId);
+				treasureService.changeTreasureStatus(treasureId,finderId);
 				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
 			} catch (Exception e) {
 				logger.error("보물 찾기 처리 중 에러 : {}", e);
