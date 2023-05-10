@@ -64,17 +64,8 @@ const useApi = () => {
 	}
 
 	//[2] accessToken이 필요한 요청인 경우 not Get
-	async function fetchApiWithToken(
-		method: string,
-		url: string,
-		requestBody: any
-	) {
-		console.log(
-			'api요청 method ',
-			method,
-			'리퀘스트 바디(json) : ',
-			JSON.stringify(requestBody)
-		);
+	async function fetchApiWithToken(method: string, url: string, requestBody: any) {
+		console.log( 'api요청 method ', method, '리퀘스트 바디(json) : ', JSON.stringify(requestBody));
 		try {
 			const response = await fetch(baseURL + url, {
 				method: method,
@@ -84,37 +75,37 @@ const useApi = () => {
 				},
 				body: JSON.stringify(requestBody),
 			});
+			
+			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
 
+			console.log('요청 결과', response.status);
 			const json = await response.json();
 			console.log('받은 데이터 ', json);
 			setData(json);
 		} catch (error: any) {
-			console.log('api 요청 실패', error);
-			if (error.status === 401) {
-				console.log('토큰 리프레시');
-				await refresh.refreshToken();
-				try {
-					const newResponse = await fetch(baseURL + url, {
-						method: method,
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${cookie.accessToken}`,
-						},
-						body: JSON.stringify(requestBody),
-					});
-					const json = await newResponse.json();
-					console.log('받은 데이터 ', json);
-					setData(json);
-				} catch (error: any) {
-					//강제 로그아웃
-					console.log('토큰 리프레시 실패 로그아웃');
-					removeCookie('accessToken', { path: '/' });
-					dispatch(logout());
-					navigate('/');
-				}
-			} else {
-				setError(error);
-				throw new Error(`HTTP ERROR: ${error.status}`);
+			console.log('토큰 리프레시');
+			await refresh.refreshToken();
+			try {
+				const newResponse = await fetch(baseURL + url, {
+					method: method,
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: `Bearer ${cookie.accessToken}`,
+					},
+					body: JSON.stringify(requestBody),
+				});
+
+				if(!newResponse.ok) throw new Error(`HTTP error: ${newResponse.status}`);
+
+				const json = await newResponse.json();
+				console.log('받은 데이터 ', json);
+				setData(json);
+			} catch (error: any) {
+				//강제 로그아웃
+				console.log('토큰 리프레시 실패 로그아웃 ', error);
+				removeCookie('accessToken', { path: '/' });
+				dispatch(logout());
+				navigate('/');
 			}
 		} finally {
 			setLoading(false);
@@ -132,37 +123,37 @@ const useApi = () => {
 				},
 				body : requestBody
 			});
-	
+
+			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
+
+			console.log('요청 결과', response.status);
 			const json = await response.json();
 			console.log('받은 데이터 ', json);
 			setData(json);
 	
 		} catch (error: any) {
-			console.log('api 요청 실패', error);
-			if (error.status === 401) {
-				console.log('토큰 리프레시');
-				await refresh.refreshToken();
-				try {
-					const newResponse = await fetch(baseURL+url, {
-						method: method,
-						headers: {
-							'Authorization': `Bearer ${cookie.accessToken}`,
-						},
-						body: requestBody
-					});
-					const json = await newResponse.json();
-					console.log('받은 데이터 ', json);
-					setData(json);
-				} catch (error: any) {
-					//강제 로그아웃
-					console.log('토큰 리프레시 실패 로그아웃');
-					removeCookie('accessToken', {path: '/'});
-					dispatch(logout());
-					navigate('/');
-				}
-			} else{
-				setError(error);
-				throw new Error(`HTTP ERROR: ${error.status}`);
+			console.log('토큰 리프레시');
+			await refresh.refreshToken();
+			try {
+				const newResponse = await fetch(baseURL + url, {
+					method: method,
+					headers: {
+						'Authorization': `Bearer ${cookie.accessToken}`
+					},
+					body: requestBody,
+				});
+
+				if(!newResponse.ok) throw new Error(`HTTP error: ${newResponse.status}`);
+
+				const json = await newResponse.json();
+				console.log('받은 데이터 ', json);
+				setData(json);
+			} catch (error: any) {
+				//강제 로그아웃
+				console.log('토큰 리프레시 실패 로그아웃 ', error);
+				removeCookie('accessToken', { path: '/' });
+				dispatch(logout());
+				navigate('/');
 			}
 		} finally {
 			setLoading(false);
@@ -179,36 +170,34 @@ const useApi = () => {
 					'Authorization': `Bearer ${cookie.accessToken}`
 				}
 			});
+			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
 
+			console.log('요청 결과', response.status);
 			const json = await response.json();
 			console.log('받은 데이터 ', json);
 			setData(json);
 		} catch (error: any) {
-			console.log('api 요청 실패', error);
-			if (error.status === 401) {
-				console.log('토큰 리프레시');
-				await refresh.refreshToken();
-				try {
-					const newResponse = await fetch(baseURL+url, {
-						method: method,
-						headers: {
-							'Content-Type': 'application/json',
-							Authorization: `Bearer ${cookie.accessToken}`,
-						},
-					});
-					const json = await newResponse.json();
-					console.log('받은 데이터 ', json);
-					setData(json);
-				} catch (error: any) {
-					//강제 로그아웃
-					console.log('토큰 리프레시 실패 로그아웃');
-					removeCookie('accessToken', { path: '/' });
-					dispatch(logout());
-					navigate('/');
-				}
-			} else {
-				setError(error);
-				throw new Error(`HTTP ERROR: ${error.status}`);
+			console.log('토큰 리프레시');
+			await refresh.refreshToken();
+			try {
+				const newResponse = await fetch(baseURL + url, {
+					method: method,
+					headers: {
+						'Authorization': `Bearer ${cookie.accessToken}`
+					}
+				});
+
+				if(!newResponse.ok) throw new Error(`HTTP error: ${newResponse.status}`);
+
+				const json = await newResponse.json();
+				console.log('받은 데이터 ', json);
+				setData(json);
+			} catch (error: any) {
+				//강제 로그아웃
+				console.log('토큰 리프레시 실패 로그아웃 ', error);
+				removeCookie('accessToken', { path: '/' });
+				dispatch(logout());
+				navigate('/');
 			}
 		} finally {
 			setLoading(false);
