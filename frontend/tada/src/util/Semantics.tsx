@@ -61,7 +61,7 @@ export const Modal = tw.div`
 
 export const ModalSection = tw.div`
 	flex flex-col justify-center items-center
- 	w-full h-96 max-w-xs
+	w-full h-96 max-w-xs
 	bg-white2 rounded-lg border-8 border-white2
 	py-2 px-1
 `;
@@ -82,9 +82,17 @@ export const WhiteBox = tw.div`
 `;
 
 export const Circle = tw.div`
-	w-14 h-14
+	w-12 h-12
 	flex items-center justify-center
 	bg-red rounded-full shadow-lg
+	text-white text-base font-black
+	py-2 px-2 mx-2 z-10
+`;
+
+export const Circle2 = tw.div`
+	w-12 h-12
+	flex items-center justify-center
+	bg-blue rounded-full shadow-lg
 	text-white text-base font-black
 	py-2 px-2 mx-2 z-10
 `;
@@ -97,6 +105,7 @@ const Semantics = {
 	Modal,
 	WhiteBox,
 	Circle,
+	Circle2,
 	CustomInput,
 	CustomButton,
 };

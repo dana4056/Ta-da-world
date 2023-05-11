@@ -1,13 +1,16 @@
-import React, {useState, useRef} from 'react';
+import {useState, useRef} from 'react';
 import tw from 'tailwind-styled-components';
 import Webcam from 'react-webcam';
-import { Modal, ModalSection, Button, ModalHeader } from '../../util/Semantics';
+import { Modal, ModalSection, Button, ModalHeader, Circle2 } from '../../util/Semantics';
 import {BsX} from 'react-icons/bs';
 import {MdCameraswitch} from 'react-icons/md';
+import useApi from '../../hooks/useApi';
 
-interface FindModalProps {
+const camImg = require('../../assets/images/camera.png');
+
+interface PlayModalProps {
 	open: boolean;
-	close: (s:string) => void;
+	close: () => void;
 	treasureId: number
 }
 
@@ -21,14 +24,29 @@ const Modal2 = tw(Modal)<StyledDivProps>`
   `}
 `;
 
-function FindModal({open, close, treasureId}: FindModalProps) : JSX.Element{
+function PlayModal({open, close, treasureId}: PlayModalProps) : JSX.Element{
 	console.log('MODAL: ', treasureId);
 	const [capture, setCapture] = useState<boolean>(true);
 	const [focus, setFocus] = useState<boolean>(true);
 	const [capturebase64, setCapturebase64] = useState<string>('');
 	const camref = useRef<any>(null);
+	const api = useApi();
+	const submitTreasure = (): void => {
+		const formData = new FormData();
 
-	//촬용 버튼 클릭
+		const arr: string[] = capturebase64.split(',');
+		const mime: string | null = arr[0].match(/:(.*?);/)?.[1] || '';
+		const bstr: string = atob(arr[1]);
+		let n: number = bstr.length;
+		const u8arr: Uint8Array = new Uint8Array(n);
+		while (n--) {
+			u8arr[n] = bstr.charCodeAt(n);
+		}				
+		const file = new File([u8arr], '사진', {type:mime});
+		formData.append('answerFile', file);
+	};
+
+	//촬영 버튼 클릭
 	const captureScreenshot  = () : void  => {
 		const screenshot = camref.current?.getScreenshot();
 		setCapturebase64(screenshot);
@@ -40,23 +58,23 @@ function FindModal({open, close, treasureId}: FindModalProps) : JSX.Element{
 		setCapture(true);
 	};
 
+	// WebCam
 	const changeFocus = () : void => {
 		setFocus(!focus);
 	};
-
 	const videoConstraints = {
 		facingMode: { exact: 'environment' }
 	};
 
 	return (
-		<Modal2 active = {open ? '1':''}>
+		<Modal2 active = {open ? '1' : ''}>
 			{open ? (
 				<ModalSection>
 					<ModalHeader>
 						<div>
 							보물 사진 찍기
 						</div>
-						<BsX onClick={()=> {close('');}} size="32" color="#535453"/>
+						<BsX onClick={()=> {close();}} size="32" color="#535453"/>
 					</ModalHeader>
 					{ capture ?
 						<div className='flex flex-col items-end w-full j'>
@@ -76,18 +94,20 @@ function FindModal({open, close, treasureId}: FindModalProps) : JSX.Element{
 									videoConstraints={videoConstraints}
 								/>
 							}
-							<MdCameraswitch onClick={changeFocus} size="24" color="#535453"/>
+							<MdCameraswitch onClick={changeFocus} size="20" color="#535453"/>
 						</div>
 						:
 						<img src ={capturebase64}/>
 					}
 					<div className='flex justify-center w-full mt-3'>
 						{ capture ?
-							<Button onClick={captureScreenshot}>사진 촬영</Button>
+							<Circle2 onClick={captureScreenshot}>
+								<img src={camImg} alt="" />
+							</Circle2>
 							:
 							<>
 								<Button onClick={reset}>다시 찍기</Button>
-								<Button onClick={()=> {close(capturebase64);}}>전송</Button>
+								<Button onClick={submitTreasure}>전송</Button>
 							</>
 						}
 					</div>
@@ -97,4 +117,4 @@ function FindModal({open, close, treasureId}: FindModalProps) : JSX.Element{
 	);
 }
 
-export default FindModal;
+export default PlayModal;

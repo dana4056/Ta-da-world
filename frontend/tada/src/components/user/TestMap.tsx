@@ -3,7 +3,7 @@ import useWatchLocation from '../../hooks/useWatchLocation';
 import { TreasureInfo, CurrentLocation } from '../../util/Interface';
 import { getDistanceFromLatLonInKm } from '../../util/Calculate';
 
-import FindModal from './FindModal';
+import PlayModal from './PlayModal';
 
 // 리덕스와 연동하여 이미지는 차후 변경해줘야함
 const playerImage = require('../../assets/images/avatar4.jpg');
@@ -271,7 +271,7 @@ function TestMap(): JSX.Element {
 
 	return (
 		<>
-			<FindModal open={open} close={closeModal} treasureId={treasureNumber} />
+			<PlayModal open={open} close={closeModal} treasureId={treasureNumber} />
 			<div id="map" className='w-full h-full mb-1'/>
 		</>
 	);
