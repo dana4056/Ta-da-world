@@ -69,6 +69,7 @@ function UserNamePage(): JSX.Element {
 					value={name}
 					onChange={handleNameChange}
 					valid={isNameValid}
+					maxLength={10}
 				/>
 				<CustomButton
 					onClick={moveCharacter}

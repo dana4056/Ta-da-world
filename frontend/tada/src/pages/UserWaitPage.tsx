@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { RootState } from '../stores';
 import UserProfile from '../components/user/UserProfile';
 import UserList from '../components/user/UserList';
@@ -22,6 +23,7 @@ interface UserListItem {
 const baseURL = 'https://ta-da.world/api';
 
 function UserWaitPage(): JSX.Element {
+	const navigate = useNavigate();
 	// 유저 정보
 	const userState = useSelector((state: RootState) => state.user);
 
@@ -86,6 +88,7 @@ function UserWaitPage(): JSX.Element {
 							console.log('game ended');
 						} else if (msObj.messageType === 'START') {
 							console.log('game started');
+							navigate('/userloading');
 						} else if (msObj.messageType === 'FIND') {
 							console.log('find treasure');
 						}
