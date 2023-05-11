@@ -63,6 +63,25 @@ const useApi = () => {
 		}
 	}
 
+	// accessToken이 필요없는 multi 요청인 경우
+
+	async function fetchApiMulti(method: string, url: string, requestBody: any) {
+		console.log('API METHOD: ', method, 'REQUEST BODY: ', requestBody);
+		try {
+			const response = await fetch(baseURL+url, {
+				method: method,
+				body: requestBody
+			});
+			const json = await response.json();
+			setData(json);
+		} catch(error: any) {
+			console.log(error);
+			setError(error);
+		} finally {
+			setLoading(false);
+		}
+	}
+
 	//[2] accessToken이 필요한 요청인 경우 not Get
 	async function fetchApiWithToken(method: string, url: string, requestBody: any) {
 		console.log( 'api요청 method ', method, '리퀘스트 바디(json) : ', JSON.stringify(requestBody));
@@ -211,17 +230,8 @@ const useApi = () => {
 			setLoading(false);
 		}
 	}
-
-	return {
-		data,
-		loading,
-		error,
-		fetchApi,
-		fetchGetApi,
-		fetchApiWithToken,
-		fetchNotBodyApiWithToken,
-		fetchApiWithTokenMuti,
-	};
+	
+	return { data, loading, error, fetchApi, fetchGetApi, fetchApiWithToken, fetchNotBodyApiWithToken, fetchApiWithTokenMuti, fetchApiMulti };
 };
 
 export default useApi;
