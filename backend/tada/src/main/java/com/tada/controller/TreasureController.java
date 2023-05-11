@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -69,12 +70,13 @@ public class TreasureController {
 				Room room = hostService.getRoomByHostId(hostId);
 				Long roomId = room.getId();
 				treasureRequest.setRoomId(roomId);
+
 				treasureFile = imageProcess.resizeImage(treasureFile, 450);
-				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "treasure");
+				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "rooms/" + treasureRequest.getRoomId() + "/treasures");
 				ImgPathDto rewardImgDto = null;
 				if (rewardFile != null) {
 					rewardFile = imageProcess.resizeImage(rewardFile, 450);
-					rewardImgDto = s3Service.uploadFiles(rewardFile, "reward");
+					rewardImgDto = s3Service.uploadFiles(rewardFile, "rooms/" + treasureRequest.getRoomId() + "/rewards");
 					logger.info("보상 이미지 경로 [프론트:{}], [백:{}]", rewardImgDto.getImgPath(), rewardImgDto.getImgBasePath());
 				}
 
@@ -91,6 +93,28 @@ public class TreasureController {
 			logger.info("보물 등록 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
 			return new ResponseEntity<>(new ResultDto(UNAUTHORIZED,FALSE), status);
+		}
+	}
+
+	@PostMapping("/answers/{id}")
+	@Operation(summary = "보물 답안 제출", description = "예상 보물 사진 촬영하여 업로드")
+	public ResponseEntity<?> postAnswer(@PathVariable Long id, @ModelAttribute("userId") String userId, @RequestParam("answerFile") MultipartFile answerFile) {
+		HttpStatus status = HttpStatus.OK;
+		Map<String, Object> resultMap = new HashMap<>();
+		try {
+			boolean isAnswer = treasureService.postAnswer(id, userId, answerFile);
+			if (isAnswer) {
+				resultMap.put("message",SUCCESS);
+				resultMap.put("success",TRUE);
+			} else {
+				resultMap.put("message",FAIL);
+				resultMap.put("success",FALSE);
+			}
+			return new ResponseEntity<>(resultMap, status);
+		} catch (Exception e) {
+			logger.error("정답 업로드 실패: {}", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			return new ResponseEntity<>(status);
 		}
 	}
 
