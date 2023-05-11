@@ -74,10 +74,12 @@ const useApi = () => {
 				method: method,
 				body: requestBody
 			});
+			console.log('MULTI RESPONSE', response);
 			const json = await response.json();
+			console.log('RESPONSE JSON: ', json);
 			setData(json);
 		} catch(error: any) {
-			console.log(error);
+			console.log('err: ', error);
 			setError(error);
 		} finally {
 			setLoading(false);

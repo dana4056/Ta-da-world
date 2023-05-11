@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../assets/css/HintDetailPage.module.css';
+import { TreasureInfo } from '../../util/Interface';
 
 const note = require('../../assets/images/note.png');
 const leftChevron = require('../../assets/images/left_chevron.png');
@@ -12,7 +13,7 @@ interface Treasure {
 }
 
 interface HintDetailProps {
-	treasure: Treasure;
+	treasure: TreasureInfo;
 	onClose: () => void;
 	onPreviousHint: () => void;
 	onNextHint: () => void;

@@ -1,27 +1,32 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import HintListComponent from './HintListComponent';
 import HintDetail from './HintDetail';
-
-interface Treasure {
-	id: number;
-	isFound: boolean;
-	hint: string;
-}
+import { TreasureInfo } from '../../util/Interface';
+import tw from 'tailwind-styled-components';
+import { Modal } from '../../util/Semantics';
 
 interface HintListModalProps {
-	treasures: Treasure[];
+	open: boolean
 	onClose: () => void;
+	treasures: TreasureInfo[];
 }
 
-function HintListModal({
-	treasures,
-	onClose,
-}: HintListModalProps): JSX.Element {
-	const [selectedTreasure, setSelectedTreasure] = useState<Treasure | null>(
+interface StyledDivProps {
+	active: string
+}
+
+const DynamicModal = tw(Modal)<StyledDivProps>`
+	${({ active }) => `
+		${active ? 'flex items-center justify-center' : ''}
+  `}
+`;
+
+function HintListModal({open, onClose, treasures}: HintListModalProps): JSX.Element {
+	const [selectedTreasure, setSelectedTreasure] = useState<TreasureInfo | null>(
 		null
 	);
 
-	const handleClick = (treasure: Treasure) => {
+	const handleClick = (treasure: TreasureInfo) => {
 		setSelectedTreasure(treasure);
 	};
 
@@ -50,37 +55,41 @@ function HintListModal({
 	};
 
 	return (
-		<div className='relative flex items-center justify-center w-full h-full'>
-			{selectedTreasure ? (
-				<HintDetail
-					treasure={selectedTreasure}
-					onClose={handleCloseTreasureHint}
-					onPreviousHint={handlePreviousHint}
-					onNextHint={handleNextHint}
-				/>
-			) : (
-				<div className='relative z-10 flex flex-col w-5/6 p-2 space-y-5 rounded-xl bg-white2/90 min-h-min'>
-					<p className='mx-auto mt-3 text-xl font-bold text-center'>
+		<DynamicModal active={open ? '1' : ''}>
+			{open ? (
+				<div className='relative flex items-center justify-center w-full h-full'>
+					{selectedTreasure ? (
+						<HintDetail
+							treasure={selectedTreasure}
+							onClose={handleCloseTreasureHint}
+							onPreviousHint={handlePreviousHint}
+							onNextHint={handleNextHint}
+						/>
+					) : (
+						<div className='relative z-10 flex flex-col w-5/6 p-2 space-y-5 rounded-xl bg-white2/90 min-h-min'>
+							<p className='mx-auto mt-3 text-xl font-bold text-center'>
 						힌트 리스트
-					</p>
-					<div className='grid grid-cols-3 gap-2'>
-						{treasures.map((treasure) => (
-							<HintListComponent
-								key={treasure.id}
-								treasure={treasure}
-								onClick={() => handleClick(treasure)}
-							/>
-						))}
-					</div>
-					<button
-						className='px-4 py-2 mx-auto mt-10 mb-2 bg-white rounded-full '
-						onClick={onClose}
-					>
+							</p>
+							<div className='grid grid-cols-3 gap-2 h-96 overflow-scroll'>
+								{treasures.map((treasure) => (
+									<HintListComponent
+										key={treasure.id}
+										treasure={treasure}
+										onClick={() => handleClick(treasure)}
+									/>
+								))}
+							</div>
+							<button
+								className='px-4 py-2 mx-auto mt-10 mb-2 bg-white rounded-full '
+								onClick={onClose}
+							>
 						닫기
-					</button>
+							</button>
+						</div>
+					)}
 				</div>
-			)}
-		</div>
+			) : null}
+		</DynamicModal>
 	);
 }
 
