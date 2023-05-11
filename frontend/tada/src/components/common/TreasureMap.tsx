@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {MdLock} from 'react-icons/md';
-import { WhiteBox } from '../../util/Semantics';
-import { TreasureInfo } from '../../util/Interface';
+import { useState, useEffect } from 'react';
+import { MdLock } from 'react-icons/md';
+import { WhiteBox } from '../../utils/Semantics';
+import { TreasureInfo } from '../../utils/Interfaces';
 import BoxHeader from './HeaderBox';
 import TreasureModal from './TreasureModal';
 
@@ -11,11 +11,7 @@ interface TreasureListProps {
 	isHost:boolean
 }
 
-// const SubBox = tw(WhiteBox)`
-// 	bg-white2
-// `;
-
-function TreasureMap({isHost, treasures, title}: TreasureListProps) : JSX.Element {
+function TreasureMap({isHost, treasures, title}: TreasureListProps): JSX.Element {
 	const [no, setNO] = useState<number>(0);
 	const total = treasures.length;
 	const [count, setCount] = useState<number>(0);
@@ -23,7 +19,7 @@ function TreasureMap({isHost, treasures, title}: TreasureListProps) : JSX.Elemen
 	const [lng, setLng] = useState<string>(treasures[0].lng);
 	const [open, setOpen] = useState<boolean>(false);
 
-	const handleNO  = (i:number) : void => {
+	const handleNO  = (i:number): void => {
 		console.log(i);
 		setLat(treasures[i].lat);
 		setLng(treasures[i].lng);
@@ -98,13 +94,12 @@ function TreasureMap({isHost, treasures, title}: TreasureListProps) : JSX.Elemen
 		}
 	}, [treasures, lat]);
 
-    	//map 모달창 열기
+	//map 모달창 열기
 	const openModal = (): void => {
 		setOpen(true);
 	};
-	
 	//map 모달창 닫기
-	const closeModal = () : void => {
+	const closeModal = (): void => {
 		setOpen(false);
 	};
 
@@ -118,8 +113,7 @@ function TreasureMap({isHost, treasures, title}: TreasureListProps) : JSX.Elemen
 						return ( 
 							<div key={index}>
 								<div style={{ backgroundImage: `url(${treasure.imgPath})` }} className='w-12 h-12 mx-2 mt-1 mb-3 bg-center bg-cover rounded-full g-no-repeat' onClick={()=>handleNO(index)}>
-									{ treasure.status ?
-								 		null :	<div className='flex items-center justify-center w-12 h-12 rounded-full bg-gray4 bg-opacity-40'><MdLock color='white' size="24"/></div>		
+									{ treasure.status ?	null :	<div className='flex items-center justify-center w-12 h-12 rounded-full bg-gray4 bg-opacity-40'><MdLock color='white' size="24"/></div>		
 									}
 								</div>
 							</div>

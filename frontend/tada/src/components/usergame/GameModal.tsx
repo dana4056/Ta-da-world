@@ -1,17 +1,17 @@
 import {useState, useRef} from 'react';
 import tw from 'tailwind-styled-components';
 import Webcam from 'react-webcam';
-import { Modal, ModalSection, Button, ModalHeader, Circle2 } from '../../util/Semantics';
+import { Modal, ModalSection, Button, ModalHeader, BlueCircle } from '../../utils/Semantics';
 import {BsX} from 'react-icons/bs';
 import {MdCameraswitch} from 'react-icons/md';
 import useApi from '../../hooks/useApi';
 
-import { RootState } from '../../stores';
-import { useSelector } from 'react-redux';
+// import { RootState } from '../../stores';
+// import { useSelector } from 'react-redux';
 
 const camImg = require('../../assets/images/camera.png');
 
-interface PlayModalProps {
+interface GameModalProps {
 	open: boolean;
 	close: () => void;
 	treasureId: number
@@ -21,13 +21,13 @@ interface StyledDivProps {
 	active: string;
 }
 
-const Modal2 = tw(Modal)<StyledDivProps>`
+const DynamicModal = tw(Modal)<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
   `}
 `;
 
-function PlayModal({open, close, treasureId}: PlayModalProps) : JSX.Element{
+function GameModal({open, close, treasureId}: GameModalProps): JSX.Element{
 	console.log('MODAL: ', treasureId);
 	// const userId = useSelector((state: RootState) => state.user.userId);
 	const userId = '4_246333890';
@@ -62,19 +62,19 @@ function PlayModal({open, close, treasureId}: PlayModalProps) : JSX.Element{
 	};
 
 	//촬영 버튼 클릭
-	const captureScreenshot  = () : void  => {
+	const captureScreenshot  = (): void  => {
 		const screenshot = camref.current?.getScreenshot();
 		setCapturebase64(screenshot);
 		setCapture(false);
 	};
 
 	//다시 찍기
-	const reset  = () : void  => {
+	const reset  = (): void  => {
 		setCapture(true);
 	};
 
 	// WebCam
-	const changeFocus = () : void => {
+	const changeFocus = (): void => {
 		setFocus(!focus);
 	};
 	const videoConstraints = {
@@ -82,7 +82,7 @@ function PlayModal({open, close, treasureId}: PlayModalProps) : JSX.Element{
 	};
 
 	return (
-		<Modal2 active = {open ? '1' : ''}>
+		<DynamicModal active = {open ? '1' : ''}>
 			{open ? (
 				<ModalSection>
 					<ModalHeader>
@@ -116,9 +116,9 @@ function PlayModal({open, close, treasureId}: PlayModalProps) : JSX.Element{
 					}
 					<div className='flex justify-center w-full mt-3'>
 						{ capture ?
-							<Circle2 onClick={captureScreenshot}>
+							<BlueCircle onClick={captureScreenshot}>
 								<img src={camImg} alt="" />
-							</Circle2>
+							</BlueCircle>
 							:
 							<>
 								<Button onClick={reset}>다시 찍기</Button>
@@ -128,8 +128,8 @@ function PlayModal({open, close, treasureId}: PlayModalProps) : JSX.Element{
 					</div>
 				</ModalSection>
 			) : null}
-		</Modal2>
+		</DynamicModal>
 	);
 }
 
-export default PlayModal;
+export default GameModal;

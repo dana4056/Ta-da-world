@@ -1,12 +1,11 @@
-import React, {useState, useRef, useEffect} from 'react';
-import Swal from 'sweetalert2';
-import tw from 'tailwind-styled-components';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeTreasure } from '../../../stores/watch';
-
-import {BsX}  from 'react-icons/bs';
-import { TreasureInfo } from '../../../util/Interface';
-import { Modal, ModalSection, ModalHeader } from '../../../util/Semantics';
+import tw from 'tailwind-styled-components';
+import { Modal, ModalSection, ModalHeader } from '../../../utils/Semantics';
+import { BsX }  from 'react-icons/bs';
+import Swal from 'sweetalert2';
+import { TreasureInfo } from '../../../utils/Interfaces';
 import TreasureInfoBox from '../../common/TreasureInfoBox';
 import useApi from '../../../hooks/useApi';
 
@@ -20,13 +19,13 @@ interface StyledDivProps {
 	active: string;
 }
 
-const Modal2 = tw(Modal)<StyledDivProps>`
+const DynamicModal = tw(Modal)<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
-  	`}
+	`}
 `;
 
-function ListModal({ open, close, treasure}: openProps) : JSX.Element{
+function ListModal({ open, close, treasure }: openProps): JSX.Element{
 	const dispath = useDispatch();
 	const deleteApi = useApi();
 
@@ -44,12 +43,12 @@ function ListModal({ open, close, treasure}: openProps) : JSX.Element{
 		}	
 	}, [deleteApi.data]);
 
-	const deleteTreasure  = () : void  => {
+	const deleteTreasure  = (): void  => {
 		deleteApi.fetchNotBodyApiWithToken('DELETE', `/treasures/${treasure?.id}`);
 	};
 	
 	return (
-		<Modal2 active = {open ? '1':''}>
+		<DynamicModal active = {open ? '1':''}>
 			{open ? (
 				<ModalSection>
 					<ModalHeader>
@@ -67,7 +66,7 @@ function ListModal({ open, close, treasure}: openProps) : JSX.Element{
 					</div>
 				</ModalSection>
 			) : null}
-		</Modal2>
+		</DynamicModal>
 	);
 }
 

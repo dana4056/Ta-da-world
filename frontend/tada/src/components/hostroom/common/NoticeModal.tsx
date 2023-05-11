@@ -1,9 +1,8 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import tw from 'tailwind-styled-components';
+import { Modal, ModalHeader, Button } from '../../../utils/Semantics';
+import { BsX }  from 'react-icons/bs';
 import Swal from 'sweetalert2';
-import {BsX}  from 'react-icons/bs';
-import { Modal, ModalHeader} from '../../../util/Semantics';
-import { Button } from '../../../util/Semantics';
 
 interface openProps {
 	open: boolean;
@@ -14,16 +13,16 @@ interface StyledDivProps {
 	active: string;
 }
 
-function NoticeModal({ open, close}: openProps) : JSX.Element{
+function NoticeModal({ open, close}: openProps): JSX.Element{
 	const [notice, setNotice] = useState<string>('');
 
 	//공지 작성	
-	const handleNotice = (e : React.ChangeEvent<HTMLTextAreaElement>) : void  => {
+	const handleNotice = (e: React.ChangeEvent<HTMLTextAreaElement>): void  => {
 		setNotice(e.target.value);
 	};
 
 	//공지 보내기	
-	const sendNotice = () : void  => {
+	const sendNotice = (): void  => {
 		if(notice){
 			close(notice);
 		}else{
@@ -39,7 +38,7 @@ function NoticeModal({ open, close}: openProps) : JSX.Element{
 	};
 
 	return (
-		<Modal2 active = {open ? '1':''}>
+		<DynamicModal active = {open ? '1':''}>
 			{open ? (
 				<ModalSection>
 					<ModalHeader>
@@ -50,7 +49,7 @@ function NoticeModal({ open, close}: openProps) : JSX.Element{
 					<Button onClick={sendNotice}>보내기</Button>
 				</ModalSection>
 			) : null}
-		</Modal2>
+		</DynamicModal>
 	);
 }
 
@@ -69,10 +68,10 @@ const ModalSection = tw.div`
 	py-2 px-1
 `;
 
-const Modal2 = tw(Modal)<StyledDivProps>`
+const DynamicModal = tw(Modal)<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
-  	`}
+	`}
 `;
 
 export default NoticeModal;

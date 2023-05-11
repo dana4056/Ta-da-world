@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import useWatchLocation from '../../hooks/useWatchLocation';
-import { TreasureInfo, CurrentLocation } from '../../util/Interface';
-import { getDistanceFromLatLonInKm } from '../../util/Calculate';
-
-import PlayModal from './PlayModal';
+import { TreasureInfo, CurrentLocation } from '../../utils/Interfaces';
+import { getDistanceFromLatLonInKm } from '../../utils/Calculates';
 
 // 리덕스와 연동하여 이미지는 차후 변경해줘야함
 const playerImage = require('../../assets/images/avatar4.jpg');
@@ -199,18 +197,17 @@ const treasures: TreasureInfo[] = [
 	}
 ];
 
-function TestMap(): JSX.Element {
+function GameMapWatchVer(): JSX.Element {
 	const playerLocation: CurrentLocation = useWatchLocation();
 	const [treasureNumber, setTreasureNumber] = useState<number>(0);
-	const [open, setOpen] = useState<boolean>(false);
+	// const [open, setOpen] = useState<boolean>(false);
 
-	const openModal = (): void => {
-		setOpen(true);
-	};
-
-	const closeModal = (): void => {
-		setOpen(false);
-	};
+	// const openModal = (): void => {
+	// 	setOpen(true);
+	// };
+	// const closeModal = (): void => {
+	// 	setOpen(false);
+	// };
 
 	useEffect(() => {
 		console.log('WATCH PLAYER');
@@ -257,7 +254,7 @@ function TestMap(): JSX.Element {
 						window.kakao.maps.event.addListener(marker, 'click', () => {
 							console.log('treasure id: ', treasures[i].id);
 							setTreasureNumber(treasures[i].id);
-							openModal();
+							// openModal();
 						});
 					}
 				}
@@ -271,10 +268,9 @@ function TestMap(): JSX.Element {
 
 	return (
 		<>
-			<PlayModal open={open} close={closeModal} treasureId={treasureNumber} />
 			<div id="map" className='w-full h-full mb-1'/>
 		</>
 	);
 }
 
-export default TestMap;
+export default GameMapWatchVer;

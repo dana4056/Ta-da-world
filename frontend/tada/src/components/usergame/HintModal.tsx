@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import HintListComponent from './HintListComponent';
+import HintList from './HintList';
 import HintDetail from './HintDetail';
-import { TreasureInfo } from '../../util/Interface';
+import { TreasureInfo } from '../../utils/Interfaces';
+import { Modal } from '../../utils/Semantics';
 import tw from 'tailwind-styled-components';
-import { Modal } from '../../util/Semantics';
 
-interface HintListModalProps {
+interface HintModalProps {
 	open: boolean
 	onClose: () => void;
 	treasures: TreasureInfo[];
@@ -21,7 +21,7 @@ const DynamicModal = tw(Modal)<StyledDivProps>`
   `}
 `;
 
-function HintListModal({open, onClose, treasures}: HintListModalProps): JSX.Element {
+function HintModal({open, onClose, treasures}: HintModalProps): JSX.Element {
 	const [selectedTreasure, setSelectedTreasure] = useState<TreasureInfo | null>(
 		null
 	);
@@ -72,7 +72,7 @@ function HintListModal({open, onClose, treasures}: HintListModalProps): JSX.Elem
 							</p>
 							<div className='grid grid-cols-3 gap-2 h-96 overflow-scroll'>
 								{treasures.map((treasure) => (
-									<HintListComponent
+									<HintList
 										key={treasure.id}
 										treasure={treasure}
 										onClick={() => handleClick(treasure)}
@@ -93,4 +93,4 @@ function HintListModal({open, onClose, treasures}: HintListModalProps): JSX.Elem
 	);
 }
 
-export default HintListModal;
+export default HintModal;

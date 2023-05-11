@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../stores';
 import { changecode } from '../../stores/host';
 import tw from 'tailwind-styled-components';
-import { WhiteBox } from '../../util/Semantics';
-import { TreasureInfo } from '../../util/Interface';
+import { WhiteBox } from '../../utils/Semantics';
+import { TreasureInfo } from '../../utils/Interfaces';
 import TreasureMap from '../common/TreasureMap';
 import Timer from './hostgameroom/Timer';
 import Title from '../common/Title';
@@ -15,7 +15,7 @@ const PlayTimeBox = tw(WhiteBox)`
 	w-3/4 h-12
 `;
 
-function HostGameRoom() : JSX.Element {
+function HostGameRoom(): JSX.Element {
 	const dispatch = useDispatch();
 	const title = useSelector((state: RootState) => state.game.name);
 	const time = useSelector((state: RootState) => state.game.playTime);
@@ -37,7 +37,6 @@ function HostGameRoom() : JSX.Element {
 		}
 	}, [TreasureApi.data]);
 
-
 	//////////////////////지워질 코드
 	//게임 끝내기
 	useEffect(()=>{
@@ -50,7 +49,7 @@ function HostGameRoom() : JSX.Element {
 		}
 	}, [endApi.data]);
 
-	const endGame = () : void => {
+	const endGame = (): void => {
 		//원래 0되는 순간 
 		endApi.fetchApiWithToken('PATCH', '/rooms/host', {status: 4});
 	};

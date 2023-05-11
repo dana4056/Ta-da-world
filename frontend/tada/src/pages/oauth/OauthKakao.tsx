@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useLogin from '../hooks/useLogin';
+import useLogin from '../../hooks/useLogin';
 
-const logo = require('../assets/images/logo.png');
+const logo = require('../../assets/images/logo.png');
 
 function OauthKakao(): JSX.Element {
 	const navigate = useNavigate();

@@ -1,10 +1,9 @@
-import React, {useState, useRef} from 'react';
+import { useState, useRef } from 'react';
 import tw from 'tailwind-styled-components';
+import { Modal, ModalSection, Button, ModalHeader } from '../../../utils/Semantics';
 import Webcam from 'react-webcam';
-import { Modal, ModalSection, Button, ModalHeader } from '../../../util/Semantics';
-import {BsX} from 'react-icons/bs';
-import {MdCameraswitch} from 'react-icons/md';
-import { change } from '../../../stores/host';
+import { MdCameraswitch } from 'react-icons/md';
+import { BsX } from 'react-icons/bs';
 
 interface openProps {
 	open: boolean;
@@ -15,40 +14,40 @@ interface StyledDivProps {
 	active: string;
 }
 
-const Modal2 = tw(Modal)<StyledDivProps>`
+const DynamicModal = tw(Modal)<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
-  	`}
+	`}
 `;
 
-function CaptureModal({ open, close}: openProps) : JSX.Element{
+function CaptureModal({ open, close}: openProps): JSX.Element{
 	const [capture, setCapture] = useState<boolean>(true);
 	const [focus, setFocus] = useState<boolean>(true);
 	const [capturebase64, setCapturebase64] = useState<string>('');
 	const camref = useRef<any>(null);
 
 	//촬용 버튼 클릭
-	const captureScreenshot  = () : void  => {
+	const captureScreenshot  = (): void  => {
 		const screenshot = camref.current?.getScreenshot();
 		setCapturebase64(screenshot);
 		setCapture(false);
 	};
 
 	//다시 찍기
-	const reset  = () : void  => {
+	const reset  = (): void  => {
 		setCapture(true);
 	};
 
-	const changeFocus = () : void => {
+	const changeFocus = (): void => {
 		setFocus(!focus);
 	};
 
 	const videoConstraints = {
 		facingMode: { exact: 'environment' }
 	};
-	  
+
 	return (
-		<Modal2 active = {open ? '1':''}>
+		<DynamicModal active = {open ? '1':''}>
 			{open ? (
 				<ModalSection>
 					<ModalHeader>
@@ -92,7 +91,7 @@ function CaptureModal({ open, close}: openProps) : JSX.Element{
 					</div>
 				</ModalSection>
 			) : null}
-		</Modal2>
+		</DynamicModal>
 	);
 }
 

@@ -4,7 +4,7 @@ import useApi from '../hooks/useApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
 
-import LoadingComponent from '../components/user/LoadingComponent';
+import UserLoading from '../components/userpregame/UserLoading';
 
 interface GameInfo {
 	label: string;
@@ -45,9 +45,9 @@ function UserLoadingPage(): JSX.Element {
 			<div className='flex space-x-3'>
 				{roomInfo ? (
 					<>
-						<LoadingComponent label='참가자' value={roomInfo.playerCnt} />
-						<LoadingComponent label='보물 수' value={roomInfo.treasureCnt} />
-						<LoadingComponent label='시간(분)' value={roomInfo.playTime} />
+						<UserLoading label='참가자' value={roomInfo.playerCnt} />
+						<UserLoading label='보물 수' value={roomInfo.treasureCnt} />
+						<UserLoading label='시간(분)' value={roomInfo.playTime} />
 					</>
 				) : (
 					''

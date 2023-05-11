@@ -1,11 +1,11 @@
 import React from 'react';
 
-interface LoadingComponentProps {
+interface UserLoadingProps {
 	label: string;
 	value: string;
 }
 
-function LoadingComponent(props: LoadingComponentProps): JSX.Element {
+function UserLoading(props: UserLoadingProps): JSX.Element {
 	return (
 		<div className='shadow-lg'>
 			<div className='flex flex-col items-center justify-center w-24 space-y-2 bg-white rounded-lg shadow-inner h-28 shadow-gray2'>
@@ -16,4 +16,4 @@ function LoadingComponent(props: LoadingComponentProps): JSX.Element {
 	);
 }
 
-export default LoadingComponent;
+export default UserLoading;

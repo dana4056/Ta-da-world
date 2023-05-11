@@ -88,7 +88,7 @@ const useApi = () => {
 
 	//[2] accessToken이 필요한 요청인 경우 not Get
 	async function fetchApiWithToken(method: string, url: string, requestBody: any) {
-		console.log( 'api요청 method ', method, '리퀘스트 바디(json) : ', JSON.stringify(requestBody));
+		console.log( 'api요청 method ', method, '리퀘스트 바디(json): ', JSON.stringify(requestBody));
 		try {
 			const response = await fetch(baseURL + url, {
 				method: method,
@@ -147,7 +147,7 @@ const useApi = () => {
 		console.log(
 			'api요청 method ',
 			method,
-			'리퀘스트 바디(json) : ',
+			'리퀘스트 바디(json): ',
 			requestBody
 		);
 		try {

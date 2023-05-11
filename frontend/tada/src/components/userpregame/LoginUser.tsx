@@ -10,7 +10,7 @@ interface LoginUserProps {
 	onHostClick: () => void;
 }
 
-function LoginUserComponent({ onHostClick }: LoginUserProps): JSX.Element {
+function LoginUser({ onHostClick }: LoginUserProps): JSX.Element {
 	const dispatch = useDispatch();
 	const [roomCode, setRoomCode] = useState<string>('');
 	const [isError, setIsError] = useState<boolean>(false);
@@ -74,4 +74,4 @@ function LoginUserComponent({ onHostClick }: LoginUserProps): JSX.Element {
 	);
 }
 
-export default LoginUserComponent;
+export default LoginUser;

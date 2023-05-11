@@ -1,10 +1,8 @@
-import React, {useState, useRef} from 'react';
 import tw from 'tailwind-styled-components';
-import {BsX}  from 'react-icons/bs';
-import { TreasureInfo } from '../../util/Interface';
-import { Modal, ModalSection, ModalHeader, WhiteBox } from '../../util/Semantics';
+import { BsX }  from 'react-icons/bs';
+import { Modal, ModalSection, ModalHeader, WhiteBox } from '../../utils/Semantics';
+import { TreasureInfo } from '../../utils/Interfaces';
 import TreasureInfoBox from './TreasureInfoBox';
-
 
 interface openProps {
 	open: boolean;
@@ -17,15 +15,15 @@ interface StyledDivProps {
 	active: string;
 }
 
-const Modal2 = tw(Modal)<StyledDivProps>`
+const DynamicModal = tw(Modal)<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
-  	`}
+	`}
 `;
 
-function TreasureModal({ open, close, treasure, isHost}: openProps) : JSX.Element{
+function TreasureModal({ open, close, treasure, isHost}: openProps): JSX.Element{
 	return (
-		<Modal2 active = {open ? '1':''}>
+		<DynamicModal active = {open ? '1':''}>
 			{open ? (
 				<ModalSection>
 					<ModalHeader>
@@ -51,7 +49,7 @@ function TreasureModal({ open, close, treasure, isHost}: openProps) : JSX.Elemen
 					</div>
 				</ModalSection>
 			) : null}
-		</Modal2>
+		</DynamicModal>
 	);
 }
 

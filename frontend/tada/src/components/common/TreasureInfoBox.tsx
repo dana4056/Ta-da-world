@@ -1,6 +1,6 @@
 import tw from 'tailwind-styled-components';
-import { WhiteBox } from '../../util/Semantics';
-import { TreasureInfo } from '../../util/Interface';
+import { WhiteBox } from '../../utils/Semantics';
+import { TreasureInfo } from '../../utils/Interfaces';
 
 interface StyledDivProps {
 	active: string;
@@ -12,7 +12,7 @@ interface TreasureInfoProps {
 }
 
 const Header = tw.div` 
- 	w-full
+	w-full
 	text-lg text-gray5 font-black
 	mb-1 mt-2 px-2
 `;
@@ -24,10 +24,10 @@ const Text = tw.p`
 const Img = tw.img<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'rounded-t-lg' : 'rounded-lg'}
-  	`}
+	`}
 `;
 
-function TreasureInfoBox({treasure, isHost}: TreasureInfoProps) : JSX.Element {
+function TreasureInfoBox({treasure, isHost}: TreasureInfoProps): JSX.Element {
 	return (
 		<>
 			<WhiteBox>

@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useInterval } from '../../hooks/useInterval';
-// import useWatchLocation from '../../hooks/useWatchLocation';
 import useCurrentLocation from '../../hooks/useCurrentLocation';
-import { TreasureInfo, CurrentLocation } from '../../util/Interface';
-import { getDistanceFromLatLonInKm } from '../../util/Calculate';
+import { TreasureInfo, CurrentLocation } from '../../utils/Interfaces';
+import { getDistanceFromLatLonInKm } from '../../utils/Calculates';
 
-import PlayModal from './PlayModal';
-import HintListModal from '../play/HintListModal';
+import GameModal from './GameModal';
+import HintModal from '../usergame/HintModal';
 
 // 리덕스와 연동하여 이미지는 차후 변경해줘야함
 const playerImage = require('../../assets/images/avatar4.jpg');
@@ -203,7 +202,7 @@ const treasures: TreasureInfo[] = [
 	}
 ];
 
-function PlayMap(): JSX.Element {
+function GameMap(): JSX.Element {
 	const playerLocation: CurrentLocation = useCurrentLocation();
 	const [treasureNumber, setTreasureNumber] = useState<number>(0);
 	const [open, setOpen] = useState<boolean>(false);
@@ -285,8 +284,8 @@ function PlayMap(): JSX.Element {
 
 	return (
 		<>
-			<PlayModal open={open} close={closeModal} treasureId={treasureNumber} />
-			<HintListModal open={hintOpen} onClose={closeHintModal} treasures={treasures} />
+			<GameModal open={open} close={closeModal} treasureId={treasureNumber} />
+			<HintModal open={hintOpen} onClose={closeHintModal} treasures={treasures} />
 			<div id="map" className='w-full h-full mb-1'/>
 			<div className='flex justify-center items-center w-20 h-20 fixed bottom-12 right-6 bg-white rounded-full border-main border-2 shadow-xl z-10'>
 				<img className='w-12 h-12' src={hintImage} alt="HINT" onClick={openHintModal} />
@@ -295,4 +294,4 @@ function PlayMap(): JSX.Element {
 	);
 }
 
-export default PlayMap;
+export default GameMap;

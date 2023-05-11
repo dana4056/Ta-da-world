@@ -1,8 +1,9 @@
 import { useNavigate } from 'react-router-dom';
-import useLogout from '../../hooks/useLogout';
-const logo = require('../../assets/images/topLogo.png');
+import useLogout from '../../../hooks/useLogout';
 
-function Header() : JSX.Element {
+const logo = require('../../../assets/images/topLogo.png');
+
+function Header(): JSX.Element {
 	const navigate = useNavigate();
 	const logoutApi = useLogout();
 

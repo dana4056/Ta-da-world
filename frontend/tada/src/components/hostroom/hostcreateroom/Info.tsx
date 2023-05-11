@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeInfo } from '../../../stores/watch';
-import { Label, Input, Button } from '../../../util/Semantics';
+import { Label, Input, Button } from '../../../utils/Semantics';
 import useApi from '../../../hooks/useApi';
 import Swal from 'sweetalert2';
 
@@ -10,7 +10,7 @@ interface RoomInfoProps {
 	time: string;
 }
 
-function Info({title, time} : RoomInfoProps) : JSX.Element {
+function Info({title, time} : RoomInfoProps): JSX.Element {
 	const dispatch = useDispatch();
 	const [inputTitle, setInputTitle] = useState<string>('');
 	const [inputTime, setInputTime] = useState<string>('');
@@ -38,15 +38,15 @@ function Info({title, time} : RoomInfoProps) : JSX.Element {
 		}
 	}, [saveApi.data]);
 
-	const handleTime = (e: React.ChangeEvent<HTMLInputElement>) : void  => {
+	const handleTime = (e: React.ChangeEvent<HTMLInputElement>): void  => {
 		setInputTime(e.target.value);
 	};
 
-	const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) : void  => {
+	const handleTitle = (e: React.ChangeEvent<HTMLInputElement>): void  => {
 		setInputTitle(e.target.value);
 	};
 
-	const checkAva = () : void  => {
+	const checkAva = (): void  => {
 		//유효성 검사 //게임 제목 18자까지
 		if (inputTitle === '') {
 			Swal.fire({
@@ -81,7 +81,7 @@ function Info({title, time} : RoomInfoProps) : JSX.Element {
 	};
 
 	//유효성 검사 끝나고 바뀐 데이터 저장 api 호출
-	const saveInfo = () : void  => {
+	const saveInfo = (): void  => {
 		saveApi.fetchApiWithToken('PUT', '/rooms/host', {
 			name:inputTitle,
 			playTime:inputTime
