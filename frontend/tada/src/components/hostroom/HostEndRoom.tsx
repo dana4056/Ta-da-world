@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../stores'; 
 import Swal from 'sweetalert2';
 import { change } from '../../stores/host';
 import tw from 'tailwind-styled-components';
@@ -25,11 +26,11 @@ const PlayTimeBox = tw(WhiteBox)`
 const userProfile = require('../../assets/images/dummy_userprofile.png');
 
 function HostEndRoom() : JSX.Element {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const title = useSelector((state: RootState) => state.game.name);
+	const time = useSelector((state: RootState) => state.game.playTime);
 	const [treasures, setTreasures] = useState<TreasureInfo[]>([]);
-	const [title, setTitle] = useState<string>('');
-	const [time, setTime] = useState<string>('');
 	const roomInfoApi = useApi(); //기본 방 정보 조회
 	const TreasureApi = useApi(); //보물 조회
 	const endApi = useApi(); //방상ㅌ애 변경
@@ -62,18 +63,6 @@ function HostEndRoom() : JSX.Element {
 			setTreasures(TreasureApi.data.data);
 		}
 	}, [TreasureApi.data]);
-
-	//개임 정보
-	useEffect(()=>{
-		roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
-	}, []);
-	
-	useEffect(()=>{
-		if(roomInfoApi.data?.success){
-			setTitle(roomInfoApi.data.data.name);
-			setTime(roomInfoApi.data.data.playTime);
-		}
-	}, [roomInfoApi.data]);
 
 	//게임 끝
 	useEffect(()=>{

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../stores';
 import { changecode } from '../../stores/host';
 import tw from 'tailwind-styled-components';
 import { WhiteBox } from '../../util/Semantics';
@@ -16,10 +17,10 @@ const PlayTimeBox = tw(WhiteBox)`
 
 function HostGameRoom() : JSX.Element {
 	const dispatch = useDispatch();
+	const title = useSelector((state: RootState) => state.game.name);
+	const time = useSelector((state: RootState) => state.game.playTime);
+	const startTime = useSelector((state: RootState) => state.game.startTime);
 	const [treasures, setTreasures] = useState<TreasureInfo[]>([]);
-	const [title, setTitle] = useState<string>('');
-	const [time, setTime] = useState<string>('');
-	const [startTime, setStartTime] = useState<string>('');
 	const roomInfoApi = useApi(); //기본 방 정보 조회
 	const TreasureApi = useApi(); //보물 조회
 	const endApi = useApi(); //방상ㅌ애 변경
@@ -35,21 +36,6 @@ function HostGameRoom() : JSX.Element {
 		}
 	}, [TreasureApi.data]);
 
-
-	//게임물 정보
-	useEffect(()=>{
-		roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
-	}, []);
-	
-	useEffect(()=>{
-		if(roomInfoApi.data?.success){
-			setTitle(roomInfoApi.data.data.name);
-			setTime(roomInfoApi.data.data.playTime);
-			setStartTime(roomInfoApi.data.data.startTime);
-		}
-	}, [roomInfoApi.data]);
-
-	
 	//게임 시작
 	useEffect(()=>{
 		if(endApi.data?.success){
