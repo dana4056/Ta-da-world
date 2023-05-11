@@ -15,7 +15,7 @@ const useLogin = () => {
 	const dispatch = useDispatch();
 	const [data, setData] = useState<LoginData | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const [, setCookie, ] = useCookies(['accessToken', 'status', 'code']);
+	const [, setCookie, ] = useCookies(['refreshToken']);
 	
 	// hostId, type
 	const handleLogin = async (id: string, type: string) => {
@@ -36,8 +36,8 @@ const useLogin = () => {
 			console.log('LOGIN DATA: ', json);
 			setData(json);
 			const { accessToken, refreshToken, status, code } = json.data;
-			setCookie('accessToken', accessToken, { path: '/' });
-			dispatch(login({refreshToken, status, code}));
+			setCookie('refreshToken', refreshToken, { path: '/' });
+			dispatch(login({accessToken, status, code}));
 		} catch (error) {
 			if (error instanceof Error) {
 				setError(error.message);

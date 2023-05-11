@@ -1,19 +1,21 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../stores/host';
 import { reset } from '../stores/game';
 import { useCookies } from 'react-cookie';
 import useRefresh from './useRefresh';
+import { RootState } from '../stores';
 
 const useApi = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const accessToken = useSelector((state: RootState) => state.host.accessToken);
 	const refresh = useRefresh();
 	const [data, setData] = useState<any>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
-	const [cookie, , removeCookie] = useCookies(['accessToken']);
+	const [, , removeCookie] = useCookies(['refreshToken']);
 
 	const baseURL = 'https://ta-da.world/api';
 
@@ -90,7 +92,7 @@ const useApi = () => {
 				method: method,
 				headers: {
 					'Content-Type': 'application/json',
-					Authorization: `Bearer ${cookie.accessToken}`,
+					Authorization: `Bearer ${accessToken}`,
 				},
 				body: JSON.stringify(requestBody),
 			});
@@ -110,7 +112,7 @@ const useApi = () => {
 					method: method,
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: `Bearer ${cookie.accessToken}`,
+						Authorization: `Bearer ${accessToken}`,
 					},
 					body: JSON.stringify(requestBody),
 				});
@@ -124,7 +126,7 @@ const useApi = () => {
 			} catch (error: any) {
 				//강제 로그아웃
 				console.log('토큰 리프레시 실패 로그아웃 ', error);
-				removeCookie('accessToken', { path: '/' });
+				removeCookie('refreshToken', { path: '/' });
 				dispatch(logout());
 				dispatch(reset());
 				navigate('/');
@@ -150,7 +152,7 @@ const useApi = () => {
 			const response = await fetch(baseURL + url, {
 				method: method,
 				headers: {
-					Authorization: `Bearer ${cookie.accessToken}`,
+					Authorization: `Bearer ${accessToken}`,
 				},
 				body: requestBody,
 			});
@@ -170,7 +172,7 @@ const useApi = () => {
 				const newResponse = await fetch(baseURL + url, {
 					method: method,
 					headers: {
-						'Authorization': `Bearer ${cookie.accessToken}`
+						'Authorization': `Bearer ${accessToken}`
 					},
 					body: requestBody,
 				});
@@ -184,7 +186,7 @@ const useApi = () => {
 			} catch (error: any) {
 				//강제 로그아웃
 				console.log('토큰 리프레시 실패 로그아웃 ', error);
-				removeCookie('accessToken', { path: '/' });
+				removeCookie('refreshToken', { path: '/' });
 				dispatch(logout());
 				dispatch(reset());
 				navigate('/');
@@ -200,7 +202,7 @@ const useApi = () => {
 			const response = await fetch(baseURL + url, {
 				method: method,
 				headers: {
-					Authorization: `Bearer ${cookie.accessToken}`,
+					Authorization: `Bearer ${accessToken}`,
 				},
 			});
 
@@ -218,7 +220,7 @@ const useApi = () => {
 				const newResponse = await fetch(baseURL + url, {
 					method: method,
 					headers: {
-						'Authorization': `Bearer ${cookie.accessToken}`
+						'Authorization': `Bearer ${accessToken}`
 					}
 				});
 
@@ -231,7 +233,7 @@ const useApi = () => {
 			} catch (error: any) {
 				//강제 로그아웃
 				console.log('토큰 리프레시 실패 로그아웃 ', error);
-				removeCookie('accessToken', { path: '/' });
+				removeCookie('refreshToken', { path: '/' });
 				dispatch(logout());
 				dispatch(reset());
 				navigate('/');

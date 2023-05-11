@@ -17,23 +17,19 @@ function HostRoomPage() : JSX.Element {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const status = useSelector((state: RootState) => state.host.status);
-	const [cookie] = useCookies(['accessToken']);
 	const roomstatusApi = useApi(); //방 상태 조회
 	const roomInfoApi = useApi();
 
 	useEffect(()=>{
-		if(cookie.accessToken !=='undefined'){
-			roomstatusApi.fetchNotBodyApiWithToken('GET', '/rooms/host/status');
-			roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
-		}
-	}, []);
+		roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
+	}, [status]);
 
 	useEffect(() => {
 		if(roomstatusApi.data?.success){
 			const code = roomstatusApi.data.data.code;
 			const status = roomstatusApi.data.data.status;
-			const refreshToken = '';
-			dispatch(changecode({refreshToken, status, code}));
+			const accessToken = '';
+			dispatch(changecode({accessToken, status, code}));
 		} else if(roomstatusApi.data){
 			Swal.fire({
 				icon: 'warning',               

@@ -20,39 +20,33 @@ function HostGameRoom() : JSX.Element {
 	const title = useSelector((state: RootState) => state.game.name);
 	const time = useSelector((state: RootState) => state.game.playTime);
 	const startTime = useSelector((state: RootState) => state.game.startTime);
+	const find = useSelector((state: RootState) => state.watch.treasure);
 	const [treasures, setTreasures] = useState<TreasureInfo[]>([]);
-	const roomInfoApi = useApi(); //기본 방 정보 조회
 	const TreasureApi = useApi(); //보물 조회
 	const endApi = useApi(); //방상ㅌ애 변경
 
-	//보물 정보
+	//보물 정보 (find messg 오면 갱신)
 	useEffect(()=>{
 		TreasureApi.fetchNotBodyApiWithToken('GET', '/treasures');
-	}, []);
+	}, [find]);
 
+	//보물 정보 설정
 	useEffect(()=>{
 		if(TreasureApi.data?.success){
 			setTreasures(TreasureApi.data.data);
 		}
 	}, [TreasureApi.data]);
 
-	//게임 시작
+
+	//////////////////////지워질 코드
+	//게임 끝내기
 	useEffect(()=>{
 		if(endApi.data?.success){
-			console.log('방 상태 변경완료?');
+			console.log('방 상태 4 변경 완료');
 			const code = '';
 			const status = 4;
-			const refreshToken = '';
-			dispatch(changecode({refreshToken, status, code}));
-		} else if(endApi.data){
-			// Swal.fire({
-			// 	icon: 'warning',               
-			// 	width: 300,
-			// 	iconColor: '#2BDCDB',
-			// 	text: '게임 시작 실패! 다시 시도해주세요!', 
-			// 	confirmButtonColor: '#2BDCDB',
-			// 	confirmButtonText: '확인',
-			// });
+			const accessToken = '';
+			dispatch(changecode({accessToken, status, code}));
 		}
 	}, [endApi.data]);
 
@@ -60,6 +54,7 @@ function HostGameRoom() : JSX.Element {
 		//원래 0되는 순간 
 		endApi.fetchApiWithToken('PATCH', '/rooms/host', {status: 4});
 	};
+	//////////////////////////
 
 	return (
 		<div className="flex flex-col items-center">

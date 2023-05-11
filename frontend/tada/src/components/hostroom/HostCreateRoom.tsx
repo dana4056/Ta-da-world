@@ -50,15 +50,11 @@ function HostCreateRoom() : JSX.Element {
 
 	useEffect(()=>{
 		if(roomstatusApi.data?.success){
-			console.log('방 상태 조회 ', roomstatusApi.data.data);
-			if(roomstatusApi.data.data.status === 2 ){
-				//소켓 열기
-				console.log('방 상태가 2');
-				const code = roomstatusApi.data.data.code;
-				const status = 2;
-				const refreshToken = '';
-				dispatch(changecode({refreshToken, status, code}));
-			}
+			console.log('방 상태 조회 2', roomstatusApi.data.data);
+			const code = roomstatusApi.data.data.code;
+			const status = 2;
+			const accessToken = '';
+			dispatch(changecode({accessToken, status, code}));
 		} else if(roomstatusApi.data){
 			Swal.fire({
 				icon: 'warning',               
@@ -101,7 +97,7 @@ function HostCreateRoom() : JSX.Element {
 	};
 
 	const startWait = () : void => {
-		if(title===''){
+		if(!title){
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
@@ -110,7 +106,7 @@ function HostCreateRoom() : JSX.Element {
 				confirmButtonColor: '#2BDCDB',
 				confirmButtonText: '확인',
 			});
-		} else if(time===''){
+		} else if(!time){
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
@@ -119,7 +115,7 @@ function HostCreateRoom() : JSX.Element {
 				confirmButtonColor: '#2BDCDB',
 				confirmButtonText: '확인',
 			});
-		} else if(treasures.length === 0){
+		} else if(!treasures.length){
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,

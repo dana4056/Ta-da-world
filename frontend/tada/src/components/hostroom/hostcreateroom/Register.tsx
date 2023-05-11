@@ -224,7 +224,7 @@ function Register() : JSX.Element {
 		while (n--) {
 			u8arr[n] = bstr.charCodeAt(n);
 		}				
-		const file = new File([u8arr], '사진', {type:mime});
+		const file = new File([u8arr], 'image.png', {type:mime});
 		formData.append('treasureFile', file);
 
 
@@ -239,7 +239,7 @@ function Register() : JSX.Element {
 				u8arr2[n2] = bstr2.charCodeAt(n2);
 			}
 					
-			const file2 = new File([u8arr2], '사진', {type:mime2});
+			const file2 = new File([u8arr2], 'image.png', {type:mime2});
 			formData.append('rewardFile', file2);
 		}
 

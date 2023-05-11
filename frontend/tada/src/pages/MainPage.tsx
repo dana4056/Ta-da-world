@@ -9,7 +9,7 @@ const kakao_login = require('../assets/images/kakao_login.png');
 
 function MainPage(): JSX.Element {
 	const navigate = useNavigate();
-	const ishost = useSelector((state: RootState) => state.host.refreshToken);
+	const ishost = useSelector((state: RootState) => state.host.accessToken);
 
 	const [activeComponent, setActiveComponent] = useState<'User' | 'Host'>(
 		'User'

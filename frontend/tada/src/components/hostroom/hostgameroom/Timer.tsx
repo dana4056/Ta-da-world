@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import Swal from 'sweetalert2';
 import { changecode } from '../../../stores/host';
+import Swal from 'sweetalert2';
 import { useInterval } from '../../../hooks/useInterval';
 import useApi from '../../../hooks/useApi';
 
@@ -13,7 +13,6 @@ interface TimeProps {
 function Timer({start, time}:TimeProps) : JSX.Element {
 	const dispatch = useDispatch();
 	const endApi = useApi(); //방 상태 변경
-	const roomstatusApi = useApi(); //방상태 조회
 	const date : Date = new Date();
 	const startD : Date =  new Date(start);
 	const startDate : Date = new Date(startD.getTime() - startD.getTimezoneOffset()*60000);
@@ -31,8 +30,8 @@ function Timer({start, time}:TimeProps) : JSX.Element {
 			//소켓 열기
 			const code = '';
 			const status = 4;
-			const refreshToken = '';
-			dispatch(changecode({refreshToken, status, code}));
+			const accessToken = '';
+			dispatch(changecode({accessToken, status, code}));
 		} else if(endApi.data){
 			Swal.fire({
 				icon: 'warning',               
@@ -46,7 +45,7 @@ function Timer({start, time}:TimeProps) : JSX.Element {
 	}, [endApi.data]);
 
 	useInterval(() => {
-		if(count-1 ===0){ //게임 멈추기
+		if(count-1 <= 0){ //게임 멈추기
 			endApi.fetchApiWithToken('PATCH', '/rooms/host', {status: 4});
 		}
 		setCount((count) => count - 1);

@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useCookies } from 'react-cookie';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { RootState } from '../stores';
+import { refresh } from '../stores/host';
 
 interface HostData {
   accessToken: string,
@@ -11,23 +14,26 @@ interface HostData {
 
 const useRefresh = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+	const accessToken = useSelector((state: RootState) => state.host.accessToken);
 	const [data, setData] = useState<HostData | null>(null);
 	const [error, setError] = useState<string | null>(null);
-	const [cookie, setCookie, ] = useCookies(['accessToken']);
+	const [cookie, , ] = useCookies(['refreshToken']);
+	const baseURL = 'https://ta-da.world/api';
 	const state = JSON.parse(localStorage.getItem('persist:root') || '{}');
-	const host = JSON.parse(state.host);
 	
 	const refreshToken = async () => {
 		if (!state) {
 			navigate('/');
 		}
-		console.log('existing token: ', cookie.accessToken);
+
+		console.log('existing token: ', accessToken);
+
 		try {
-			const baseURL = 'https://ta-da.world/api';
 			const response = await fetch(`${baseURL}/hosts/token/refresh`, {
 				method: 'POST',
 				headers: {
-					'Authorization': `Bearer ${host.refreshToken}`
+					'Authorization': `Bearer ${cookie.refreshToken}`
 				}
 			});
 			if (!response.ok) throw new Error(`HTTP ERROR: ${response.status}`);
@@ -35,7 +41,7 @@ const useRefresh = () => {
 			console.log('HOST DATA: ', json);
 			setData(json);
 			const { accessToken } = json;
-			setCookie('accessToken', accessToken);
+			dispatch(refresh(accessToken));
 		} catch(error) {
 			if (error instanceof Error) {
 				setError(error.message);

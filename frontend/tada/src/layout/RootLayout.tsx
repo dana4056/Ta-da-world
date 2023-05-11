@@ -4,7 +4,7 @@ import { RootState } from '../stores';
 import Header from '../components/nav/Header';
 
 const RootLayout = (): JSX.Element => {
-	const ishost = useSelector((state: RootState) => state.host.refreshToken);
+	const ishost = useSelector((state: RootState) => state.host.accessToken);
 
 	if(ishost){
 		return (
