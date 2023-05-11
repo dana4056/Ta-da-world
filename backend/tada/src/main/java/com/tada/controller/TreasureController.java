@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.tada.domain.dto.ResultDto;
+import com.tada.domain.dto.*;
 import com.tada.domain.entity.Room;
 import com.tada.service.HostService;
 import com.tada.util.ImageProcess;
@@ -18,10 +18,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tada.domain.dto.ImgPathDto;
-import com.tada.domain.dto.RankResponse;
-import com.tada.domain.dto.TreasureRequest;
-import com.tada.domain.dto.TreasureResponse;
 import com.tada.service.TreasureService;
 import com.tada.util.JwtTokenProvider;
 import com.tada.util.S3Service;
@@ -55,6 +51,7 @@ public class TreasureController {
 		@RequestPart("treasureFile") MultipartFile treasureFile,
 	    @RequestPart(value = "rewardFile",required = false) MultipartFile rewardFile,
 		@RequestPart(required = false) TreasureRequest treasureRequest){
+
 
 		HttpStatus status = HttpStatus.OK;
 		String header = request.getHeader("Authorization");
@@ -98,11 +95,13 @@ public class TreasureController {
 
 	@PostMapping("/answers/{id}")
 	@Operation(summary = "보물 답안 제출", description = "예상 보물 사진 촬영하여 업로드")
-	public ResponseEntity<?> postAnswer(@PathVariable Long id, @ModelAttribute("userId") String userId, @RequestParam("answerFile") MultipartFile answerFile) {
+	public ResponseEntity<?> postAnswer(@PathVariable Long id,
+										@RequestPart(required = false) UserDto userDto,
+										@RequestPart(required = false) MultipartFile answerFile) {
 		HttpStatus status = HttpStatus.OK;
 		Map<String, Object> resultMap = new HashMap<>();
 		try {
-			boolean isAnswer = treasureService.postAnswer(id, userId, answerFile);
+			boolean isAnswer = treasureService.postAnswer(id, userDto.getUserId(), answerFile);
 			if (isAnswer) {
 				resultMap.put("message",SUCCESS);
 				resultMap.put("success",TRUE);

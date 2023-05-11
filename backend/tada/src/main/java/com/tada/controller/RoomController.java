@@ -192,7 +192,7 @@ public class RoomController {
 				int roomStatus =  statusRequest.get("status");
 				if(roomStatus == 3){ // 게임 시작인 경우
 					Map<String, Object> data = new HashMap<String, Object>();
-					data.put("type","START");
+					data.put("messageType","START");
 					simpMessagingTemplate.convertAndSend("/sub/" + roomId.toString(), data); // 모든사람들에게 뿌림
 				}
 				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), status);
