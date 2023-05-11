@@ -44,14 +44,14 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 
-	@Override	// 참가지 리스트 조회
+	@Override	// 참가자 리스트 조회
 	public List<UserResponse> readUserList(Long roomId) throws Exception{
 		try{
 			if(!roomRepository.existsById(roomId)){
 				throw new NoSuchElementException("존재하지 않는 방");
 			}
 
-			List<User> userList = userRepository.findAllByRoom_Id(roomId);
+			List<User> userList = userRepository.findAllByRoom_IdOrderByCreateTimeDesc(roomId);
 			List<UserResponse> userDtoList = new ArrayList<>();
 
 			for(User user: userList){

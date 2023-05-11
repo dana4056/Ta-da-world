@@ -8,6 +8,6 @@ import com.tada.domain.entity.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
 
-	List<User> findAllByRoom_Id(Long roomId);
+	List<User> findAllByRoom_IdOrderByCreateTimeDesc(Long roomId);
 	User findByRoomIdAndNick(Long roomId, String nick);
 }
