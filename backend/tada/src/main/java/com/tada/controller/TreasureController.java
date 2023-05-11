@@ -106,6 +106,7 @@ public class TreasureController {
 				resultMap.put("message",SUCCESS);
 				resultMap.put("success",TRUE);
 			} else {
+				status = HttpStatus.ACCEPTED;
 				resultMap.put("message",FAIL);
 				resultMap.put("success",FALSE);
 			}
