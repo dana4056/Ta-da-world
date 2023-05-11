@@ -5,56 +5,44 @@ import { useDispatch } from 'react-redux';
 import { logout } from '../stores/host';
 import { reset } from '../stores/game';
 import useRefresh from './useRefresh';
+import { RootState } from '../stores';
+import { useSelector } from 'react-redux';
+
+const baseURL = 'https://ta-da.world/api';
 
 const useLogout = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const refresh  = useRefresh();
+	const accessToken = useSelector((state: RootState) => state.host.accessToken);
 	const [error, setError] = useState<string | null>(null);
-	const [cookie, , removeCookie] = useCookies(['accessToken']);
+	const [cookie, , removeCookie] = useCookies(['refreshToken']);
+
 	const logoutResponse = async() => {
-		const baseURL = 'https://ta-da.world/api';
 		const response = await fetch(`${baseURL}/hosts/logout`, {
 			method: 'POST',
 			headers: {
-				'Authorization': `Bearer ${cookie.accessToken}`,
+				'Authorization': `Bearer ${accessToken}`,
 				'Content-Type': 'application/json'
 			}
 		});
 		return response;
 	};
+
 	const handleLogout = async () => {
 		try {
 			const response = await logoutResponse();
-			if (response.ok) {
-				removeCookie('accessToken', {path: '/'});
-				dispatch(logout());
-				dispatch(reset());
-				navigate('/');
-			} else {
-				if (response.status === 401) {
-					await refresh.refreshToken();
-					const newResponse = await logoutResponse();
-					if (newResponse.ok) {
-						removeCookie('accessToken', {path: '/'});
-						dispatch(logout());
-						dispatch(reset());
-						navigate('/');
-					} else {
-						throw new Error(`REFRESH ERROR: ${newResponse.status}`);
-					}
-				} else {
-					throw new Error(`LOGOUT ERROR: ${response.status}`);
+			if (response.status === 401) {
+				await refresh.refreshToken();
+				const newResponse = await logoutResponse();
+				if (!newResponse.ok) {
+					throw new Error(`REFRESH ERROR: ${newResponse.status}`);
 				}
-			}
+			}	
 		} catch (error) {
-			if (error instanceof Error) {
-				setError(error.message);
-			} else {
-				setError('An unknown error occurred');
-			}
+			console.log('로그아웃 error', error);
 		} finally {
-			removeCookie('accessToken', {path: '/'});
+			removeCookie('refreshToken', {path: '/'});
 			dispatch(logout());
 			dispatch(reset());
 			navigate('/');
