@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../stores'; 
-import Swal from 'sweetalert2';
 import { change } from '../../stores/host';
 import tw from 'tailwind-styled-components';
-import { WhiteBox, Button } from '../../util/Semantics';
-import { TreasureInfo } from '../../util/Interface';
+import { WhiteBox, Button } from '../../utils/Semantics';
+import { TreasureInfo } from '../../utils/Interfaces';
+import Swal from 'sweetalert2';
 import TreasureMap from '../common/TreasureMap';
 import BoxHeader from '../common/HeaderBox';
 import Title from '../common/Title';
@@ -18,7 +18,12 @@ interface Hunter {
 	findCnt: number;
 }
 
-function HostEndRoom() : JSX.Element {
+const PlayTimeBox = tw(WhiteBox)`
+	flex flex-row justify-center items-center
+	w-3/4 h-12
+`;
+
+function HostEndRoom(): JSX.Element {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const title = useSelector((state: RootState) => state.game.name);
@@ -51,7 +56,7 @@ function HostEndRoom() : JSX.Element {
 	}, [hunterApi.data]);
 
 	//게임 끝
-	useEffect(()=>{
+	useEffect(() => {
 		if(endApi.data?.success){
 			roomstatusApi.fetchNotBodyApiWithToken('GET', '/rooms/host/status');
 		} else if(endApi.data){
@@ -66,7 +71,7 @@ function HostEndRoom() : JSX.Element {
 		}
 	}, [endApi.data]);
 
-	useEffect(()=>{
+	useEffect(() => {
 		if(roomstatusApi.data?.success){
 			console.log('방 상태 조회 ', roomstatusApi.data.data);
 			if(roomstatusApi.data.data.status === 0 ){
@@ -86,7 +91,7 @@ function HostEndRoom() : JSX.Element {
 		}
 	}, [roomstatusApi.data]);
 
-	const endGame = () : void => {
+	const endGame = (): void => {
 		endApi.fetchApiWithToken('PATCH', '/rooms/host', {status: 5});
 	};
 
@@ -134,10 +139,5 @@ function HostEndRoom() : JSX.Element {
 		</div>
 	);
 }
-
-const PlayTimeBox = tw(WhiteBox)`
-	flex flex-row justify-center items-center
-	w-3/4 h-12
-`;
 
 export default HostEndRoom;

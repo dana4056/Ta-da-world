@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../stores';
 import { changecode } from '../stores/host';
 import { set } from '../stores/game';
-import { useCookies } from 'react-cookie';
 import Swal from 'sweetalert2';
 
 import HostCreateRoom from '../components/hostroom/HostCreateRoom';
@@ -13,7 +12,7 @@ import HostGameRoom from '../components/hostroom/HostGameRoom';
 import HostEndRoom from '../components/hostroom/HostEndRoom';
 import useApi from '../hooks/useApi';
 
-function HostRoomPage() : JSX.Element {
+function HostRoomPage(): JSX.Element {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 	const status = useSelector((state: RootState) => state.host.status);

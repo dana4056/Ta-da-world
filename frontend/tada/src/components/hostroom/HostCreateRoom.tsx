@@ -1,24 +1,32 @@
 import { useEffect, useState } from 'react';
-import { RootState } from '../../stores';
 import { useDispatch, useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
+import { RootState } from '../../stores';
 import { changecode } from '../../stores/host';
-
-import { Circle } from '../../util/Semantics';
-import { TreasureInfo } from '../../util/Interface';
-import useApi from '../../hooks/useApi';
 import tw from 'tailwind-styled-components';
-
+import { RedCircle } from '../../utils/Semantics';
+import { TreasureInfo } from '../../utils/Interfaces';
+import useApi from '../../hooks/useApi';
+import Swal from 'sweetalert2';
 import Info from './hostcreateroom/Info';
 import List from './hostcreateroom/List';
 import Register from './hostcreateroom/Register';
-
 
 interface StyledDivProps {
 	active: string;
 }
 
-function HostCreateRoom() : JSX.Element {
+const SectionOpt = tw.div<StyledDivProps>`
+	w-1/3 h-12
+	flex justify-center items-center
+	${({ active }) => `
+		${active ? 'font-bold' : 'font-medium'}
+		${active ? 'text-main' : 'text-slate-300'}
+		${active ? 'text-base' : 'text-sm'}
+		${active ? 'border-b-4 border-b-main' : ' '}
+	`}
+`;
+
+function HostCreateRoom(): JSX.Element {
 	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
 	const [section, setSection] = useState<string>('info');
 	const [title, setTitle] = useState<string>('');
@@ -67,7 +75,6 @@ function HostCreateRoom() : JSX.Element {
 		}
 	}, [roomstatusApi.data]);
 
-
 	//개임 정보
 	useEffect(()=>{
 		roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
@@ -92,11 +99,11 @@ function HostCreateRoom() : JSX.Element {
 	}, [TreasureApi.data]);
 
 
-	const handleClick = (e:string) : void => {
+	const handleClick = (e:string): void => {
 		setSection(e);
 	};
 
-	const startWait = () : void => {
+	const startWait = (): void => {
 		if(!title){
 			Swal.fire({
 				icon: 'warning',               
@@ -142,7 +149,6 @@ function HostCreateRoom() : JSX.Element {
 		}	
 	};
 
-	  
 	return (
 		<div className="h-full flex flex-col rounded-t-lg bg-white">
 			<div className="flex mb-8">
@@ -159,21 +165,9 @@ function HostCreateRoom() : JSX.Element {
 			{section==='info' && <Info title={title} time={time}/>}
 			{section==='list' && <List treasures={treasures}/>}
 			{section==='register' && <Register/>}
-			{section !== 'register' && <div className='w-full flex justify-end'> <Circle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </Circle></div>}
+			{section !== 'register' && <div className='w-full flex justify-end'> <RedCircle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </RedCircle></div>}
 		</div>
 	);
 }
-
-
-const SectionOpt = tw.div<StyledDivProps>`
-	w-1/3 h-12
-	flex justify-center items-center
-	${({ active }) => `
-		${active ? 'font-bold' : 'font-medium'}
-		${active ? 'text-main' : 'text-slate-300'}
-		${active ? 'text-base' : 'text-sm'}
-		${active ? 'border-b-4 border-b-main' : ' '}
-  	`}
-`;
 
 export default HostCreateRoom;

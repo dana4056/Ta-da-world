@@ -1,14 +1,13 @@
-import React, {useState, useEffect} from 'react';
-import { Modal, ModalSection, Button, ModalHeader } from '../../../util/Semantics';
+import { useState, useEffect } from 'react';
 import tw from 'tailwind-styled-components';
-
-import {BsX}  from 'react-icons/bs';
+import { Modal, ModalSection, Button, ModalHeader } from '../../../utils/Semantics';
+import { BsX }  from 'react-icons/bs';
 
 declare global {
 	interface Window {
-	  kakao: any;
+		kakao: any;
 	}
-  }
+}
 
 //등록쪽에서 위도 받아와야함
 interface openProps {
@@ -22,13 +21,13 @@ interface StyledDivProps {
 	active: string;
 }
 
-const Modal2 = tw(Modal)<StyledDivProps>`
+const DynamicModal = tw(Modal)<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
-  	`}
+	`}
 `;
 
-function RegisterModal({open, close, latitude, longitude}: openProps) : JSX.Element{
+function RegisterModal({open, close, latitude, longitude}: openProps): JSX.Element{
 	const [lat, setLat] = useState<string>(latitude);
 	const [lon, setLon] = useState<string>(longitude);
 
@@ -62,7 +61,7 @@ function RegisterModal({open, close, latitude, longitude}: openProps) : JSX.Elem
 	}, [open]);
 
 	return (
-		<Modal2 active = {open ? '1':''}>
+		<DynamicModal active = {open ? '1':''}>
 			{open ? (
 				<ModalSection>
 					<ModalHeader>
@@ -75,7 +74,7 @@ function RegisterModal({open, close, latitude, longitude}: openProps) : JSX.Elem
 					<Button onClick={()=> {close(lat, lon);}}>저장</Button>
 				</ModalSection>
 			) : null}
-		</Modal2>
+		</DynamicModal>
 	);
 }
 

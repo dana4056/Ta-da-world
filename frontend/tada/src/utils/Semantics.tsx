@@ -81,7 +81,7 @@ export const WhiteBox = tw.div`
 	my-3 py-2 px-2
 `;
 
-export const Circle = tw.div`
+export const RedCircle = tw.div`
 	w-12 h-12
 	flex items-center justify-center
 	bg-red rounded-full shadow-lg
@@ -89,7 +89,7 @@ export const Circle = tw.div`
 	py-2 px-2 mx-2 z-10
 `;
 
-export const Circle2 = tw.div`
+export const BlueCircle = tw.div`
 	w-12 h-12
 	flex items-center justify-center
 	bg-blue rounded-full shadow-lg
@@ -104,8 +104,8 @@ const Semantics = {
 	Input,
 	Modal,
 	WhiteBox,
-	Circle,
-	Circle2,
+	RedCircle,
+	BlueCircle,
 	CustomInput,
 	CustomButton,
 };

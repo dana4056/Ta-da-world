@@ -2,16 +2,14 @@ import { createBrowserRouter } from 'react-router-dom';
 import RootLayout from './layout/RootLayout';
 
 import MainPage from './pages/MainPage';
-import OauthKakao from './oauth/OauthKakao';
+import OauthKakao from './pages/oauth/OauthKakao';
 import HostHomePage from './pages/HostHomePage';
 import HostRoomPage from './pages/HostRoomPage';
 import UserWaitPage from './pages/UserWaitPage';
 import UserNamePage from './pages/UserNamePage';
 import UserLoadingPage from './pages/UserLoadingPage';
 import UserCharacterPage from './pages/UserCharacterPage';
-import UserPlayPage from './pages/UserPlayPage';
-import TestPage from './pages/TestPage';
-import RewardTestPage from './pages/RewardTestPage';
+import UserGamePage from './pages/UserGamePage';
 
 const router = createBrowserRouter([
 	{
@@ -44,17 +42,9 @@ const router = createBrowserRouter([
 				element: <UserCharacterPage />,
 			},
 			{
-				path: 'userplay',
-				element: <UserPlayPage />,
-			},
-			{
-				path: 'test',
-				element: <TestPage />,
-			},
-			{
-				path: 'rewardtest',
-				element: <RewardTestPage />,
-			},
+				path: 'usergame',
+				element: <UserGamePage />,
+			}
 		],
 	},
 	{

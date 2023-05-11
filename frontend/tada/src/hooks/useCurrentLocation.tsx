@@ -10,7 +10,7 @@ function useCurrentLocation() {
 	const [error, setError] = useState<string | null>(null);
 
 	// Geolocation의 `getCurrentPosition` 메소드에 대한 성공 callback 핸들러
-	const handleSuccess = (position:any) : void => {
+	const handleSuccess = (position:any): void => {
 		const { latitude, longitude } = position.coords;
 
 		setData({

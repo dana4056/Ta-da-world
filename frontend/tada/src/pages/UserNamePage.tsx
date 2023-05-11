@@ -5,7 +5,7 @@ import { enterNickname } from '../stores/user';
 import styles from '../assets/css/UserNamePage.module.css';
 import { RootState } from '../stores';
 import useApi from '../hooks/useApi';
-import Semantics from '../util/Semantics';
+import Semantics from '../utils/Semantics';
 
 const { CustomInput, CustomButton } = Semantics;
 

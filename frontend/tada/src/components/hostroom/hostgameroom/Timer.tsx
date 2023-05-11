@@ -2,15 +2,15 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changecode } from '../../../stores/host';
 import Swal from 'sweetalert2';
-import { useInterval } from '../../../hooks/useInterval';
 import useApi from '../../../hooks/useApi';
+import { useInterval } from '../../../hooks/useInterval';
 
 interface TimeProps {
     start: string;
     time: string;
 }
 
-function Timer({start, time}:TimeProps) : JSX.Element {
+function Timer({start, time}:TimeProps): JSX.Element {
 	const dispatch = useDispatch();
 	const endApi = useApi(); //방 상태 변경
 	const date : Date = new Date();

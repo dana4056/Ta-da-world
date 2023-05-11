@@ -2,17 +2,32 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeTreasure } from '../../../stores/watch';
 import tw from 'tailwind-styled-components';
+import { Label, Input, Button } from '../../../utils/Semantics';
 import Swal from 'sweetalert2';
-
-import { Label, Input, Button } from '../../../util/Semantics';
+import { MdAddPhotoAlternate } from 'react-icons/md';
+import { BsCameraFill } from 'react-icons/bs';
+import useApi from '../../../hooks/useApi';
 import useCurrentLocation  from '../../../hooks/useCurrentLocation';
 import CaptureModal from './CaptureModal';
 import RegisterModal from './RegisterModal';
-import useApi from '../../../hooks/useApi';
-import {MdAddPhotoAlternate} from 'react-icons/md';
-import {BsCameraFill} from 'react-icons/bs';
 
-function Register() : JSX.Element {
+const plus = require('../../../assets/images/plus.png');
+
+const Textarea = tw.textarea`
+	text-base w-full
+	bg-white2 rounded-lg border-2 border-gray
+	py-3 px-3 mt-2 mb-8
+`;
+
+const MiniButton = tw.div`
+	flex justify-center items-center 
+	w-24 h-7 
+	bg-main3 rounded-lg 
+	text-white text-sm font-bold
+	ml-4
+`;
+
+function Register(): JSX.Element {
 	const dispatch = useDispatch();
 	const [treasure, setTreasure] = useState<string>('');
 	const [lat, setLat] = useState<string>('0');
@@ -38,7 +53,6 @@ function Register() : JSX.Element {
 			location.getCurrentLocation(geolocationOptions);
 		}
 	}, [treasure]);
-
 
 	useEffect(() => {
 		if(treasure){
@@ -77,22 +91,22 @@ function Register() : JSX.Element {
 	}, [registerTresure.data]);
 
 	//힌트 작성	
-	const handleHint = (e : React.ChangeEvent<HTMLTextAreaElement>) : void  => {
+	const handleHint = (e: React.ChangeEvent<HTMLTextAreaElement>): void  => {
 		setHint(e.target.value);
 	};
 
 	//위도 작성	
-	const handleLat = (e : React.ChangeEvent<HTMLInputElement>) : void  => {
+	const handleLat = (e: React.ChangeEvent<HTMLInputElement>): void  => {
 		setLat(e.target.value);
 	};
 
 	//경도 작성	
-	const handleLon = (e : React.ChangeEvent<HTMLInputElement>) : void  => {
+	const handleLon = (e: React.ChangeEvent<HTMLInputElement>): void  => {
 		setLon(e.target.value);
 	};
 
 	//보상 설명 작성
-	const handleRewardDes  = (e : React.ChangeEvent<HTMLTextAreaElement>) : void  => {
+	const handleRewardDes  = (e: React.ChangeEvent<HTMLTextAreaElement>): void  => {
 		setRewardDes(e.target.value);
 	};
 
@@ -121,7 +135,7 @@ function Register() : JSX.Element {
 	};
 
 	//사진찍기 모달창 닫기
-	const closeCapturModal = (base64:string) : void => {
+	const closeCaptureModal = (base64:string): void => {
 		if(base64){
 			setTreasure(base64);
 		}
@@ -143,9 +157,9 @@ function Register() : JSX.Element {
 			});
 		}
 	};
-	
+
 	//map 모달창 닫기
-	const closeMapModal = (latt:string, lonn:string) : void => {
+	const closeMapModal = (latt:string, lonn:string): void => {
 		if(latt !=='0' && lonn !== '0'){
 			setLat(latt);
 			setLon(lonn);
@@ -160,7 +174,7 @@ function Register() : JSX.Element {
 		}
 	}, [location.data]);
 
-	const checkAva = () : void  => {
+	const checkAva = (): void  => {
 		//유효성 검사
 		if (treasure === '') {
 			Swal.fire({
@@ -213,7 +227,7 @@ function Register() : JSX.Element {
 	};
 
 	//api 요청할 곳
-	const registerTreasure = () : void  => {
+	const registerTreasure = (): void  => {
 		const formData = new FormData();
 
 		const arr: string[] = treasure.split(',');
@@ -258,7 +272,7 @@ function Register() : JSX.Element {
 
 	return (
 		<>
-			<CaptureModal open={modalOpen} close={closeCapturModal}/>
+			<CaptureModal open={modalOpen} close={closeCaptureModal}/>
 			<RegisterModal open={modalOpen2} close={closeMapModal} latitude={lat} longitude={lon}/>
 			<div className='flex flex-col px-4 overflow-y-scroll'>
 				<>
@@ -318,21 +332,5 @@ function Register() : JSX.Element {
 		</>
 	);
 }
-
-const plus = require('../../../assets/images/plus.png');
-
-const Textarea = tw.textarea`
-	text-base w-full
-	bg-white2 rounded-lg border-2 border-gray
-	py-3 px-3 mt-2 mb-8
-`;
-
-const MiniButton = tw.div`
-	flex justify-center items-center 
-	w-24 h-7 
-	bg-main3 rounded-lg 
-	text-white text-sm font-bold
-	ml-4
-`;
 
 export default Register;

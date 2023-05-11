@@ -1,19 +1,19 @@
-import { useState, useEffect, useRef } from 'react'; 
-import { Label } from '../../../util/Semantics';
+import { useState, useEffect } from 'react'; 
+import { Label } from '../../../utils/Semantics';
+import { TreasureInfo } from '../../../utils/Interfaces';
 import ListModal from './ListModal';
-import { TreasureInfo } from '../../../util/Interface';
 
 interface ListProps {
     treasures: TreasureInfo[]
 }
 
-function List({treasures}: ListProps) : JSX.Element {
+function List({ treasures }: ListProps): JSX.Element {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [no, setNO] = useState<number>(0);
 	const [lat, setLat] = useState<string>('');
 	const [lng, setLng] = useState<string>('');
 	
-	const handleNO  = (i:number) : void => {
+	const handleNO  = (i:number): void => {
 		setLat(treasures[i].lat);
 		setLng(treasures[i].lng);
 		setNO(i);
@@ -61,9 +61,8 @@ function List({treasures}: ListProps) : JSX.Element {
 	const modalTreasureOpen = (): void => {
 		setModalOpen(true);
 	};
-	
 	//모달창 닫기
-	const closeModal = () : void => {
+	const closeModal = (): void => {
 		setModalOpen(false);
 	};
 
@@ -75,11 +74,11 @@ function List({treasures}: ListProps) : JSX.Element {
 			}
 
 			<div className='h-full px-4 '>
-      		<Label>보물 지도</Label>
+				<Label>보물 지도</Label>
 				{ treasures.length ?
 					<>
 						<div className='flex justify-end w-full px-1 text-sm'>총 {treasures.length}개</div>
-			  			<div className='flex items-center w-full py-2 mb-2 overflow-x-scroll bg-white2 rounded-xl'>
+						<div className='flex items-center w-full py-2 mb-2 overflow-x-scroll bg-white2 rounded-xl'>
 							{treasures.map((treasure, index) => {
 								return ( 
 									<div key={index} style={{ backgroundImage: `url(${treasure.imgPath})` }} className='w-12 h-12 mx-2 bg-center bg-cover rounded-full g-no-repeat' onClick={()=>handleNO(index)}/>
@@ -98,5 +97,5 @@ function List({treasures}: ListProps) : JSX.Element {
 		</>
 	);
 }
-  
+
 export default List;

@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { change } from '../../stores/host';
 import { RootState } from '../../stores';
+import { change } from '../../stores/host';
 import tw from 'tailwind-styled-components';
-import {GraButton} from '../../util/Semantics';
+import {GraButton} from '../../utils/Semantics';
 import useApi from '../../hooks/useApi';
 import Swal from 'sweetalert2';
 
@@ -26,7 +26,7 @@ export const GraText = tw.div<color>`
 
 function RoomStatus({ status }: hostRoomProps)  : JSX.Element {
 	const navigate = useNavigate();
-	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다\
+	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
 	const code = useSelector((state: RootState) => state.host.code);
 	const commentlist: Array<string> = ['게임 방을 만들어봐요!', '현재 방 생성중', '게임을 시작해봐요!', '게임이 진행되고 있어요', '게임이 끝났어요'];
 	const btnCommentlist: Array<string> = ['방 만들기', '방 수정', '대기방 가기', '진행 현황 보기', '결과창 보기'];
@@ -36,7 +36,7 @@ function RoomStatus({ status }: hostRoomProps)  : JSX.Element {
 	const createRoom = useApi(); //방 상태 변경
 	const roomstatusApi = useApi(); //방 상태 조회
 
-	const navRoom = () : void  => {
+	const navRoom = (): void  => {
 		if(status === 0){
 			//방 생성
 			createRoom.fetchNotBodyApiWithToken('POST', '/rooms/host');
@@ -76,7 +76,6 @@ function RoomStatus({ status }: hostRoomProps)  : JSX.Element {
 			});
 		}
 	}, [roomstatusApi.data]);
-
 
 	return (
 		<>

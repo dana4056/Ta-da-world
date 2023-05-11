@@ -1,11 +1,9 @@
-
 interface StyledDivProps {
 	title: string;
     subTitle: string;
 }
 
-
-function Title({title, subTitle}: StyledDivProps) : JSX.Element {
+function Title({title, subTitle}: StyledDivProps): JSX.Element {
 	return (
 		<>
 			<p className='mb-1 text-white font-bold'>{subTitle}</p>

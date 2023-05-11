@@ -5,11 +5,10 @@ import { change } from '../../stores/host';
 import { changeTreasure } from '../../stores/watch';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import {GoMegaphone} from 'react-icons/go';
 import Swal from 'sweetalert2';
-
-import {UserListItem} from '../../util/Interface';
-import { Button } from '../../util/Semantics';
+import { GoMegaphone } from 'react-icons/go';
+import { UserListItem } from '../../utils/Interfaces';
+import { Button } from '../../utils/Semantics';
 import BoxHeader from '../common/HeaderBox';
 import Title from '../common/Title';
 import NoticeModal from './common/NoticeModal';
@@ -17,7 +16,7 @@ import useApi from '../../hooks/useApi';
 
 const baseURL = 'https://ta-da.world/api';
 
-function HostWaitRoom() : JSX.Element {
+function HostWaitRoom(): JSX.Element {
 	const dispatch = useDispatch(); // 디스패치 함수를 가져옵니다
 	const title = useSelector((state: RootState) => state.game.name);
 	const code = useSelector((state: RootState) => state.host.code);
@@ -64,7 +63,7 @@ function HostWaitRoom() : JSX.Element {
 		}
 	}, [startApi.data]);
 
-	const startGame = () : void => {
+	const startGame = (): void => {
 		Swal.fire({
 			text: '게임을 시작 하시겠습니까?',
 			width: 300,
@@ -122,14 +121,14 @@ function HostWaitRoom() : JSX.Element {
 	//웹소켓 연결 끊기
 	const stompDisconnect = ():void => {
 		try {
-		  console.log('나간다');
-		  stompRef.current.disconnect(() => {
-			  console.log('STOMP connection closed');
+			console.log('나간다');
+			stompRef.current.disconnect(() => {
+				console.log('STOMP connection closed');
 			},
 			{
-			  subscriptionId: `/sub/${roomId}`,
+				subscriptionId: `/sub/${roomId}`,
 			}
-		  );
+			);
 		} catch (error) {
 			console.log('socket closed error : ', error);
 		}
@@ -138,8 +137,8 @@ function HostWaitRoom() : JSX.Element {
 	//공지 보낼때
 	const sendMessage = (notice:string) => {
 		const data = {
-		  messageType: 'NOTICE',
-		  message: notice
+			messageType: 'NOTICE',
+			message: notice
 		};
 
 		if (stompRef.current?.connected) {
@@ -157,21 +156,19 @@ function HostWaitRoom() : JSX.Element {
 		}
 	};
 
-
 	//모달창 열기
 	const openModal = (): void => {
 		setModalOpen(true);
 	};
-		
+
 	//모달창 닫기
-	const closeModal = (notice:string) : void => {
+	const closeModal = (notice:string): void => {
 		if(notice){
 			sendMessage(notice);
 		}
 		setModalOpen(false);
 	};
 
-		
 	return (
 		<>
 			<NoticeModal open={modalOpen} close={closeModal}/>

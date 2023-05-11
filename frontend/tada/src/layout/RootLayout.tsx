@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
-import Header from '../components/nav/Header';
+import Header from '../components/common/nav/Header';
 
 const RootLayout = (): JSX.Element => {
 	const ishost = useSelector((state: RootState) => state.host.accessToken);

@@ -17,7 +17,7 @@ function useWatchLocation(): WatchLocation {
 	const watchId = useRef<number | null>(null);
 
 	// Geolocation의 `getCurrentPosition` 메소드에 대한 성공 callback 핸들러
-	const handleSuccess = (position: GeolocationPosition) : void => {
+	const handleSuccess = (position: GeolocationPosition): void => {
 		const { latitude, longitude } = position.coords;
 
 		setData({
