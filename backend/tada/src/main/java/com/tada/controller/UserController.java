@@ -114,7 +114,7 @@ public class UserController {
 	@Operation(summary = "참가자 리스트 조회", description = "특정 게임방 안에 있는 참가자 리스트를 반환"
 		+"<b>[RequestParam]</b><br>"
 		+"room: 방 고유번호")
-	public ResponseEntity<?> readUserList(@RequestParam("room") Long roomId){
+	public ResponseEntity<?> readUserList(@RequestParam("roomId") Long roomId){
 		HttpStatus status = HttpStatus.OK;
 		Map<String, Object> resultMap = new HashMap<>();
 
