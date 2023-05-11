@@ -4,11 +4,13 @@ import storage from 'redux-persist/lib/storage'; // defaults to localStorage for
 import host from './host';
 import user from './user';
 import watch from './watch';
+import game from './game';
 
 const rootReducer = combineReducers({
 	host,
 	user,
-	watch
+	watch,
+	game
 });
 
 const persistConfig = {

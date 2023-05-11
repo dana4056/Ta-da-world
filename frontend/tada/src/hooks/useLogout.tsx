@@ -3,6 +3,7 @@ import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../stores/host';
+import { reset } from '../stores/game';
 import useRefresh from './useRefresh';
 
 const useLogout = () => {
@@ -28,6 +29,7 @@ const useLogout = () => {
 			if (response.ok) {
 				removeCookie('accessToken', {path: '/'});
 				dispatch(logout());
+				dispatch(reset());
 				navigate('/');
 			} else {
 				if (response.status === 401) {
@@ -36,6 +38,7 @@ const useLogout = () => {
 					if (newResponse.ok) {
 						removeCookie('accessToken', {path: '/'});
 						dispatch(logout());
+						dispatch(reset());
 						navigate('/');
 					} else {
 						throw new Error(`REFRESH ERROR: ${newResponse.status}`);
@@ -53,6 +56,7 @@ const useLogout = () => {
 		} finally {
 			removeCookie('accessToken', {path: '/'});
 			dispatch(logout());
+			dispatch(reset());
 			navigate('/');
 		}
 	};

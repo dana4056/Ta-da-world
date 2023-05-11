@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../stores/host';
+import { reset } from '../stores/game';
 import { useCookies } from 'react-cookie';
 import useRefresh from './useRefresh';
 
@@ -64,7 +65,6 @@ const useApi = () => {
 	}
 
 	// accessToken이 필요없는 multi 요청인 경우
-
 	async function fetchApiMulti(method: string, url: string, requestBody: any) {
 		console.log('API METHOD: ', method, 'REQUEST BODY: ', requestBody);
 		try {
@@ -96,11 +96,12 @@ const useApi = () => {
 			});
 			
 			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
-
-			console.log('요청 결과', response.status);
-			const json = await response.json();
-			console.log('받은 데이터 ', json);
-			setData(json);
+			if(response.status !== 500){
+				console.log('요청 결과', response.status);
+				const json = await response.json();
+				console.log('받은 데이터 ', json);
+				setData(json);
+			}
 		} catch (error: any) {
 			console.log('토큰 리프레시');
 			await refresh.refreshToken();
@@ -115,15 +116,17 @@ const useApi = () => {
 				});
 
 				if(!newResponse.ok) throw new Error(`HTTP error: ${newResponse.status}`);
-
-				const json = await newResponse.json();
-				console.log('받은 데이터 ', json);
-				setData(json);
+				if(newResponse.status !== 500){
+					const json = await newResponse.json();
+					console.log('받은 데이터 ', json);
+					setData(json);
+				}
 			} catch (error: any) {
 				//강제 로그아웃
 				console.log('토큰 리프레시 실패 로그아웃 ', error);
 				removeCookie('accessToken', { path: '/' });
 				dispatch(logout());
+				dispatch(reset());
 				navigate('/');
 			}
 		} finally {
@@ -155,9 +158,11 @@ const useApi = () => {
 			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
 
 			console.log('요청 결과', response.status);
-			const json = await response.json();
-			console.log('받은 데이터 ', json);
-			setData(json);
+			if(response.status !== 500){
+				const json = await response.json();
+				console.log('받은 데이터 ', json);
+				setData(json);
+			}
 		} catch (error: any) {
 			console.log('토큰 리프레시');
 			await refresh.refreshToken();
@@ -171,15 +176,17 @@ const useApi = () => {
 				});
 
 				if(!newResponse.ok) throw new Error(`HTTP error: ${newResponse.status}`);
-
-				const json = await newResponse.json();
-				console.log('받은 데이터 ', json);
-				setData(json);
+				if(newResponse.status !== 500){
+					const json = await newResponse.json();
+					console.log('받은 데이터 ', json);
+					setData(json);
+				}
 			} catch (error: any) {
 				//강제 로그아웃
 				console.log('토큰 리프레시 실패 로그아웃 ', error);
 				removeCookie('accessToken', { path: '/' });
 				dispatch(logout());
+				dispatch(reset());
 				navigate('/');
 			}
 		} finally {
@@ -189,7 +196,6 @@ const useApi = () => {
 
 	//[2] accessToken이 필요한 요청인 경우 Get
 	async function fetchNotBodyApiWithToken(method: string, url: string) {
-		console.log('api요청 method ', method);
 		try {
 			const response = await fetch(baseURL + url, {
 				method: method,
@@ -197,12 +203,14 @@ const useApi = () => {
 					Authorization: `Bearer ${cookie.accessToken}`,
 				},
 			});
-			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
 
-			console.log('요청 결과', response.status);
-			const json = await response.json();
-			console.log('받은 데이터 ', json);
-			setData(json);
+			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
+			if(response.status !== 500){
+				console.log('요청 결과', response.status);
+				const json = await response.json();
+				console.log('받은 데이터 ', json);
+				setData(json);
+			}
 		} catch (error: any) {
 			console.log('토큰 리프레시');
 			await refresh.refreshToken();
@@ -215,15 +223,17 @@ const useApi = () => {
 				});
 
 				if(!newResponse.ok) throw new Error(`HTTP error: ${newResponse.status}`);
-
-				const json = await newResponse.json();
-				console.log('받은 데이터 ', json);
-				setData(json);
+				if(newResponse.status !== 500){
+					const json = await newResponse.json();
+					console.log('받은 데이터 ', json);
+					setData(json);
+				}
 			} catch (error: any) {
 				//강제 로그아웃
 				console.log('토큰 리프레시 실패 로그아웃 ', error);
 				removeCookie('accessToken', { path: '/' });
 				dispatch(logout());
+				dispatch(reset());
 				navigate('/');
 			}
 		} finally {

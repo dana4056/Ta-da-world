@@ -1,21 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
-import UserProfile from '../components/user/UserProfile';
-import UserList from '../components/user/UserList';
-import useApi from '../hooks/useApi';
 import SockJS from 'sockjs-client';
-import { Stomp } from '@stomp/stompjs';
+import { Stomp, Frame } from '@stomp/stompjs';
+import useApi from '../hooks/useApi';
 
-// // string to number hash
-// function hashStringToNumber(str: string) {
-// 	let hash = 5381;
-// 	for (let i = 0; i < str.length; i++) {
-// 		const char = str.charCodeAt(i);
-// 		hash = (hash << 5) + hash + char; /* hash * 33 + char */
-// 	}
-// 	return hash.toString();
-// }
+const baseURL = 'https://ta-da.world/api';
 
 interface User {
 	id: string;
@@ -23,29 +13,34 @@ interface User {
 	nickname: string;
 	profileImage: string;
 }
-interface UserListItem {
-	id: string;
-	nick: string;
-	imgNo: number;
+
+// string to number hash
+function hashStringToNumber(str: string) {
+	let hash = 5381;
+	for (let i = 0; i < str.length; i++) {
+		const char = str.charCodeAt(i);
+		hash = (hash << 5) + hash + char; /* hash * 33 + char */
+	}
+	return hash.toString();
 }
 
-const baseURL = 'https://ta-da.world/api';
-
 function UserWaitPage(): JSX.Element {
-	// 유저 정보
 	const userState = useSelector((state: RootState) => state.user);
 
 	console.log(userState);
-
+	const userId = `${userState.roomId}_${hashStringToNumber(
+		userState.nickname
+	)}`;
+	// console.log(userState);
 	const user: User = {
-		id: userState.userId,
+		id: userId,
 		roomId: userState.roomId,
 		nickname: userState.nickname,
 		profileImage: String(userState.character),
 	};
 
 	// 웹소켓
-	const stompConnect = () => {
+	const stompConnet = (): void => {
 		try {
 			const stomp = Stomp.over(() => {
 				return new SockJS(`${baseURL}/ws/room`);
@@ -57,74 +52,68 @@ function UserWaitPage(): JSX.Element {
 					userId: `${user.id}`,
 					roomId: `${user.roomId}`,
 					nickname: `${user.nickname}`,
-					imgNo: `${user.profileImage}`,
 				};
-				console.log('socket : send data : ', data);
-				stomp.send('/pub/send', {}, JSON.stringify(data));
+				stomp.send(`${baseURL}/pub/send`, {}, JSON.stringify(data));
 				stomp.subscribe(
-					`/sub/${user.roomId}`,
+					`${baseURL}/sub/${userState.roomCode}`,
 					(Ms) => {
 						const msObj = JSON.parse(Ms.body);
-						// enter, notice, end, start, find
 						if (msObj.messageType === 'ENTER') {
-							fetchUserList();
 							console.log('someone entered');
 						} else if (msObj.messageType === 'NOTICE') {
 							console.log('someone noticed');
 							alert(msObj.message);
-						} else if (msObj.messageType === 'END') {
-							console.log('game ended');
-						} else if (msObj.messageType === 'START') {
-							console.log('game started');
-						} else if (msObj.messageType === 'FIND') {
-							console.log('find treasure');
 						}
-						console.log('msObj : ', msObj);
+						console.log(msObj);
 					},
 					{}
 				);
 			});
 		} catch (error) {
-			console.log('socket error : ', error);
+			console.log(error);
 		}
 	};
 
 	// 게임 참가 유저 리스트
 	const userList = useApi();
-	const { data, error, fetchGetApi } = userList;
-	const [userListData, setUserListData] = useState<UserListItem[] | null>(null);
-
-	const fetchUserList = async () => {
-		await fetchGetApi(`/users?roomId=${user.roomId}`);
-		setUserListData(userList.data.data);
-		console.log('userlist data: ', userListData);
-		// console.log('userlist data: ', userList.data);
-		// if (userList.data && userList.data.data) {
-		// 	console.log('userList : ', userList.data.data);
-		// 	setUserListData(userList.data.data);
-		// } else {
-		// 	console.log('userList is null');
-		// }
-	};
-
-	// useEffect(() => {
-	// 	stompConnect();
-	// }, [userListData]);
-
-	// useEffect(() => {
-	// 	stompConnect();
-	// }, [userList.data]);
 
 	useEffect(() => {
-		fetchUserList();
-		// fetchGetApi(`/users?room=${user.roomId}`);
+		stompConnet();
+		async (): Promise<void> => {
+			await userList.fetchGetApi(`/rooms/users?room=${user.roomId}`);
+		};
+		console.log(userList.data);
 	}, []);
 
 	return (
 		<div className='w-full h-full bg-white2'>
-			<UserProfile user={user} />
-			<UserList users={userListData} />
-			{/* <UserList users={data} /> */}
+			{/* 상단 프로필 단 */}
+			<div className='flex items-center justify-center pt-12 shadow-lg h-52 bg-main rounded-b-3xl'>
+				<div className='flex items-center justify-center rounded-full w-52 h-52 bg-main2/50'>
+					<div className='p-5'>
+						<video
+							autoPlay
+							loop
+							muted
+							className='border-4 border-white rounded-full'
+							src={require(`../assets/images/avatar${user.profileImage}.mp4`)}
+						></video>
+						<div className='flex items-center justify-center w-auto h-12 mt-5 text-lg font-semibold text-white border-2 rounded-full shadow-lg bg-gradient-to-r from-blue to-blue2'>
+							<p>{user.nickname}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className='px-2 mt-4 space-y-2 overflow-auto h-80'>
+				{/* {members.map((member) => (
+						<div
+							className='flex items-center h-16 pl-3 font-bold bg-white shadow-lg text- rounded-2xl text-main w-ful'
+							key={member.id}
+							/>
+							<p>{member.name}</p>
+						</div>
+					))} */}
+			</div>
 		</div>
 	);
 }

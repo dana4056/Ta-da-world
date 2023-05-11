@@ -20,3 +20,9 @@ export interface CurrentLocation {
   error: string | null
   getCurrentLocation: () => void
 }
+
+export interface UserListItem {
+	id: string;
+	nick: string;
+	imgNo: number;
+}
