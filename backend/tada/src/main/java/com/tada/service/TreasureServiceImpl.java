@@ -1,21 +1,20 @@
 package com.tada.service;
 
-import com.amazonaws.Response;
+import com.tada.util.S3Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import com.tada.domain.dto.*;
 import com.tada.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +30,7 @@ import com.tada.repository.RoomRepository;
 import com.tada.repository.TreasureRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @Transactional
@@ -41,10 +41,10 @@ public class TreasureServiceImpl implements TreasureService{
 	private final UserRepository userRepository;
 
 	@Autowired
-	private ApiService<Response> apiService;
-
+	private ApiService<Map<String, Boolean>> apiService;
+	private final S3Service s3Service;
+	private final SimpMessagingTemplate simpMessagingTemplate;
 	@Value("${environments.python.url}") private String pythonUrl;
-
 	public static final Logger logger = LoggerFactory.getLogger(HostController.class);
 
 	@Override
@@ -79,23 +79,40 @@ public class TreasureServiceImpl implements TreasureService{
 	}
 
 	@Override
-	public HttpStatus postAnswer(Long id, ImgPathDto answerImgDto) throws Exception {
-		Treasure treasure = treasureRepository.findById(id)
-				.orElseThrow(() -> new NoSuchElementException("존재하지않는 보물임"));
+	public boolean postAnswer(Long treasureId, String userId, MultipartFile answerFile) throws Exception {
+		User user = userRepository.findById(userId)
+				.orElseThrow(() -> new NoSuchElementException("존재하지 않는 유저"));
+		Room room = user.getRoom();
+		Treasure treasure = treasureRepository.findById(treasureId)
+				.orElseThrow(() -> new NoSuchElementException("존재하지않는 보물"));
+
+		// update answer image
+		ImgPathDto answerImgDto = s3Service.uploadFiles(answerFile, "rooms/" + room.getId() + "/answers");
+		logger.info("정답 이미지 경로 [프론트:{}], [백:{}]", answerImgDto.getImgPath(),
+				answerImgDto.getImgBasePath());
+
 		try{
+			// fastapi networking
 			Map<String, String> map = new HashMap<>();
-			map.put("answerUrl", answerImgDto.getImgPath());
-			map.put("teasureUrl", treasure.getImgPath());
+			map.put("answerUrl", answerImgDto.getImgBasePath());
+			map.put("treasureUrl", treasure.getImgBasePath());
+			ResponseEntity<Map<String, Boolean>> response = apiService.post(pythonUrl + "/treasures/answers", new HttpHeaders(), map);
+			// result: true or false
+			if (response.getBody().get("result")) {
+				// SUCCESS - [treasure] table - update finder_id, status
+				treasure.updateFinderId(user);
+				treasure.updateStatus();
+				treasureRepository.save(treasure);
 
-			ResponseEntity<Response> response = apiService.post(pythonUrl + "/post", new HttpHeaders(), map);
-
-			HttpStatus status = response.getStatusCode();
-			if (status == HttpStatus.OK) {
-				// 정답일 때 찾은 보물임을 표시
-			} else {
-				// 오답일 때 이미지 삭제
-			}
-			return status;
+				// socket message - FIND
+				Map<String, Object> data = new HashMap<>();
+				data.put("messageType", "FIND");
+				data.put("roomId", room.getId());
+				data.put("userId", userId);
+				data.put("treasureId", treasureId);
+				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data);
+				return true;
+			} else return false;
 
 		}catch (Exception e){
 			throw e;

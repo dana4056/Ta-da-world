@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -95,19 +96,26 @@ public class TreasureController {
 		}
 	}
 
-	@PostMapping("/{id}")
+	@PostMapping("/answers/{id}")
 	@Operation(summary = "보물 답안 제출", description = "예상 보물 사진 촬영하여 업로드")
-	public ResponseEntity<?> postAnswer(@PathVariable Long id, @ModelAttribute("roomId") String roomId, @RequestParam("answerFile") MultipartFile answerFile) {
+	public ResponseEntity<?> postAnswer(@PathVariable Long id, @ModelAttribute("userId") String userId, @RequestParam("answerFile") MultipartFile answerFile) {
 		HttpStatus status = HttpStatus.OK;
+		Map<String, Object> resultMap = new HashMap<>();
 		try {
-			ImgPathDto answerImgDto = s3Service.uploadFiles(answerFile, "rooms/" + roomId + "/answers");
-			logger.info("정답 이미지 경로 [프론트:{}], [백:{}]", answerImgDto.getImgPath(), answerImgDto.getImgBasePath());
-			status = treasureService.postAnswer(id, answerImgDto);
+			boolean isAnswer = treasureService.postAnswer(id, userId, answerFile);
+			if (isAnswer) {
+				resultMap.put("message",SUCCESS);
+				resultMap.put("success",TRUE);
+			} else {
+				resultMap.put("message",FAIL);
+				resultMap.put("success",FALSE);
+			}
+			return new ResponseEntity<>(resultMap, status);
 		} catch (Exception e) {
 			logger.error("정답 업로드 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			return new ResponseEntity<>(status);
 		}
-		return new ResponseEntity<>(status);
 	}
 
 	@DeleteMapping("/{id}")
