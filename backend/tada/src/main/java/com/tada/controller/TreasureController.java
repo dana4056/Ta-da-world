@@ -111,7 +111,7 @@ public class TreasureController {
 			}
 			return new ResponseEntity<>(resultMap, status);
 		} catch (Exception e) {
-			logger.error("정답 업로드 실패: {}", e.getMessage());
+			logger.error("정답 업로드 실패: {}", e);
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			return new ResponseEntity<>(status);
 		}
