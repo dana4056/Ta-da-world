@@ -191,16 +191,25 @@ public class TreasureController {
 	}
 	@GetMapping("/rank")
 	@Operation(summary = "게임 결과 보기 - 랭킹", description = "게임 결과 페이지에서 볼 수 있는 랭킹")
-	public ResponseEntity<?> getResultPageInHost(@RequestParam("room") Long roomId){
+	public ResponseEntity<?> getResultPageInHost(@RequestParam(required = false) Long roomId, HttpServletRequest request){
 
 		HttpStatus status = HttpStatus.OK;
 		Map<String, Object> resultMap = new HashMap<>();
 		try {
+			if(roomId == null){	// 호스트 입장 (roomId 없고 토큰에서 꺼내옴)
+				String header = request.getHeader("Authorization");
+				String accessToken = jwtTokenProvider.getTokenByHeader(header);
+				String hostId = jwtTokenProvider.getHostID(accessToken);
+				Room room = hostService.getRoomByHostId(hostId);
+				roomId = room.getId();
+			}
+
 			List<RankResponse> response = treasureService.getResultInHost(roomId);
 			resultMap.put("data",response);
 			resultMap.put("message",SUCCESS);
 			resultMap.put("success",TRUE);
 			return new ResponseEntity<>(resultMap, status);
+
 		} catch (Exception e) {
 			logger.error("게임 결과 보기 - 랭킹 조회 실패: {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
