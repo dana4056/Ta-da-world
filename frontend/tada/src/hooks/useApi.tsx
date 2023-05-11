@@ -52,7 +52,7 @@ const useApi = () => {
 			});
 			if (!response.ok) throw new Error(`HTTP ERROR: ${response.status}`);
 			const json = await response.json();
-			console.log(json);
+			console.log('fetchGetApi: ', json);
 			setData(json);
 		} catch (error: any) {
 			console.log(error);
@@ -111,17 +111,26 @@ const useApi = () => {
 			setLoading(false);
 		}
 	}
-	
+
 	//[2] accessToken이 필요한 muti 요청인 경우 not Get
-	async function fetchApiWithTokenMuti(method: string, url: string,  requestBody :any) {
-		console.log('api요청 method ',  method, '리퀘스트 바디(json) : ', requestBody);
+	async function fetchApiWithTokenMuti(
+		method: string,
+		url: string,
+		requestBody: any
+	) {
+		console.log(
+			'api요청 method ',
+			method,
+			'리퀘스트 바디(json) : ',
+			requestBody
+		);
 		try {
-			const response = await fetch(baseURL+url, {
+			const response = await fetch(baseURL + url, {
 				method: method,
 				headers: {
-					'Authorization': `Bearer ${cookie.accessToken}`
+					Authorization: `Bearer ${cookie.accessToken}`,
 				},
-				body : requestBody
+				body: requestBody,
 			});
 
 			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
@@ -130,7 +139,6 @@ const useApi = () => {
 			const json = await response.json();
 			console.log('받은 데이터 ', json);
 			setData(json);
-	
 		} catch (error: any) {
 			console.log('토큰 리프레시');
 			await refresh.refreshToken();
@@ -164,11 +172,11 @@ const useApi = () => {
 	async function fetchNotBodyApiWithToken(method: string, url: string) {
 		console.log('api요청 method ', method);
 		try {
-			const response = await fetch(baseURL+url, {
+			const response = await fetch(baseURL + url, {
 				method: method,
 				headers: {
-					'Authorization': `Bearer ${cookie.accessToken}`
-				}
+					Authorization: `Bearer ${cookie.accessToken}`,
+				},
 			});
 			if(response.status === 401) throw new Error(`HTTP error: ${response.status}`);
 
@@ -203,8 +211,17 @@ const useApi = () => {
 			setLoading(false);
 		}
 	}
-	
-	return { data, loading, error, fetchApi, fetchGetApi, fetchApiWithToken, fetchNotBodyApiWithToken, fetchApiWithTokenMuti };
+
+	return {
+		data,
+		loading,
+		error,
+		fetchApi,
+		fetchGetApi,
+		fetchApiWithToken,
+		fetchNotBodyApiWithToken,
+		fetchApiWithTokenMuti,
+	};
 };
 
 export default useApi;

@@ -5,7 +5,6 @@ import { enterNickname } from '../stores/user';
 import styles from '../assets/css/UserNamePage.module.css';
 import { RootState } from '../stores';
 import useApi from '../hooks/useApi';
-import { check } from 'yargs';
 import Semantics from '../util/Semantics';
 
 const { CustomInput, CustomButton } = Semantics;
@@ -27,9 +26,9 @@ function UserNamePage(): JSX.Element {
 	const handleNameChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	): Promise<void> => {
-		setName(event.target.value);
+		setName(event.target.value.replace(/\s/g, ''));
 		await checkDuplication.fetchGetApi(
-			`/users/check?code=${roomCodeFromRedux}&nickname=${name}`
+			`/users/check?code=${roomCodeFromRedux}&nickname=${event.target.value}`
 		);
 		console.log(checkDuplication.data?.success);
 	};
