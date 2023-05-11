@@ -11,6 +11,7 @@ import UserLoadingPage from './pages/UserLoadingPage';
 import UserCharacterPage from './pages/UserCharacterPage';
 import UserPlayPage from './pages/UserPlayPage';
 import TestPage from './pages/TestPage';
+import RewardTestPage from './pages/RewardTestPage';
 
 const router = createBrowserRouter([
 	{
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
 				path: 'test',
 				element: <TestPage />,
 			},
+			{
+				path: 'rewardtest',
+				element: <RewardTestPage />,
+			},
 		],
 	},
 	{
@@ -59,3 +64,4 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+	
