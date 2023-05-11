@@ -194,6 +194,10 @@ public class RoomController {
 					Map<String, Object> data = new HashMap<String, Object>();
 					data.put("messageType","START");
 					simpMessagingTemplate.convertAndSend("/sub/" + roomId.toString(), data); // 모든사람들에게 뿌림
+				} else if (roomStatus == 4){
+					Map<String, Object> data = new HashMap<String, Object>();
+					data.put("messageType","END");
+					simpMessagingTemplate.convertAndSend("/sub/" + roomId.toString(), data); // 모든사람들에게 뿌림
 				}
 				return new ResponseEntity<>(new ResultDto(SUCCESS,TRUE), status);
 			} catch (Exception e) {

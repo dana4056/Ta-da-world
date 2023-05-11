@@ -68,30 +68,12 @@ public class UserController {
 			} catch (Exception e) {
 				logger.error("유저 방 입장중 에러 : {}", e);
 			}
-		} else if ("FIND".equals(data.get("messageType").toString())) {
-			logger.debug(data.get("userId").toString() + "find " + data.get("treasureId").toString());
-			try {
-				Long treasureId = Long.parseLong(data.get("treasureId").toString());
-				String finderId = data.get("userId").toString();
-				//보물을 찾았을 때 -> 보물 상태 변경, 메시지로 전체 공지
-				treasureService.changeTreasureStatus(treasureId,finderId);
-				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
-			} catch (Exception e) {
-				logger.error("보물 찾기 처리 중 에러 : {}", e);
-			}
-		} else if ("NOTICE".equals(data.get("messageType").toString())) { // 공지사항
+		}  else if ("NOTICE".equals(data.get("messageType").toString())) { // 공지사항
 			logger.debug("NOTICE!!" + data.get("context").toString());
 			try {
 				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
 			} catch (Exception e) {
 				logger.error("공지사항 전달 중 에러 발생 !! : {}", e);
-			}
-		} else if ("END".equals(data.get("messageType").toString())) { // 게임 종료
-			logger.debug("GAME END!");
-			try {
-				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림
-			} catch (Exception e) {
-				logger.error("게임 종료 처리중 에러 발생! : {}", e);
 			}
 		}
 
