@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
-import SockJS from 'sockjs-client';
-import { Stomp, Frame } from '@stomp/stompjs';
+import UserProfile from '../components/user/UserProfile';
+import UserList from '../components/user/UserList';
 import useApi from '../hooks/useApi';
-
-const baseURL = 'https://ta-da.world/api';
+import SockJS from 'sockjs-client';
+import { Stomp } from '@stomp/stompjs';
 
 interface User {
 	id: string;
@@ -13,34 +13,42 @@ interface User {
 	nickname: string;
 	profileImage: string;
 }
-
-// string to number hash
-function hashStringToNumber(str: string) {
-	let hash = 5381;
-	for (let i = 0; i < str.length; i++) {
-		const char = str.charCodeAt(i);
-		hash = (hash << 5) + hash + char; /* hash * 33 + char */
-	}
-	return hash.toString();
+interface UserListItem {
+	id: string;
+	nick: string;
+	imgNo: number;
 }
 
+const baseURL = 'https://ta-da.world/api';
+
 function UserWaitPage(): JSX.Element {
+	// 유저 정보
 	const userState = useSelector((state: RootState) => state.user);
 
-	console.log(userState);
-	const userId = `${userState.roomId}_${hashStringToNumber(
-		userState.nickname
-	)}`;
-	// console.log(userState);
+	const [userList, setUserList] = useState<UserListItem[]>([]);
+
+	const userListApi = useApi();
+
 	const user: User = {
-		id: userId,
+		id: userState.userId,
 		roomId: userState.roomId,
 		nickname: userState.nickname,
 		profileImage: String(userState.character),
 	};
 
+	useEffect(() => {
+		stompConnect();
+		userListApi.fetchGetApi(`/users?roomId=${user.roomId}`);
+	}, []);
+
+	useEffect(() => {
+		if (userListApi.data?.success) {
+			setUserList(userListApi.data.data);
+		}
+	}, [userListApi.data]);
+
 	// 웹소켓
-	const stompConnet = (): void => {
+	const stompConnect = () => {
 		try {
 			const stomp = Stomp.over(() => {
 				return new SockJS(`${baseURL}/ws/room`);
@@ -52,68 +60,53 @@ function UserWaitPage(): JSX.Element {
 					userId: `${user.id}`,
 					roomId: `${user.roomId}`,
 					nickname: `${user.nickname}`,
+					imgNo: `${user.profileImage}`,
 				};
-				stomp.send(`${baseURL}/pub/send`, {}, JSON.stringify(data));
+				console.log('socket : send data : ', data);
+				stomp.send('/pub/send', {}, JSON.stringify(data));
 				stomp.subscribe(
-					`${baseURL}/sub/${userState.roomCode}`,
+					`/sub/${user.roomId}`,
 					(Ms) => {
 						const msObj = JSON.parse(Ms.body);
+						// enter, notice, end, start, find
 						if (msObj.messageType === 'ENTER') {
 							console.log('someone entered');
+							setUserList((prevUserList) => [
+								{
+									id: msObj.userId,
+									imgNo: msObj.imgNo,
+									nick: msObj.nickname,
+								},
+								...prevUserList,
+							]);
 						} else if (msObj.messageType === 'NOTICE') {
 							console.log('someone noticed');
 							alert(msObj.message);
+						} else if (msObj.messageType === 'END') {
+							console.log('game ended');
+						} else if (msObj.messageType === 'START') {
+							console.log('game started');
+						} else if (msObj.messageType === 'FIND') {
+							console.log('find treasure');
 						}
-						console.log(msObj);
+						console.log('msObj : ', msObj);
 					},
 					{}
 				);
 			});
 		} catch (error) {
-			console.log(error);
+			console.log('socket error : ', error);
 		}
 	};
 
-	// 게임 참가 유저 리스트
-	const userList = useApi();
-
-	useEffect(() => {
-		stompConnet();
-		async (): Promise<void> => {
-			await userList.fetchGetApi(`/rooms/users?room=${user.roomId}`);
-		};
-		console.log(userList.data);
-	}, []);
-
 	return (
 		<div className='w-full h-full bg-white2'>
-			{/* 상단 프로필 단 */}
-			<div className='flex items-center justify-center pt-12 shadow-lg h-52 bg-main rounded-b-3xl'>
-				<div className='flex items-center justify-center rounded-full w-52 h-52 bg-main2/50'>
-					<div className='p-5'>
-						<video
-							autoPlay
-							loop
-							muted
-							className='border-4 border-white rounded-full'
-							src={require(`../assets/images/avatar${user.profileImage}.mp4`)}
-						></video>
-						<div className='flex items-center justify-center w-auto h-12 mt-5 text-lg font-semibold text-white border-2 rounded-full shadow-lg bg-gradient-to-r from-blue to-blue2'>
-							<p>{user.nickname}</p>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div className='px-2 mt-4 space-y-2 overflow-auto h-80'>
-				{/* {members.map((member) => (
-						<div
-							className='flex items-center h-16 pl-3 font-bold bg-white shadow-lg text- rounded-2xl text-main w-ful'
-							key={member.id}
-							/>
-							<p>{member.name}</p>
-						</div>
-					))} */}
-			</div>
+			<UserProfile user={user} />
+			{userList.length ? (
+				<UserList users={userList} />
+			) : (
+				'아직 다른 참가자가 없습니다!'
+			)}
 		</div>
 	);
 }

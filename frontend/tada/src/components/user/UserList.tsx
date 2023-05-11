@@ -16,10 +16,15 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
 			{users && users.length > 0 ? (
 				users.map((user) => (
 					<div
-						className='flex items-center justify-center w-5/6 h-16 pl-3 mx-auto font-bold bg-white shadow-lg rounded-2xl text-main'
+						className='flex items-center w-5/6 h-16 pl-20 mx-auto font-bold bg-white shadow-lg rounded-2xl text-main'
 						key={user.id}
 					>
-						<p>{user.nick}</p>
+						<img
+							className='w-12 h-12 mr-5 border-white rounded-full'
+							src={require(`../../assets/images/avatar${user.imgNo.toString()}.jpg`)}
+							alt=''
+						/>
+						<p className='text-lg font-bold'>{user.nick}</p>
 					</div>
 				))
 			) : (
