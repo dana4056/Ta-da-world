@@ -33,9 +33,9 @@ function TestPage(): JSX.Element {
 
 	return (
 		<>
-			{modalOpen && (
+			{/* {modalOpen && (
 				<HintListModal treasures={treasures} onClose={closeModal} />
-			)}
+			)} */}
 			<button
 				className='px-4 py-2 text-white bg-gradient-to-r from-blue to-blue2'
 				onClick={openModal}

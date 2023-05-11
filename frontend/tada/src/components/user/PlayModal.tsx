@@ -6,6 +6,9 @@ import {BsX} from 'react-icons/bs';
 import {MdCameraswitch} from 'react-icons/md';
 import useApi from '../../hooks/useApi';
 
+import { RootState } from '../../stores';
+import { useSelector } from 'react-redux';
+
 const camImg = require('../../assets/images/camera.png');
 
 interface PlayModalProps {
@@ -26,11 +29,14 @@ const Modal2 = tw(Modal)<StyledDivProps>`
 
 function PlayModal({open, close, treasureId}: PlayModalProps) : JSX.Element{
 	console.log('MODAL: ', treasureId);
+	// const userId = useSelector((state: RootState) => state.user.userId);
+	const userId = '4_246333890';
+	const api = useApi();
+	console.log('data: ', api.data);
 	const [capture, setCapture] = useState<boolean>(true);
 	const [focus, setFocus] = useState<boolean>(true);
 	const [capturebase64, setCapturebase64] = useState<string>('');
 	const camref = useRef<any>(null);
-	const api = useApi();
 	const submitTreasure = (): void => {
 		const formData = new FormData();
 
@@ -41,9 +47,18 @@ function PlayModal({open, close, treasureId}: PlayModalProps) : JSX.Element{
 		const u8arr: Uint8Array = new Uint8Array(n);
 		while (n--) {
 			u8arr[n] = bstr.charCodeAt(n);
-		}				
-		const file = new File([u8arr], '사진', {type:mime});
+		}
+		const file = new File([u8arr], 'image.png', {type:mime});
 		formData.append('answerFile', file);
+
+		const userInfo = {
+			userId: userId
+		};
+		const userDto = new Blob([JSON.stringify(userInfo)], { type: 'application/json' });
+		formData.append('userDto', userDto);
+
+		// api.fetchApiMulti('POST', `/treasures/answers/${treasureId}`, formData);
+		api.fetchApiMulti('POST', `/treasures/answers/${6}`, formData);
 	};
 
 	//촬영 버튼 클릭

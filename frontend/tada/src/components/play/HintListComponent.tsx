@@ -1,4 +1,5 @@
 import React from 'react';
+import { TreasureInfo } from '../../util/Interface';
 
 const closetreasure = require('../../assets/images/closetreasure.png');
 const opentreasure = require('../../assets/images/opentreasure.png');
@@ -10,7 +11,7 @@ interface Treasure {
 }
 
 interface HintListComponentProps {
-	treasure: Treasure;
+	treasure: TreasureInfo;
 	onClick: () => void;
 }
 
@@ -25,7 +26,7 @@ function HintListComponent({
 		>
 			<img
 				className='w-20'
-				src={treasure.isFound ? opentreasure : closetreasure}
+				src={treasure.status ? opentreasure : closetreasure}
 				alt=''
 			/>
 			<p className='text-lg font-semibold text-gray3'>보물 {treasure.id + 1}</p>
