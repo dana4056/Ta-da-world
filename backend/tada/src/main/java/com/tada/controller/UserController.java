@@ -113,7 +113,7 @@ public class UserController {
 
 
 		}catch (Exception e) {
-			logger.error("참가자 리스트 조회 실패 : {}", e.getMessage());
+			logger.error("닉네임 중복 확인 실패 : {}", e.getMessage());
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 			return new ResponseEntity<>(status);
 		}
