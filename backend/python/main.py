@@ -48,6 +48,5 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
 @app.post("/papi/treasures/answers")
 def post_img(item: Item):
-    print("hi")
     result = infer(item.answerUrl, item.treasureUrl)
     return {"result": result}
