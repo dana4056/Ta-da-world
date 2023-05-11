@@ -11,10 +11,24 @@ const { CustomInput, CustomButton } = Semantics;
 
 const logo = require('../assets/images/logo.png');
 
+// string to number hash
+function hashStringToNumber(str: string) {
+	let hash = 5381;
+	for (let i = 0; i < str.length; i++) {
+		const char = str.charCodeAt(i);
+		hash = (hash << 5) + hash + char; /* hash * 33 + char */
+	}
+	return hash.toString();
+}
+
 function UserNamePage(): JSX.Element {
 	const roomCodeFromRedux = useSelector(
 		(state: RootState) => state.user.roomCode
 	);
+
+	// 유저 정보
+	const userState = useSelector((state: RootState) => state.user);
+
 	console.log('Room Code', roomCodeFromRedux);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -38,7 +52,9 @@ function UserNamePage(): JSX.Element {
 
 	const moveCharacter = (): void => {
 		if (checkDuplication.data && checkDuplication.data.success) {
-			dispatch(enterNickname(name));
+			const userId = `${userState.roomId}_${hashStringToNumber(name)}`;
+			dispatch(enterNickname(name, userId));
+
 			navigate('/usercharacter');
 		}
 	};
