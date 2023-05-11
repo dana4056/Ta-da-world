@@ -6,17 +6,17 @@ import UserList from '../components/user/UserList';
 import useApi from '../hooks/useApi';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+// import useStomp from '../hooks/useStomp';
 
-// // string to number hash
-// function hashStringToNumber(str: string) {
-// 	let hash = 5381;
-// 	for (let i = 0; i < str.length; i++) {
-// 		const char = str.charCodeAt(i);
-// 		hash = (hash << 5) + hash + char; /* hash * 33 + char */
-// 	}
-// 	return hash.toString();
-// }
-
+// string to number hash
+function hashStringToNumber(str: string) {
+	let hash = 5381;
+	for (let i = 0; i < str.length; i++) {
+		const char = str.charCodeAt(i);
+		hash = (hash << 5) + hash + char; /* hash * 33 + char */
+	}
+	return hash.toString();
+}
 interface User {
 	id: string;
 	roomId: number;
@@ -35,10 +35,12 @@ function UserWaitPage(): JSX.Element {
 	// 유저 정보
 	const userState = useSelector((state: RootState) => state.user);
 
-	console.log(userState);
+	const userId = `${userState.roomId}_${hashStringToNumber(
+		userState.nickname
+	)}`;
 
 	const user: User = {
-		id: userState.userId,
+		id: userId,
 		roomId: userState.roomId,
 		nickname: userState.nickname,
 		profileImage: String(userState.character),
@@ -95,7 +97,7 @@ function UserWaitPage(): JSX.Element {
 	const [userListData, setUserListData] = useState<UserListItem[] | null>(null);
 
 	const fetchUserList = async () => {
-		await fetchGetApi(`/users?roomId=${user.roomId}`);
+		await fetchGetApi(`/users?room=${user.roomId}`);
 		setUserListData(userList.data.data);
 		console.log('userlist data: ', userListData);
 		// console.log('userlist data: ', userList.data);

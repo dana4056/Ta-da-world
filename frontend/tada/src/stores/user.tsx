@@ -4,11 +4,11 @@ const ENTER_CHARACTER = 'user/ENTER_CHARACTER ' as const;
 
 export const enterRoom = (roomCode: string, roomId: number) => ({
 	type: ENTER_ROOM,
-	payload: {roomCode, roomId},
+	payload: { roomCode, roomId },
 });
-export const enterNickname = (nickname: string) => ({
+export const enterNickname = (nickname: string, userId: string) => ({
 	type: ENTER_NICKNAME,
-	payload: nickname,
+	payload: { nickname, userId },
 });
 export const enterCharacter = (character: number) => ({
 	type: ENTER_CHARACTER,
@@ -24,6 +24,7 @@ type UserState = {
 	nickname: string;
 	character: number;
 	roomCode: string;
+	userId: string;
 	roomId: number;
 };
 
@@ -31,6 +32,7 @@ const initialState: UserState = {
 	nickname: '',
 	character: 0,
 	roomCode: '',
+	userId: '',
 	roomId: 0,
 };
 
@@ -45,7 +47,8 @@ function user(state: UserState = initialState, action: UserAction): UserState {
 	case ENTER_NICKNAME:
 		return {
 			...state,
-			nickname: action.payload,
+			nickname: action.payload.nickname,
+			userId: action.payload.userId,
 		};
 	case ENTER_CHARACTER:
 		return {
