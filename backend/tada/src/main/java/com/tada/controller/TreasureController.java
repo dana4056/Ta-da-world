@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.tada.domain.dto.ResultDto;
+import com.tada.domain.dto.*;
 import com.tada.domain.entity.Room;
 import com.tada.service.HostService;
 import com.tada.util.ImageProcess;
@@ -14,13 +14,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.tada.domain.dto.ImgPathDto;
-import com.tada.domain.dto.RankResponse;
-import com.tada.domain.dto.TreasureRequest;
-import com.tada.domain.dto.TreasureResponse;
 import com.tada.service.TreasureService;
 import com.tada.util.JwtTokenProvider;
 import com.tada.util.S3Service;
@@ -55,6 +52,7 @@ public class TreasureController {
 	    @RequestPart(value = "rewardFile",required = false) MultipartFile rewardFile,
 		@RequestPart(required = false) TreasureRequest treasureRequest){
 
+
 		HttpStatus status = HttpStatus.OK;
 		String header = request.getHeader("Authorization");
 		String accessToken = jwtTokenProvider.getTokenByHeader(header);
@@ -69,12 +67,13 @@ public class TreasureController {
 				Room room = hostService.getRoomByHostId(hostId);
 				Long roomId = room.getId();
 				treasureRequest.setRoomId(roomId);
+
 				treasureFile = imageProcess.resizeImage(treasureFile, 450);
-				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "treasure");
+				ImgPathDto treasureImgDto = s3Service.uploadFiles(treasureFile, "rooms/" + treasureRequest.getRoomId() + "/treasures");
 				ImgPathDto rewardImgDto = null;
 				if (rewardFile != null) {
 					rewardFile = imageProcess.resizeImage(rewardFile, 450);
-					rewardImgDto = s3Service.uploadFiles(rewardFile, "reward");
+					rewardImgDto = s3Service.uploadFiles(rewardFile, "rooms/" + treasureRequest.getRoomId() + "/rewards");
 					logger.info("보상 이미지 경로 [프론트:{}], [백:{}]", rewardImgDto.getImgPath(), rewardImgDto.getImgBasePath());
 				}
 
@@ -91,6 +90,30 @@ public class TreasureController {
 			logger.info("보물 등록 실패: 액세스 토큰 만료");
 			status = HttpStatus.UNAUTHORIZED;
 			return new ResponseEntity<>(new ResultDto(UNAUTHORIZED,FALSE), status);
+		}
+	}
+
+	@PostMapping("/answers/{id}")
+	@Operation(summary = "보물 답안 제출", description = "예상 보물 사진 촬영하여 업로드")
+	public ResponseEntity<?> postAnswer(@PathVariable Long id,
+										@RequestPart(required = false) UserDto userDto,
+										@RequestPart(required = false) MultipartFile answerFile) {
+		HttpStatus status = HttpStatus.OK;
+		Map<String, Object> resultMap = new HashMap<>();
+		try {
+			boolean isAnswer = treasureService.postAnswer(id, userDto.getUserId(), answerFile);
+			if (isAnswer) {
+				resultMap.put("message",SUCCESS);
+				resultMap.put("success",TRUE);
+			} else {
+				resultMap.put("message",FAIL);
+				resultMap.put("success",FALSE);
+			}
+			return new ResponseEntity<>(resultMap, status);
+		} catch (Exception e) {
+			logger.error("정답 업로드 실패: {}", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+			return new ResponseEntity<>(status);
 		}
 	}
 
