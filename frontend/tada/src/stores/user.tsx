@@ -7,10 +7,12 @@ export const enterRoom = (roomCode: string, roomId: number) => ({
 	type: ENTER_ROOM,
 	payload: { roomCode, roomId },
 });
+
 export const enterNickname = (nickname: string, userId: string) => ({
 	type: ENTER_NICKNAME,
 	payload: { nickname, userId },
 });
+
 export const enterCharacter = (character: number) => ({
 	type: ENTER_CHARACTER,
 	payload: character,

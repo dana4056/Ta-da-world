@@ -23,7 +23,7 @@ function HintList({
 				src={treasure.status ? opentreasure : closetreasure}
 				alt=''
 			/>
-			<p className='text-lg font-semibold text-gray3'>보물 {treasure.id + 1}</p>
+			<p className='text-lg font-semibold text-gray3'>보물 {treasure.id}</p>
 		</div>
 	);
 }

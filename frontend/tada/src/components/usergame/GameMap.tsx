@@ -32,7 +32,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '피자',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -54,7 +54,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '커피',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -76,7 +76,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '빈츠',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -98,7 +98,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '물',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -120,7 +120,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '야생화공원',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -142,7 +142,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '집 뒤',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -164,7 +164,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '집 놀이터',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -186,7 +186,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '주차장',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -287,7 +287,7 @@ function GameMap(): JSX.Element {
 			<GameModal open={open} close={closeModal} treasureId={treasureNumber} />
 			<HintModal open={hintOpen} onClose={closeHintModal} treasures={treasures} />
 			<div id="map" className='w-full h-full mb-1'/>
-			<div className='flex justify-center items-center w-20 h-20 fixed bottom-12 right-6 bg-white rounded-full border-main border-2 shadow-xl z-10'>
+			<div className='fixed z-10 flex items-center justify-center w-20 h-20 bg-white border-2 rounded-full shadow-xl bottom-12 right-6 border-main'>
 				<img className='w-12 h-12' src={hintImage} alt="HINT" onClick={openHintModal} />
 			</div>
 		</>
