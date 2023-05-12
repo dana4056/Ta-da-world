@@ -174,7 +174,7 @@ public class TreasureController {
 
 	@GetMapping("/user")
 	@Operation(summary = "게임 결과 보기 - 내가 찾은 보물", description = "참가자 입장에서 보이는 게임 결과 데이터")
-	public ResponseEntity<?> getResultPageInUser(@RequestParam("room") Long roomId, @RequestParam("user") Long userId){
+	public ResponseEntity<?> getResultPageInUser(@RequestParam("room") Long roomId, @RequestParam("user") String userId){
 		HttpStatus status = HttpStatus.OK;
 		Map<String, Object> resultMap = new HashMap<>();
 		try{

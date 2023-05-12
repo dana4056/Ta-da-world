@@ -19,7 +19,7 @@ public interface TreasureService {
 	void deleteTreasure(Long id) throws Exception;
 	void changeTreasureStatus(Long id, String finderId) throws Exception;
 	List<TreasureResponse> getTreasureList(Long roomId) throws Exception;
-	List<TreasureResponse> getResultInUser(Long roomId, Long userId) throws Exception;
+	List<TreasureResponse> getResultInUser(Long roomId, String userId) throws Exception;
 	List<RankResponse> getResultInHost(Long roomId) throws Exception;
 
 }
