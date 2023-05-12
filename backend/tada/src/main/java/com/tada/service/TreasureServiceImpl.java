@@ -161,7 +161,7 @@ public class TreasureServiceImpl implements TreasureService{
 	}
 
 	@Override
-	public List<TreasureResponse> getResultInUser(Long roomId, Long userId) throws Exception{
+	public List<TreasureResponse> getResultInUser(Long roomId, String userId) throws Exception{
 		try{
 			List<Treasure> list = treasureRepository.findAllByRoom_IdAndFinder_Id(roomId, userId);
 			List<TreasureResponse> dtoList = new ArrayList<>();
