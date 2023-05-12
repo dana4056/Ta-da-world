@@ -27,7 +27,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '피자',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -49,7 +49,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '커피',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -71,7 +71,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '빈츠',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -93,7 +93,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '물',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -115,7 +115,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '야생화공원',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -137,7 +137,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '집 뒤',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -159,7 +159,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '집 놀이터',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -181,7 +181,7 @@ const treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '주차장',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{

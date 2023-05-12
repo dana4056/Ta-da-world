@@ -16,7 +16,7 @@ const useLogout = () => {
 	const refresh  = useRefresh();
 	const accessToken = useSelector((state: RootState) => state.host.accessToken);
 	const [error, setError] = useState<string | null>(null);
-	const [cookie, , removeCookie] = useCookies(['refreshToken']);
+	const [, , removeCookie] = useCookies(['refreshToken']);
 
 	const logoutResponse = async() => {
 		const response = await fetch(`${baseURL}/hosts/logout`, {
@@ -39,8 +39,9 @@ const useLogout = () => {
 					throw new Error(`REFRESH ERROR: ${newResponse.status}`);
 				}
 			}	
-		} catch (error) {
+		} catch (error: any) {
 			console.log('로그아웃 error', error);
+			setError(error);
 		} finally {
 			removeCookie('refreshToken', {path: '/'});
 			dispatch(logout());

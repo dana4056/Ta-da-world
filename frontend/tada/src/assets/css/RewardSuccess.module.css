@@ -10,7 +10,7 @@ body {
 }
 
 .stage {
-	--c-bg: white;
+	--c-bg: transparent;
 
 	align-items: center;
 	background-color: var(--c-bg);

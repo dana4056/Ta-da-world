@@ -30,7 +30,6 @@ const initialState: GameState = {
 	roomId:''
 };
 
-
 function game(state: GameState = initialState, action: GameAction): GameState {
 	switch (action.type) {
 	case SET:

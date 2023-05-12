@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../../assets/css/RewardSuccess.module.css';
 
 const treasureopacity = require('../../assets/images/treasureopacity.gif');
