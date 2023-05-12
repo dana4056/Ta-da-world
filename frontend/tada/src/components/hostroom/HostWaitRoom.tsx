@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import { change } from '../../stores/host';
+import { changeTreasure } from '../../stores/watch';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import Swal from 'sweetalert2';
@@ -70,7 +71,13 @@ function HostWaitRoom(): JSX.Element {
 				console.log('someone noticed');
 			} else if (ms.messageType === 'START') {
 				console.log('game started');
-			} 
+			} else if (ms.messageType === 'END') {
+				console.log('game ended');
+				stompDisconnect();
+			} else if (ms.messageType === 'FIND') {
+				console.log('find treasure');
+				dispatch(changeTreasure(1));
+			}
 		}
 	}, [ms]);
 
@@ -115,20 +122,20 @@ function HostWaitRoom(): JSX.Element {
 	};
 
 	// //웹소켓 연결 끊기
-	// const stompDisconnect = ():void => {
-	// 	try {
-	// 		console.log('나간다');
-	// 		stompRef.current.disconnect(() => {
-	// 			console.log('STOMP connection closed');
-	// 		},
-	// 		{
-	// 			subscriptionId: `/sub/${roomId}`,
-	// 		}
-	// 		);
-	// 	} catch (error) {
-	// 		console.log('socket closed error : ', error);
-	// 	}
-	// };
+	const stompDisconnect = ():void => {
+		try {
+			console.log('나간다');
+			stompRef.current.disconnect(() => {
+				console.log('STOMP connection closed');
+			},
+			{
+				subscriptionId: `/sub/${roomId}`,
+			}
+			);
+		} catch (error) {
+			console.log('socket closed error : ', error);
+		}
+	};
 
 	//공지 보낼때
 	const sendMessage = (notice:string) => {
