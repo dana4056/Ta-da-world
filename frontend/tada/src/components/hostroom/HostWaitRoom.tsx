@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import { change } from '../../stores/host';
-import { changeTreasure } from '../../stores/watch';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import Swal from 'sweetalert2';
@@ -23,6 +22,7 @@ function HostWaitRoom(): JSX.Element {
 	const roomId = useSelector((state: RootState) => state.game.roomId);
 	const stompRef = useRef<any>(null);
 	const [userList, setUserList] = useState<UserListItem[]>([]);
+	const [ms, setMs] = useState<any>();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const startApi = useApi(); //방 상태 변경
 	const userListAPi = useApi(); //게임 참가 유저
@@ -33,11 +33,11 @@ function HostWaitRoom(): JSX.Element {
 		if (!stompRef.current) {
 			stompConnect();
 		}
-		// return () => {
-		// 	if (stompRef.current?.connected) {
-		// 	  stompDisconnect();
-		// 	}
-		// };
+		return () => {
+			if (stompRef.current?.connected) {
+			  stompDisconnect();
+			}
+		};
 	}, []);
 
 	useEffect(() => {
@@ -48,7 +48,6 @@ function HostWaitRoom(): JSX.Element {
 
 	//게임 시작 성공
 	useEffect(() => {
-		console.log(startApi.data);
 		if(startApi.data?.success){
 			dispatch(change(3));
 		} else if(startApi.data){
@@ -62,6 +61,23 @@ function HostWaitRoom(): JSX.Element {
 			});
 		}
 	}, [startApi.data]);
+
+	//웹 소켓 분기 처리
+	useEffect(() => {
+		if(ms){
+			if (ms.messageType === 'ENTER') {
+				setUserList([{
+					id: ms.userId,
+					imgNo:ms.imgNo,
+					nick:ms.nickname
+				}].concat(userList));
+			} else if (ms.messageType === 'NOTICE') {
+				console.log('someone noticed');
+			} else if (ms.messageType === 'START') {
+				console.log('game started');
+			} 
+		}
+	}, [ms]);
 
 	const startGame = (): void => {
 		Swal.fire({
@@ -92,23 +108,8 @@ function HostWaitRoom(): JSX.Element {
 					`/sub/${roomId}`,
 					(Ms) => {
 						const msObj = JSON.parse(Ms.body);
-						if (msObj.messageType === 'ENTER') {
-							setUserList([{
-								id: msObj.userId,
-								imgNo:msObj.imgNo,
-								nick:msObj.nickname
-							}].concat(userList));
-						} else if (msObj.messageType === 'NOTICE') {
-							console.log('someone noticed');
-						} else if (msObj.messageType === 'END') {
-							console.log('game ended');
-							stompDisconnect();
-						} else if (msObj.messageType === 'START') {
-							console.log('game started');
-						} else if (msObj.messageType === 'FIND') {
-							console.log('find treasure');
-							dispatch(changeTreasure(1));
-						}
+						setMs(msObj);
+						console.log('msObj ',msObj);
 					}, {}
 				);
 			});
@@ -138,7 +139,8 @@ function HostWaitRoom(): JSX.Element {
 	const sendMessage = (notice:string) => {
 		const data = {
 			messageType: 'NOTICE',
-			message: notice
+			roomId: `${roomId}`,
+			context: notice
 		};
 
 		if (stompRef.current?.connected) {

@@ -1,42 +1,37 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
-import { changecode } from '../stores/host';
-import { useCookies } from 'react-cookie';
-import Swal from 'sweetalert2';
 import DeleteHost from '../components/hosthome/DeleteHost';
 import RoomStatus from '../components/hosthome/RoomStatus';
+import useLogout from '../hooks/useLogout';
 import useApi from '../hooks/useApi';
+import { useDispatch } from 'react-redux';
+import { set } from '../stores/game';
 
 function HostHomePage(): JSX.Element {
 	const dispatch = useDispatch();
 	const status = useSelector((state: RootState) => state.host.status);
-	const roomstatusApi = useApi(); //방 상태 조회
+	const accessToken = useSelector((state: RootState) => state.host.accessToken);
+	const logout = useLogout();
+	const roomInfoApi = useApi();
 
-	// useEffect(()=>{
-	// 	if(cookie.accessToken !=='undefined'){
-	// 		console.log('hosthome 방 상태 조회');
-	// 		roomstatusApi.fetchNotBodyApiWithToken('GET', '/rooms/host/status');
-	// 	}
-	// }, [cookie]);
+	useEffect(()=>{
+		if(!accessToken){
+			logout.handleLogout();
+		}else{
+			roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
+		}
+	}, [status]);
 
-	// useEffect(() => {
-	// 	if(roomstatusApi.data?.success){
-	// 		const code = roomstatusApi.data.data.code;
-	// 		const status = roomstatusApi.data.data.status;
-	// 		const refreshToken = '';
-	// 		dispatch(changecode({refreshToken, status, code}));
-	// 	} else if(roomstatusApi.data){
-	// 		Swal.fire({
-	// 			icon: 'warning',               
-	// 			width: 300,
-	// 			iconColor: '#2BDCDB',
-	// 			text: '방 조회 실패', 
-	// 			confirmButtonColor: '#2BDCDB',
-	// 			confirmButtonText: '확인',
-	// 		});
-	// 	}
-	// }, [roomstatusApi.data]);
+	useEffect(()=>{
+		if(roomInfoApi.data?.success){
+			const name = roomInfoApi.data.data.name;
+			const playTime =roomInfoApi.data.data.playTime;
+			const startTime = roomInfoApi.data.data.startTime;
+			const roomId = roomInfoApi.data.data.id;
+			dispatch(set({name, playTime, startTime, roomId}));
+		}
+	}, [roomInfoApi.data]);
 
 	return (
 		<div className='h-full'>

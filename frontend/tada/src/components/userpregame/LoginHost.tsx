@@ -14,8 +14,8 @@ const OAUTH_KAKAO = `https://kauth.kakao.com/oauth/authorize?client_id=${API_KEY
 function LoginHost({ onUserClick }: LoginHostProps): JSX.Element {
 	return (
 		<div className='flex flex-col items-center justify-center'>
-			<a href={OAUTH_KAKAO}>
-				<img src={kakao_login} alt='' className='w-72' />
+			<a className='flex items-center justify-center' href={OAUTH_KAKAO}>
+				<img src={kakao_login} alt='' className='w-2/3' />
 			</a>
 			<button
 				type='button'

@@ -29,7 +29,7 @@ function MainPage(): JSX.Element {
 
 	return (
 		<div className='flex flex-col items-center justify-center h-full'>
-			<img className='mb-5' src={logo} alt='logo' />
+			<img className='w-4/5 mb-5' src={logo} alt='logo' />
 			{activeComponent === 'User' ? (
 				<LoginUser onHostClick={handleClick} />
 			) : (
