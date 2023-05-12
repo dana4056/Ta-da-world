@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../stores';
@@ -23,6 +23,8 @@ interface UserListItem {
 const baseURL = 'https://ta-da.world/api';
 
 function UserWaitPage(): JSX.Element {
+	const stompRef = useRef<any>(null);
+
 	const navigate = useNavigate();
 	// 유저 정보
 	const userState = useSelector((state: RootState) => state.user);
@@ -39,8 +41,10 @@ function UserWaitPage(): JSX.Element {
 	};
 
 	useEffect(() => {
-		stompConnect();
 		userListApi.fetchGetApi(`/users?roomId=${user.roomId}`);
+		if (!stompRef.current) {
+			stompConnect();
+		}
 	}, []);
 
 	useEffect(() => {
@@ -88,6 +92,7 @@ function UserWaitPage(): JSX.Element {
 							console.log('game ended');
 						} else if (msObj.messageType === 'START') {
 							console.log('game started');
+							stompDisconnect();
 							navigate('/userloading');
 						} else if (msObj.messageType === 'FIND') {
 							console.log('find treasure');
@@ -97,8 +102,26 @@ function UserWaitPage(): JSX.Element {
 					{}
 				);
 			});
+			stompRef.current = stomp;
 		} catch (error) {
 			console.log('socket error : ', error);
+		}
+	};
+
+	//웹소켓 연결 끊기
+	const stompDisconnect = (): void => {
+		try {
+			console.log('나간다');
+			stompRef.current.disconnect(
+				() => {
+					console.log('STOMP connection closed');
+				},
+				{
+					subscriptionId: `/sub/${user.roomId}`,
+				}
+			);
+		} catch (error) {
+			console.log('socket closed error : ', error);
 		}
 	};
 
