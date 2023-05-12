@@ -10,14 +10,23 @@ import HostCreateRoom from '../components/hostroom/HostCreateRoom';
 import HostWaitRoom from '../components/hostroom/HostWaitRoom';
 import HostGameRoom from '../components/hostroom/HostGameRoom';
 import HostEndRoom from '../components/hostroom/HostEndRoom';
+import useLogout from '../hooks/useLogout';
 import useApi from '../hooks/useApi';
 
 function HostRoomPage(): JSX.Element {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const accessToken = useSelector((state: RootState) => state.host.accessToken);
 	const status = useSelector((state: RootState) => state.host.status);
+	const logout = useLogout();
 	const roomstatusApi = useApi(); //방 상태 조회
 	const roomInfoApi = useApi();
+
+	useEffect(()=>{
+		if(!accessToken){
+			logout.handleLogout();
+		}
+	}, []);
 
 	useEffect(()=>{
 		roomInfoApi.fetchNotBodyApiWithToken('GET', '/rooms');
