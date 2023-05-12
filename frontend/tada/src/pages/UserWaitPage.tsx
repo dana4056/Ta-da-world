@@ -83,7 +83,7 @@ function UserWaitPage(): JSX.Element {
 							]);
 						} else if (msObj.messageType === 'NOTICE') {
 							console.log('someone noticed');
-							alert(msObj.message);
+							alert(msObj.context);
 						} else if (msObj.messageType === 'END') {
 							console.log('game ended');
 						} else if (msObj.messageType === 'START') {

@@ -1,6 +1,7 @@
 const ENTER_ROOM = 'user/ENTER_ROOM' as const;
 const ENTER_NICKNAME = 'user/ENTER_NICKNAME' as const;
 const ENTER_CHARACTER = 'user/ENTER_CHARACTER ' as const;
+const ENTER_GAMING = 'game/ENTER_GAMING' as const;
 
 export const enterRoom = (roomCode: string, roomId: number) => ({
 	type: ENTER_ROOM,
@@ -14,11 +15,20 @@ export const enterCharacter = (character: number) => ({
 	type: ENTER_CHARACTER,
 	payload: character,
 });
+export const enterGaming = (
+	gamePlayTime: number,
+	gameStartTime: string,
+	treasureNumber: number
+) => ({
+	type: ENTER_GAMING,
+	payload: { gamePlayTime, gameStartTime, treasureNumber },
+});
 
 type UserAction =
 	| ReturnType<typeof enterRoom>
 	| ReturnType<typeof enterNickname>
-	| ReturnType<typeof enterCharacter>;
+	| ReturnType<typeof enterCharacter>
+	| ReturnType<typeof enterGaming>;
 
 type UserState = {
 	nickname: string;
@@ -26,6 +36,9 @@ type UserState = {
 	roomCode: string;
 	userId: string;
 	roomId: number;
+	gamePlayTime: number;
+	gameStartTime: string;
+	treasureNumber: number;
 };
 
 const initialState: UserState = {
@@ -34,6 +47,9 @@ const initialState: UserState = {
 	roomCode: '',
 	userId: '',
 	roomId: 0,
+	gamePlayTime: 0,
+	gameStartTime: '',
+	treasureNumber: 0,
 };
 
 function user(state: UserState = initialState, action: UserAction): UserState {
@@ -54,6 +70,13 @@ function user(state: UserState = initialState, action: UserAction): UserState {
 		return {
 			...state,
 			character: action.payload,
+		};
+	case ENTER_GAMING:
+		return {
+			...state,
+			gamePlayTime: action.payload.gamePlayTime,
+			gameStartTime: action.payload.gameStartTime,
+			treasureNumber: action.payload.treasureNumber,
 		};
 	default:
 		return state;
