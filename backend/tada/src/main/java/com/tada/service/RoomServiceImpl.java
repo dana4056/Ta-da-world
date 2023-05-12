@@ -3,9 +3,7 @@ package com.tada.service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +14,8 @@ import com.tada.domain.entity.Host;
 import com.tada.domain.entity.Room;
 import com.tada.repository.HostRepository;
 import com.tada.repository.RoomRepository;
+import com.tada.repository.TreasureRepository;
+import com.tada.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,11 +25,20 @@ import lombok.RequiredArgsConstructor;
 public class RoomServiceImpl implements RoomService{
 	private final RoomRepository roomRepository;
 	private final HostRepository hostRepository;
+	private final UserRepository userRepository;
+	private final TreasureRepository treasureRepository;
 
 	@Override	// 방 기본정보 조회
 	public RoomResponse readRoom(Long roomId) {
 		Room room = roomRepository.findById(roomId).orElseThrow(() -> new NoSuchElementException("해당 방 없음"));
-		return new RoomResponse(room);
+		Long playerCnt = userRepository.countByRoom_Id(roomId);
+		Long treasureCnt = treasureRepository.countByRoom_Id(roomId);
+
+		RoomResponse response = new RoomResponse(room);
+		response.updatePlayerCnt(playerCnt);
+		response.updateTreasureCnt(treasureCnt);
+
+		return response;
 	}
 
 	@Override	// 방 생성
@@ -143,7 +152,7 @@ public class RoomServiceImpl implements RoomService{
 			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9','a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
 			'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't','u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D',
 			'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N','O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-			'Y', 'Z', '#', '$'
+			'Y', 'Z', '.', '_'
 		};
 		int shift = 6;
 		char[] buf = new char[64];
