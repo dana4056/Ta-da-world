@@ -8,7 +8,7 @@ import tw from 'tailwind-styled-components';
 interface HintModalProps {
 	open: boolean
 	onClose: () => void;
-	treasures: TreasureInfo[];
+	treasures: TreasureInfo[] | null;
 }
 
 interface StyledDivProps {
@@ -36,21 +36,25 @@ function HintModal({open, onClose, treasures}: HintModalProps): JSX.Element {
 
 	const handlePreviousHint = () => {
 		if (selectedTreasure) {
-			const currentIndex = treasures.findIndex(
-				(treasure) => treasure.id === selectedTreasure.id
-			);
-			const newIndex = (currentIndex - 1 + treasures.length) % treasures.length;
-			setSelectedTreasure(treasures[newIndex]);
+			if (treasures) {
+				const currentIndex = treasures.findIndex(
+					(treasure) => treasure.id === selectedTreasure.id
+				);
+				const newIndex = (currentIndex - 1 + treasures.length) % treasures.length;
+				setSelectedTreasure(treasures[newIndex]);
+			}
 		}
 	};
 
 	const handleNextHint = () => {
 		if (selectedTreasure) {
-			const currentIndex = treasures.findIndex(
-				(treasure) => treasure.id === selectedTreasure.id
-			);
-			const newIndex = (currentIndex + 1) % treasures.length;
-			setSelectedTreasure(treasures[newIndex]);
+			if (treasures) {
+				const currentIndex = treasures.findIndex(
+					(treasure) => treasure.id === selectedTreasure.id
+				);
+				const newIndex = (currentIndex + 1) % treasures.length;
+				setSelectedTreasure(treasures[newIndex]);
+			}
 		}
 	};
 
@@ -70,8 +74,8 @@ function HintModal({open, onClose, treasures}: HintModalProps): JSX.Element {
 							<p className='mx-auto mt-3 text-xl font-bold text-center'>
 						힌트 리스트
 							</p>
-							<div className='grid grid-cols-3 gap-2 h-96 overflow-scroll'>
-								{treasures.map((treasure) => (
+							<div className='grid grid-cols-3 gap-2 overflow-scroll h-96'>
+								{treasures?.map((treasure) => (
 									<HintList
 										key={treasure.id}
 										treasure={treasure}

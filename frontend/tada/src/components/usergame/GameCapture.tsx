@@ -61,8 +61,8 @@ function GameCapture({ userId, treasureId, onSubmit }: GameCaptureProps): JSX.El
 		const userDto = new Blob([JSON.stringify(userInfo)], { type: 'application/json' });
 		formData.append('userDto', userDto);
 
-		// api.fetchApiMulti('POST', `/treasures/answers/${treasureId}`, formData);
-		api.fetchApiMulti('POST', `/treasures/answers/${6}`, formData);
+		api.fetchApiMulti('POST', `/treasures/answers/${treasureId}`, formData);
+		// api.fetchApiMulti('POST', `/treasures/answers/${6}`, formData);
 	};
 
 	useEffect(() => {

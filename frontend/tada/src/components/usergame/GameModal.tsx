@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import tw from 'tailwind-styled-components';
 import { Modal, ModalSection, ModalHeader } from '../../utils/Semantics';
 import { BsX } from 'react-icons/bs';
@@ -6,8 +6,8 @@ import GameCapture from './GameCapture';
 import RewardSuccess from './RewardSuccess';
 import RewardFail from './RewardFail';
 
-// import { RootState } from '../../stores';
-// import { useSelector } from 'react-redux';
+import { RootState } from '../../stores';
+import { useSelector } from 'react-redux';
 
 // const camImg = require('../../assets/images/camera.png');
 
@@ -29,11 +29,10 @@ const DynamicModal = tw(Modal)<StyledDivProps>`
 
 function GameModal({open, close, treasureId}: GameModalProps): JSX.Element{
 	console.log('현재 판별 보물 번호: ', treasureId);
-	// const userId = useSelector((state: RootState) => state.user.userId);
+	const userId = useSelector((state: RootState) => state.user.userId);
 	const [captureMode, setCaptureMode] = useState<boolean>(true);
 	const [rewardMode, setRewardMode] = useState<boolean>(false);
 	const [success, setSuccess] = useState<boolean | null>(null);
-	const userId = '4_246333890';
 	const handleSubmit = (msg: string) => {
 		console.log('--------------msg--------------: ', msg);
 		if (msg === 'Success') {
