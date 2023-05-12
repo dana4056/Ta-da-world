@@ -52,7 +52,7 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 	// treasureNumber : 2
 	// userId : "1_193486540"
 
-	console.log('!!!!!!!!!!!!!!!!!!', gameInfo);
+	// console.log('!!!!!!!!!!!!!!!!!!', gameInfo);
 
 	return (
 		<div className='flex items-center justify-around py-4 border-b-2 bg-main border-b-white'>

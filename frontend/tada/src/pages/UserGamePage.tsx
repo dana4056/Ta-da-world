@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
 import GameMap from '../components/usergame/GameMap';
+import { useNavigate } from 'react-router-dom';
 import GameHeader from '../components/usergame/GameHeader';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
@@ -17,6 +18,8 @@ interface User {
 const baseURL = 'https://ta-da.world/api';
 
 function UserGamePage(): JSX.Element {
+	const navigate = useNavigate();
+
 	const stompRef = useRef<any>(null);
 
 	const [foundTreasure, setFoundTreasure] = useState<number>(0);
@@ -66,6 +69,7 @@ function UserGamePage(): JSX.Element {
 						} else if (msObj.messageType === 'END') {
 							console.log('game ended');
 							stompDisconnect();
+							navigate('/userend');
 							// 결과 페이지로 이동
 						} else if (msObj.messageType === 'START') {
 							console.log('game started');
@@ -105,7 +109,7 @@ function UserGamePage(): JSX.Element {
 	return (
 		<>
 			<GameHeader foundTreasure={foundTreasure} />
-			{/* <GameMap /> */}
+			<GameMap />
 			{/* <TestMap /> */}
 		</>
 	);

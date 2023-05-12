@@ -10,6 +10,7 @@ import UserNamePage from './pages/UserNamePage';
 import UserLoadingPage from './pages/UserLoadingPage';
 import UserCharacterPage from './pages/UserCharacterPage';
 import UserGamePage from './pages/UserGamePage';
+import UserEndPage from './pages/UserEndPage';
 
 const router = createBrowserRouter([
 	{
@@ -44,7 +45,11 @@ const router = createBrowserRouter([
 			{
 				path: 'usergame',
 				element: <UserGamePage />,
-			}
+			},
+			{
+				path: 'userend',
+				element: <UserEndPage />,
+			},
 		],
 	},
 	{
@@ -54,4 +59,3 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
-	
