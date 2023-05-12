@@ -33,11 +33,6 @@ function HostWaitRoom(): JSX.Element {
 		if (!stompRef.current) {
 			stompConnect();
 		}
-		return () => {
-			if (stompRef.current?.connected) {
-			  stompDisconnect();
-			}
-		};
 	}, []);
 
 	useEffect(() => {
@@ -119,21 +114,21 @@ function HostWaitRoom(): JSX.Element {
 		}
 	};
 
-	//웹소켓 연결 끊기
-	const stompDisconnect = ():void => {
-		try {
-			console.log('나간다');
-			stompRef.current.disconnect(() => {
-				console.log('STOMP connection closed');
-			},
-			{
-				subscriptionId: `/sub/${roomId}`,
-			}
-			);
-		} catch (error) {
-			console.log('socket closed error : ', error);
-		}
-	};
+	// //웹소켓 연결 끊기
+	// const stompDisconnect = ():void => {
+	// 	try {
+	// 		console.log('나간다');
+	// 		stompRef.current.disconnect(() => {
+	// 			console.log('STOMP connection closed');
+	// 		},
+	// 		{
+	// 			subscriptionId: `/sub/${roomId}`,
+	// 		}
+	// 		);
+	// 	} catch (error) {
+	// 		console.log('socket closed error : ', error);
+	// 	}
+	// };
 
 	//공지 보낼때
 	const sendMessage = (notice:string) => {

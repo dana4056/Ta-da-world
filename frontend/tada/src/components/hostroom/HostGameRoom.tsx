@@ -37,11 +37,6 @@ function HostGameRoom(): JSX.Element {
 		if (!stompRef.current) {
 			stompConnect();
 		}
-		return () => {
-			if (stompRef.current?.connected) {
-				  stompDisconnect();
-			}
-		};
 	}, []);
 		
 	//보물 정보 (find messg 오면 갱신)
