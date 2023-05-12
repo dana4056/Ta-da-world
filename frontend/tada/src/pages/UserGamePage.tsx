@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
 import GameMap from '../components/usergame/GameMap';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import GameHeader from '../components/usergame/GameHeader';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-// import TestMap from '../components/user/TestMap';
+import useApi from '../hooks/useApi';
 
 interface User {
 	id: string;
@@ -33,10 +33,16 @@ function UserGamePage(): JSX.Element {
 		profileImage: String(userState.character),
 	};
 
+	const game = useApi();
+
 	useEffect(() => {
 		if (!stompRef.current) {
 			stompConnect();
 		}
+	}, []);
+
+	useEffect(() => {
+		game.fetchGetApi(`/treasures?roomId=${userState.roomId}`);
 	}, []);
 
 	// 웹소켓
@@ -47,15 +53,6 @@ function UserGamePage(): JSX.Element {
 			});
 			stomp.connect({}, () => {
 				console.log('STOMP connected');
-				// const data = {
-				// 	messageType: 'ENTER',
-				// 	userId: `${user.id}`,
-				// 	roomId: `${user.roomId}`,
-				// 	nickname: `${user.nickname}`,
-				// 	imgNo: `${user.profileImage}`,
-				// };
-				// console.log('socket : send data : ', data);
-				// stomp.send('/pub/send', {}, JSON.stringify(data));
 				stomp.subscribe(
 					`/sub/${user.roomId}`,
 					(Ms) => {
@@ -109,8 +106,7 @@ function UserGamePage(): JSX.Element {
 	return (
 		<>
 			<GameHeader foundTreasure={foundTreasure} />
-			<GameMap />
-			{/* <TestMap /> */}
+			<GameMap roomId={userState.roomId} character={userState.character} />
 		</>
 	);
 }
