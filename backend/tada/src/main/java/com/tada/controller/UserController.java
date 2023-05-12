@@ -68,7 +68,7 @@ public class UserController {
 			} catch (Exception e) {
 				logger.error("유저 방 입장중 에러 : {}", e);
 			}
-		}  else if ("NOTICE".equals(data.get("messageType").toString())) { // 공지사항
+		}else if("NOTICE".equals(data.get("messageType").toString())) { // 공지사항
 			logger.debug("NOTICE!!" + data.get("context").toString());
 			try {
 				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data); // 모든사람들에게 뿌림

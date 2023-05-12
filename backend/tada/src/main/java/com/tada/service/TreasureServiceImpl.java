@@ -110,7 +110,7 @@ public class TreasureServiceImpl implements TreasureService{
 				data.put("roomId", room.getId());
 				data.put("userId", userId);
 				data.put("treasureId", treasureId);
-				simpMessagingTemplate.convertAndSend("/sub/" + data.get("roomId"), data);
+				simpMessagingTemplate.convertAndSend("/sub/" + room.getId(), data);
 				return true;
 			} else return false;
 
