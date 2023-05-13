@@ -7,6 +7,7 @@ import GameHeader from '../components/usergame/GameHeader';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import useApi from '../hooks/useApi';
+import Swal from 'sweetalert2';
 
 interface User {
 	id: string;
@@ -62,7 +63,12 @@ function UserGamePage(): JSX.Element {
 							console.log('someone entered');
 						} else if (msObj.messageType === 'NOTICE') {
 							console.log('someone noticed');
-							alert(msObj.context);
+							Swal.fire({
+								text: msObj.context,
+								confirmButtonColor: '#2BDCDB',
+								confirmButtonText: '확인',
+							});
+							// alert(msObj.context);
 						} else if (msObj.messageType === 'END') {
 							console.log('game ended');
 							stompDisconnect();

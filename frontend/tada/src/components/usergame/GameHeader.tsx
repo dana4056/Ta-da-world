@@ -15,9 +15,9 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 	const gameEndTime =
 		new Date(gameStartTime).getTime() + gamePlayTime * 60 * 1000;
 
-	const nowTime = new Date('2023-05-01T08:15:00').getTime();
-	// const [timeLeft, setTimeLeft] = useState<number>(gameEndTime - Date.now());
-	const [timeLeft, setTimeLeft] = useState<number>(gameEndTime - nowTime);
+	// const nowTime = new Date('2023-05-01T08:15:00').getTime();
+	const [timeLeft, setTimeLeft] = useState<number>(gameEndTime - Date.now());
+	// const [timeLeft, setTimeLeft] = useState<number>(gameEndTime - nowTime);
 
 	console.log(Date.now());
 
@@ -55,12 +55,12 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 	// console.log('!!!!!!!!!!!!!!!!!!', gameInfo);
 
 	return (
-		<div className='flex items-center justify-around py-4 border-b-2 bg-main border-b-white'>
-			<div className='flex items-center justify-center h-12 text-2xl font-black bg-white border-4 rounded-full text-main w-36'>
+		<div className="flex items-center justify-around py-4 border-b-2 bg-main border-b-white">
+			<div className="flex items-center justify-center h-12 text-2xl font-black bg-white border-4 rounded-full text-main w-36">
 				{timeLeftString}
 			</div>
-			<div className='flex items-center space-x-2 text-2xl font-black text-white text-gray3'>
-				<img className='w-12 h-12' src={treausre} alt='' />
+			<div className="flex items-center space-x-2 text-2xl font-black text-white text-gray3">
+				<img className="w-12 h-12" src={treausre} alt="" />
 				<p>x {gameInfo.treasureNumber - foundTreasure}</p>
 			</div>
 		</div>

@@ -5,6 +5,8 @@ import UserProfile from '../components/userpregame/UserProfile';
 import { WhiteBox } from '../utils/Semantics';
 import useApi from '../hooks/useApi';
 import UserTreasureList from '../components/userendgame/UserTreasureList';
+import TreasureMap from '../components/common/TreasureMap';
+import BoxHeader from '../components/common/HeaderBox';
 
 interface TreasureInfo {
 	id: number;
@@ -163,13 +165,15 @@ function UserEndPage(): JSX.Element {
 	}, [treasureListApi.data]);
 
 	return (
-		<div className='flex flex-col w-full h-full space-y-10 bg-white2'>
+		<div className="flex flex-col w-full space-y-10 bg-white2">
 			<UserProfile user={user} />
-			<div className='flex flex-col items-center justify-center'>
-				<WhiteBox className='h-auto shadow-lg'>
+			<div className="flex flex-col items-center justify-center">
+				<WhiteBox className="h-auto shadow-lg">
 					<UserTreasureList treasureList={treasures} />
 				</WhiteBox>
-				<WhiteBox className='h-auto shadow-lg'>{/* 보물지도 */}</WhiteBox>
+				{treasures.length && (
+					<TreasureMap isHost={false} title="보물지도" treasures={treasures} />
+				)}
 			</div>
 		</div>
 	);
