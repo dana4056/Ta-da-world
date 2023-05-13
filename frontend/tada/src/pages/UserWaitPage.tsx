@@ -7,6 +7,7 @@ import UserList from '../components/userpregame/UserList';
 import useApi from '../hooks/useApi';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
+import Swal from 'sweetalert2';
 
 interface User {
 	id: string;
@@ -87,7 +88,11 @@ function UserWaitPage(): JSX.Element {
 							]);
 						} else if (msObj.messageType === 'NOTICE') {
 							console.log('someone noticed');
-							alert(msObj.context);
+							Swal.fire({
+								text: msObj.context,
+								confirmButtonColor: '#2BDCDB',
+								confirmButtonText: '확인',
+							});
 						} else if (msObj.messageType === 'END') {
 							console.log('game ended');
 						} else if (msObj.messageType === 'START') {
@@ -126,7 +131,7 @@ function UserWaitPage(): JSX.Element {
 	};
 
 	return (
-		<div className='w-full h-full bg-white2'>
+		<div className="w-full h-full bg-white2">
 			<UserProfile user={user} />
 			{userList.length ? (
 				<UserList users={userList} />
