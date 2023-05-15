@@ -17,6 +17,7 @@ interface User {
 	// profileImage: string;
 	profileImage: number;
 }
+
 interface UserListItem {
 	id: string;
 	nick: string;
@@ -29,11 +30,10 @@ function UserWaitPage(): JSX.Element {
 	const stompRef = useRef<any>(null);
 	const navigate = useNavigate();
 	const location = useCurrentLocation();
-	
-	// 유저 정보
-	const userState = useSelector((state: RootState) => state.user);
-
+	const [ms, setMs] = useState<any>();
+	const [cnt, setCnt] = useState<number>(0);
 	const [userList, setUserList] = useState<UserListItem[]>([]);
+	const userState = useSelector((state: RootState) => state.user);
 	const userListApi = useApi();
 
 	const user: User = {
@@ -43,6 +43,44 @@ function UserWaitPage(): JSX.Element {
 		// profileImage: String(userState.character),
 		profileImage: userState.character,
 	};
+
+	useEffect(() => {
+		userListApi.fetchGetApi(`/users?roomId=${user.roomId}`);
+		if (!stompRef.current) {
+			stompConnect();
+		}
+	}, [cnt]);
+
+	useEffect(() => {
+		if (userListApi.data?.success) {
+			setUserList(userListApi.data.data);
+		}
+	}, [userListApi.data]);
+
+	useEffect(() => {
+		if (ms) {
+			// enter, notice, end, start, find
+			if (ms.messageType === 'ENTER') {
+				console.log('someone entered');
+				setCnt(cnt + 1);
+			} else if (ms.messageType === 'NOTICE') {
+				console.log('someone noticed');
+				Swal.fire({
+					text: ms.context,
+					confirmButtonColor: '#2BDCDB',
+					confirmButtonText: '확인',
+				});
+			} else if (ms.messageType === 'END') {
+				console.log('game ended');
+			} else if (ms.messageType === 'START') {
+				console.log('game started');
+				stompDisconnect();
+				navigate('/userloading');
+			} else if (ms.messageType === 'FIND') {
+				console.log('find treasure');
+			}
+		}
+	}, [ms]);
 
 	// 웹소켓
 	const stompConnect = () => {
@@ -65,34 +103,8 @@ function UserWaitPage(): JSX.Element {
 					`/sub/${user.roomId}`,
 					(Ms) => {
 						const msObj = JSON.parse(Ms.body);
-						// enter, notice, end, start, find
-						if (msObj.messageType === 'ENTER') {
-							console.log('someone entered');
-							setUserList((prevUserList) => [
-								{
-									id: msObj.userId,
-									imgNo: msObj.imgNo,
-									nick: msObj.nickname,
-								},
-								...prevUserList,
-							]);
-						} else if (msObj.messageType === 'NOTICE') {
-							console.log('someone noticed');
-							Swal.fire({
-								text: msObj.context,
-								confirmButtonColor: '#2BDCDB',
-								confirmButtonText: '확인',
-							});
-						} else if (msObj.messageType === 'END') {
-							console.log('game ended');
-						} else if (msObj.messageType === 'START') {
-							console.log('game started');
-							stompDisconnect();
-							navigate('/userloading');
-						} else if (msObj.messageType === 'FIND') {
-							console.log('find treasure');
-						}
-						console.log('msObj: ', msObj);
+						setMs(msObj);
+						console.log('msObj : ', msObj);
 					},
 					{}
 				);
@@ -121,19 +133,6 @@ function UserWaitPage(): JSX.Element {
 	};
 
 	useEffect(() => {
-		userListApi.fetchGetApi(`/users?roomId=${user.roomId}`);
-		if (!stompRef.current) {
-			stompConnect();
-		}
-	}, []);
-
-	useEffect(() => {
-		if (userListApi.data?.success) {
-			setUserList(userListApi.data.data);
-		}
-	}, [userListApi.data]);
-
-	useEffect(() => {
 		if (!userState.roomCode) {
 			navigate('/');
 		} else if (!userState.nickname) {
@@ -149,7 +148,7 @@ function UserWaitPage(): JSX.Element {
 	}, []);
 
 	return (
-		<div className="w-full h-full bg-white2">
+		<div className='w-full h-full bg-white2'>
 			<UserProfile user={user} />
 			{userList.length ? (
 				<UserList users={userList} />
