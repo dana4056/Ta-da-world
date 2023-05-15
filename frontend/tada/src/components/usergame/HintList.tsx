@@ -5,11 +5,13 @@ const closetreasure = require('../../assets/images/closetreasure.png');
 const opentreasure = require('../../assets/images/opentreasure.png');
 
 interface HintListProps {
+	index: number,
 	treasure: TreasureInfo;
 	onClick: () => void;
 }
 
 function HintList({
+	index, 
 	treasure,
 	onClick,
 }: HintListProps): JSX.Element {
@@ -23,7 +25,7 @@ function HintList({
 				src={treasure.status ? opentreasure : closetreasure}
 				alt=''
 			/>
-			<p className='text-lg font-semibold text-gray3'>보물 {treasure.id}</p>
+			<p className='text-lg font-semibold text-gray3'>보물 {index}</p>
 		</div>
 	);
 }
