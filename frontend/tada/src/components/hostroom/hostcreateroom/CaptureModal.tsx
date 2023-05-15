@@ -63,17 +63,17 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 								<Webcam
 									ref={camref}
 									mirrored={true}
+									height = {420}
+									width = {360}
 									screenshotFormat="image/jpeg"
 									className='rounded-lg mb-2'
-									height = {560}
-									width = {360}
 									videoConstraints={videoConstraints}
 								/>
 								:
 								<Webcam
 									ref={camref}
 									mirrored={true}
-									height = {560}
+									height = {420}
 									width = {360}
 									screenshotFormat="image/jpeg"
 									className='rounded-lg mb-2'
