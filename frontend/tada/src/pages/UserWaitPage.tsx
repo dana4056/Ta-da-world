@@ -59,7 +59,7 @@ function UserWaitPage(): JSX.Element {
 					nickname: `${user.nickname}`,
 					imgNo: `${user.profileImage}`,
 				};
-				console.log('socket : send data : ', data);
+				console.log('socket: send data: ', data);
 				stomp.send('/pub/send', {}, JSON.stringify(data));
 				stomp.subscribe(
 					`/sub/${user.roomId}`,
@@ -92,14 +92,14 @@ function UserWaitPage(): JSX.Element {
 						} else if (msObj.messageType === 'FIND') {
 							console.log('find treasure');
 						}
-						console.log('msObj : ', msObj);
+						console.log('msObj: ', msObj);
 					},
 					{}
 				);
 			});
 			stompRef.current = stomp;
 		} catch (error) {
-			console.log('socket error : ', error);
+			console.log('socket error: ', error);
 		}
 	};
 
@@ -116,7 +116,7 @@ function UserWaitPage(): JSX.Element {
 				}
 			);
 		} catch (error) {
-			console.log('socket closed error : ', error);
+			console.log('socket closed error: ', error);
 		}
 	};
 

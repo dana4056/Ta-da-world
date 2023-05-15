@@ -118,7 +118,7 @@ function HostWaitRoom(): JSX.Element {
 			});
 			stompRef.current = stomp;
 		} catch (error) {
-			console.log('socket error : ', error);
+			console.log('socket error: ', error);
 		}
 	};
 
@@ -134,7 +134,7 @@ function HostWaitRoom(): JSX.Element {
 			}
 			);
 		} catch (error) {
-			console.log('socket closed error : ', error);
+			console.log('socket closed error: ', error);
 		}
 	};
 

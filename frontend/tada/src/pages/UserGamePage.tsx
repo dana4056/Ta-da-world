@@ -73,14 +73,14 @@ function UserGamePage(): JSX.Element {
 							setFoundTreasure(foundTreasure + 1);
 							// 보물 리스트 갱신
 						}
-						console.log('msObj : ', msObj);
+						console.log('msObj: ', msObj);
 					},
 					{}
 				);
 			});
 			stompRef.current = stomp;
 		} catch (error) {
-			console.log('socket error : ', error);
+			console.log('socket error: ', error);
 		}
 	};
 
@@ -97,7 +97,7 @@ function UserGamePage(): JSX.Element {
 				}
 			);
 		} catch (error) {
-			console.log('socket closed error : ', error);
+			console.log('socket closed error: ', error);
 		}
 	};
 

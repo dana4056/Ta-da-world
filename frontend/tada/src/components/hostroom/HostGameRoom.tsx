@@ -95,7 +95,7 @@ function HostGameRoom(): JSX.Element {
 			});
 			stompRef.current = stomp;
 		} catch (error) {
-			console.log('socket error : ', error);
+			console.log('socket error: ', error);
 		}
 	};
 	
@@ -111,7 +111,7 @@ function HostGameRoom(): JSX.Element {
 			}
 			);
 		} catch (error) {
-			console.log('socket closed error : ', error);
+			console.log('socket closed error: ', error);
 		}
 	};
 	
@@ -160,8 +160,8 @@ function HostGameRoom(): JSX.Element {
 			<NoticeModal open={modalOpen} close={closeModal}/>
 			<div className="flex flex-col items-center">
 				<Title title={title} subTitle='게임 진행중'/>
-				<div className='w-full h-0 flex justify-end items-center'>
-					<GoMegaphone color='white' className='w-10 h-10 relative top-4 bottom-3 shadow-lg rounded-full bg-red px-2 py-2 mx-2' onClick={openModal}/>
+				<div className='flex items-center justify-end w-full h-0'>
+					<GoMegaphone color='white' className='relative w-10 h-10 px-2 py-2 mx-2 rounded-full shadow-lg top-4 bottom-3 bg-red' onClick={openModal}/>
 				</div>
 				<div className='flex flex-col items-center w-full px-2 py-3 mt-2 bg-white2 rounded-t-2xl'>
 					<PlayTimeBox>

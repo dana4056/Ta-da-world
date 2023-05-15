@@ -13,8 +13,8 @@ declare global {
 interface openProps {
 	open: boolean;
 	close: (x:string, y:string) => void;
-	latitude : string,
-    longitude : string
+	latitude: string,
+	longitude: string
 }
 
 interface StyledDivProps {
@@ -70,7 +70,7 @@ function RegisterModal({open, close, latitude, longitude}: openProps): JSX.Eleme
 						</div>
 						<BsX onClick={()=> {close('0', '0');}} size="32" color="#535453"/>
 					</ModalHeader>
-					<div id="map" className='w-full h-full rounded-xl mb-1'/>
+					<div id="map" className='w-full h-full mb-1 rounded-xl'/>
 					<Button onClick={()=> {close(lat, lon);}}>저장</Button>
 				</ModalSection>
 			) : null}

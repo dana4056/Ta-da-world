@@ -10,12 +10,12 @@ interface RoomInfoProps {
 	time: string;
 }
 
-function Info({title, time} : RoomInfoProps): JSX.Element {
+function Info({ title, time }: RoomInfoProps): JSX.Element {
 	const dispatch = useDispatch();
 	const [inputTitle, setInputTitle] = useState<string>('');
 	const [inputTime, setInputTime] = useState<string>('');
 	const swalColor  = '#2BDCDB';
-	const check : any = /^[0-9]+$/; 
+	const check: any = /^[0-9]+$/; 
 	const saveApi = useApi();
 
 	useEffect(() =>{
@@ -106,7 +106,7 @@ function Info({title, time} : RoomInfoProps): JSX.Element {
 				<Label htmlFor="time"> 게임 시간(분) </Label>
 				<Input value={inputTime||''} type="text" name="time" id="time" placeholder="게임 시간" onChange={handleTime}/>
 			</>
-			<div className='flex justify-center items-center mt-12'>
+			<div className='flex items-center justify-center mt-12'>
 				<Button onClick={checkAva}> 저장 </Button>
 			</div>
 		</div>

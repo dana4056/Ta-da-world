@@ -7,12 +7,12 @@ export interface TreasureInfo {
 	rewardImgPath: string;
 	reward: string;
 	status: boolean;
-	finderNick : string | null;
+	finderNick: string | null;
 }
 
 export interface LocationData {
-  latitude : number
-  longitude : number
+  latitude: number
+  longitude: number
 }
 
 export interface CurrentLocation {

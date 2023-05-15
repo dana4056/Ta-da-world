@@ -8,13 +8,9 @@ interface GameHeaderProps {
 
 function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 	const gameInfo = useSelector((state: RootState) => state.user);
-
-	const treausre = require('../../assets/images/closetreasure_color.png');
-
 	const { gamePlayTime, gameStartTime } = gameInfo;
-
+	const treausre = require('../../assets/images/closetreasure_color.png');
 	const gameStartTimeKST = new Date(gameStartTime + '+09:00');
-
 	const gameEndTimeKST = new Date(gameStartTimeKST.getTime() + gamePlayTime * 60 * 1000);
 
 	const [timeLeft, setTimeLeft] = useState<number>(gameEndTimeKST.getTime() - Date.now());
@@ -39,18 +35,6 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 	const timeLeftString = `${minutes.toString().padStart(2, '0')}:${seconds
 		.toString()
 		.padStart(2, '0')}`;
-
-	//   gameInfo
-	//   character : 3
-	// gamePlayTime : 15
-	// gameStartTime : "2023-05-01T08:14:27"
-	// nickname : "ass"
-	// roomCode : "ekotQrpTA"
-	// roomId : 1
-	// treasureNumber : 2
-	// userId : "1_193486540"
-
-	// console.log('!!!!!!!!!!!!!!!!!!', gameInfo);
 
 	return (
 		<div className="flex items-center justify-around py-4 border-b-2 bg-main border-b-white">
