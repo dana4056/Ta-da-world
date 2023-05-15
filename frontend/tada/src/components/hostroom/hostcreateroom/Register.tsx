@@ -176,7 +176,7 @@ function Register(): JSX.Element {
 
 	const checkAva = (): void  => {
 		//유효성 검사
-		if (treasure === '') {
+		if (!treasure) {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
@@ -203,7 +203,7 @@ function Register(): JSX.Element {
 				confirmButtonColor: '#2BDCDB',
 				confirmButtonText: '확인',
 			});
-		}  else if (hint === '') {
+		}  else if (!hint) {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
@@ -212,7 +212,7 @@ function Register(): JSX.Element {
 				confirmButtonColor: '#2BDCDB',
 				confirmButtonText: '확인',
 			});
-		} else if(reward === '' && rewardDes ==='') {
+		} else if(!reward && !rewardDes) {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,

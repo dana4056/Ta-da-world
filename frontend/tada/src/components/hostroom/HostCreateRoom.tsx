@@ -155,16 +155,16 @@ function HostCreateRoom(): JSX.Element {
 				<SectionOpt active = {section === 'info' ? '1':''} onClick={()=>handleClick('info')}>
 					기본정보
 				</SectionOpt>
-				<SectionOpt active = {section === 'list' ? '1':''} onClick={()=>handleClick('list')}>
-					보물지도
-				</SectionOpt>
 				<SectionOpt active = {section === 'register' ? '1':''} onClick={()=>handleClick('register')}>
 					보물등록
 				</SectionOpt>
+				<SectionOpt active = {section === 'list' ? '1':''} onClick={()=>handleClick('list')}>
+					보물지도
+				</SectionOpt>
 			</div>
 			{section==='info' && <Info title={title} time={time}/>}
-			{section==='list' && <List treasures={treasures}/>}
 			{section==='register' && <Register/>}
+			{section==='list' && <List treasures={treasures}/>}
 			{section !== 'register' && <div className='w-full flex justify-end'> <RedCircle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </RedCircle></div>}
 		</div>
 	);

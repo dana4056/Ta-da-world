@@ -56,7 +56,7 @@ function Info({title, time} : RoomInfoProps): JSX.Element {
 
 	const checkAva = (): void  => {
 		//유효성 검사 //게임 제목 18자까지
-		if (inputTitle === '') {
+		if (!inputTitle) {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
@@ -65,7 +65,7 @@ function Info({title, time} : RoomInfoProps): JSX.Element {
 				confirmButtonColor: swalColor,
 				confirmButtonText: '확인',
 			});
-		} else if(inputTime === '') {
+		} else if(!inputTime) {
 			Swal.fire({
 				icon: 'warning',               
 				width: 300,
