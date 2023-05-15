@@ -12,7 +12,7 @@ interface UserProfileProps {
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
-	const avatar = require(`../../assets/images/avatar${user.profileImage}.mp4`);
+	const avatar = require(`../../assets/images/avatar${user.profileImage}.gif`);
 
 	return (
 		<div className='flex items-center justify-center pt-12 shadow-lg h-52 bg-main rounded-b-3xl'>
