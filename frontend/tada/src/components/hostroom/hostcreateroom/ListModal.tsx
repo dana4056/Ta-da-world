@@ -12,7 +12,7 @@ import useApi from '../../../hooks/useApi';
 interface openProps {
 	open: boolean;
 	close: () => void;
-	treasure : TreasureInfo | null;
+	treasure: TreasureInfo | null;
 }
 
 interface StyledDivProps {
@@ -62,7 +62,7 @@ function ListModal({ open, close, treasure }: openProps): JSX.Element{
 							<TreasureInfoBox isHost={true} treasure={treasure} />
 							: null
 						}
-						<div className='w-full flex justify-end mb-2 text-main' onClick={deleteTreasure}>보물 삭제하기</div>
+						<div className='flex justify-end w-full mb-2 text-main' onClick={deleteTreasure}>보물 삭제하기</div>
 					</div>
 				</ModalSection>
 			) : null}

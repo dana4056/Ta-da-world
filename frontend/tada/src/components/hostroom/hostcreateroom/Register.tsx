@@ -115,7 +115,7 @@ function Register(): JSX.Element {
 		fileInput.current.click();
 	};
 
-	const handleUploadImg = (e : React.ChangeEvent<HTMLInputElement>):void => {
+	const handleUploadImg = (e: React.ChangeEvent<HTMLInputElement>):void => {
 		const target = e.currentTarget;
 		const file = (target.files as FileList)[0];
 
@@ -123,7 +123,7 @@ function Register(): JSX.Element {
 			const reader = new FileReader();
 			reader.readAsDataURL(file);
 			reader.onloadend = function(){
-				const base64 : any = reader.result;
+				const base64: any = reader.result;
 				setReward(base64);
 			};
 		}

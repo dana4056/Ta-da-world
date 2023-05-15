@@ -39,7 +39,7 @@ function List({ treasures }: ListProps): JSX.Element {
 					map: map, // 마커를 표시할 지도
 					position: new window.kakao.maps.LatLng(treasures[i].lat, treasures[i].lng), // 마커를 표시할 위치
 					clickable: true, // 마커를 클릭했을 때 지도의 클릭 이벤트가 발생하지 않도록 설정합니다
-					image : markerImage // 마커 이미지 
+					image: markerImage // 마커 이미지 
 				});
 
 				window.kakao.maps.event.addListener(marker, 'click', () => {

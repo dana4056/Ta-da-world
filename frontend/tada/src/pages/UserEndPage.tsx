@@ -35,15 +35,6 @@ function UserEndPage(): JSX.Element {
 	const userState = useSelector((state: RootState) => state.user);
 	const treasureListApi = useApi();
 	const [treasures, setTreasures] = useState<TreasureInfo[]>([]);
-	// 	console.log(userState);
-	//   character : 4
-	// gamePlayTime : 15
-	// gameStartTime : "2023-05-01T08:14:27"
-	// nickname : "아이돌한원석"
-	// roomCode : "ekotQrpTA"
-	// roomId : 1
-	// treasureNumber : 2
-	// userId : "1_2923349138"
 
 	const user: User = {
 		id: userState.userId,
@@ -53,112 +44,10 @@ function UserEndPage(): JSX.Element {
 		profileImage: userState.character,
 	};
 
-	// const treasureList: TreasureInfo[] = [
-	// 	{
-	// 		id: 1,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// 	{
-	// 		id: 4,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// 	{
-	// 		id: 5,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// 	{
-	// 		id: 6,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// 	{
-	// 		id: 7,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// 	{
-	// 		id: 8,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// 	{
-	// 		id: 9,
-	// 		imgPath: require('../assets/images/bottle.png'),
-	// 		lat: 'funckyou',
-	// 		lng: 'and your mom',
-	// 		hint: 'and your sister',
-	// 		rewardImgPath: require('../assets/images/kakao_login.png'),
-	// 		reward: 'and your job',
-	// 		status: true,
-	// 		finderNick: 'and your broken ass car',
-	// 	},
-	// ];
-
 	useEffect(() => {
 		treasureListApi.fetchGetApi(
-			`/treasures/user?room=${userState.roomId}&user=13_230985`
-			// `/treasures/user?room=${userState.roomId}&user=${userState.userId}`
+			// `/treasures/user?room=${userState.roomId}&user=13_230985`
+			`/treasures/user?room=${userState.roomId}&user=${userState.userId}`
 		);
 	}, []);
 

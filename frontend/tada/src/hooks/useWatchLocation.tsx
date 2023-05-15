@@ -1,8 +1,8 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 interface LocationData {
-  latitude : number
-  longitude : number
+  latitude: number
+  longitude: number
 }
 
 interface WatchLocation {

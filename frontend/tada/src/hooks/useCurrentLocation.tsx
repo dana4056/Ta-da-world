@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 interface LocationObject {
-    latitude : number,
-    longitude : number
+	latitude: number,
+	longitude: number
 }
 
 function useCurrentLocation() {

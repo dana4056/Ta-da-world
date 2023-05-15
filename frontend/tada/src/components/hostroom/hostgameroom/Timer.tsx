@@ -6,17 +6,17 @@ import useApi from '../../../hooks/useApi';
 import { useInterval } from '../../../hooks/useInterval';
 
 interface TimeProps {
-    start: string;
-    time: string;
+	start: string;
+	time: string;
 }
 
 function Timer({start, time}:TimeProps): JSX.Element {
 	const dispatch = useDispatch();
 	const endApi = useApi(); //방 상태 변경
-	const date : Date = new Date();
-	const startD : Date =  new Date(start);
-	const startDate : Date = new Date(startD.getTime() - startD.getTimezoneOffset()*60000);
-	const gap : number = date.getTime() - startDate.getTime(); //gap시작 시간으로 부터 경과한 시간
+	const date: Date = new Date();
+	const startD: Date =  new Date(start);
+	const startDate: Date = new Date(startD.getTime() - startD.getTimezoneOffset()*60000);
+	const gap: number = date.getTime() - startDate.getTime(); //gap시작 시간으로 부터 경과한 시간
 	const [count, setCount] = useState<number>(60);
 
 	useEffect(()=>{
