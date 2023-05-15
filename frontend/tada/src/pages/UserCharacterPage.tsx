@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { GraButton } from '../utils/Semantics';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -43,6 +43,14 @@ function UserCharacterPage(): JSX.Element {
 		}
 		return avatars;
 	};
+
+	useEffect(() => {
+		if (!userState.roomCode) {
+			navigate('/');
+		} else if (!userState.nickname) {
+			navigate('/username');
+		}
+	}, []);
 
 	return (
 		<div className='flex flex-col items-center w-full h-full bg-#DDD4CB'>

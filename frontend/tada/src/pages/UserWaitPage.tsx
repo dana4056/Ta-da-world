@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { RootState } from '../stores';
@@ -40,19 +40,6 @@ function UserWaitPage(): JSX.Element {
 		nickname: userState.nickname,
 		profileImage: String(userState.character),
 	};
-
-	useEffect(() => {
-		userListApi.fetchGetApi(`/users?roomId=${user.roomId}`);
-		if (!stompRef.current) {
-			stompConnect();
-		}
-	}, []);
-
-	useEffect(() => {
-		if (userListApi.data?.success) {
-			setUserList(userListApi.data.data);
-		}
-	}, [userListApi.data]);
 
 	// 웹소켓
 	const stompConnect = () => {
@@ -129,6 +116,29 @@ function UserWaitPage(): JSX.Element {
 			console.log('socket closed error : ', error);
 		}
 	};
+
+	useEffect(() => {
+		userListApi.fetchGetApi(`/users?roomId=${user.roomId}`);
+		if (!stompRef.current) {
+			stompConnect();
+		}
+	}, []);
+
+	useEffect(() => {
+		if (userListApi.data?.success) {
+			setUserList(userListApi.data.data);
+		}
+	}, [userListApi.data]);
+
+	useEffect(() => {
+		if (!userState.roomCode) {
+			navigate('/');
+		} else if (!userState.nickname) {
+			navigate('/username');
+		} else if (!userState.character) {
+			navigate('/usercharacter');
+		}
+	}, []);
 
 	return (
 		<div className="w-full h-full bg-white2">

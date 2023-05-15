@@ -27,20 +27,20 @@ const router = createBrowserRouter([
 				element: <HostRoomPage />,
 			},
 			{
-				path: 'userwait',
-				element: <UserWaitPage />,
-			},
-			{
 				path: 'username',
 				element: <UserNamePage />,
 			},
 			{
-				path: 'userloading',
-				element: <UserLoadingPage />,
-			},
-			{
 				path: 'usercharacter',
 				element: <UserCharacterPage />,
+			},
+			{
+				path: 'userwait',
+				element: <UserWaitPage />,
+			},
+			{
+				path: 'userloading',
+				element: <UserLoadingPage />,
 			},
 			{
 				path: 'usergame',

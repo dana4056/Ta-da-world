@@ -26,7 +26,6 @@ function GameMap({ roomId, character }: GameMapProps): JSX.Element {
 	const [open, setOpen] = useState<boolean>(false);
 	const [hintOpen, setHintOpen] = useState<boolean>(false);
 
-
 	const renderMarkers = () => {
 		console.log('-------RENDERING!-------');
 

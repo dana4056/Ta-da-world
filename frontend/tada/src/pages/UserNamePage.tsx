@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { enterNickname } from '../stores/user';
@@ -58,6 +58,12 @@ function UserNamePage(): JSX.Element {
 			navigate('/usercharacter');
 		}
 	};
+
+	useEffect(() => {
+		if (!userState.roomCode) {
+			navigate('/');
+		}
+	});
 
 	return (
 		<div className='flex flex-col items-center justify-center h-full'>
