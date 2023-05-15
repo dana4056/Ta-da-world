@@ -32,7 +32,7 @@ function UserCharacterPage(): JSX.Element {
 			avatars.push(
 				<img
 					key={i}
-					src={require(`../assets/images/avatar${i}.png`)}
+					src={require(`../assets/images/avatar/avatar${i}.png`)}
 					alt={`Avatar ${i}`}
 					onClick={() => handleAvatarClick(i)}
 					className={`cursor-pointer w-20 h-20 rounded-full border-2  mx-2 ${

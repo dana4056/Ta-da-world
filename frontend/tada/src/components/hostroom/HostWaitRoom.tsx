@@ -184,7 +184,7 @@ function HostWaitRoom(): JSX.Element {
 				{/* <Title title={title} subTitle={'게임 입장 코드: '+ code}></Title> */}
 				<p className="mb-1 text-white font-bold">
 					{'게임 입장 코드: '+ code}
-					<CopyToClipboard  text="code" onCopy={() => Swal.fire({          
+					<CopyToClipboard  text={code} onCopy={() => Swal.fire({          
 						width: 300,
 						iconColor: '#2BDCDB',
 						html: '초대 코드가 복사되었습니다!', 
@@ -214,7 +214,7 @@ function HostWaitRoom(): JSX.Element {
 							>
 								<img
 									className='w-10 h-10 mr-3'
-									src={require(`../../assets/images/avatar${user.imgNo}.png`)}
+									src={require(`../../assets/images/avatar/avatar${user.imgNo}.png`)}
 								/>
 								<p>{user.nick}</p>
 							</div>

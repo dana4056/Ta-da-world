@@ -35,7 +35,7 @@ const UserList: React.FC<UserListProps> = ({ users }) => {
 								>
 									<img
 										className='w-10 ml-5 h-10 mr-3'
-										src={require(`../../assets/images/avatar${user.imgNo.toString()}.png`)}
+										src={require(`../../assets/images/avatar/avatar${user.imgNo.toString()}.png`)}
 										alt=''
 									/>
 									<p className='text-lg font-bold'>{user.nick}</p>
