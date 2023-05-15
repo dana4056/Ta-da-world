@@ -118,7 +118,7 @@ function HostEndRoom(): JSX.Element {
 										<div className='flex items-center'>
 											<img
 												className='w-10 h-10 mr-3'
-												src={require(`../../assets/images/avatar${hunter.imgNo}.jpg`)}
+												src={require(`../../assets/images/avatar${hunter.imgNo}.png`)}
 												alt=''
 											/>
 											<p>{hunter.nick}</p>

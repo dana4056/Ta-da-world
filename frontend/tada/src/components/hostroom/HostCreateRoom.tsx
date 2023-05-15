@@ -156,7 +156,7 @@ function HostCreateRoom(): JSX.Element {
 					기본정보
 				</SectionOpt>
 				<SectionOpt active = {section === 'list' ? '1':''} onClick={()=>handleClick('list')}>
-					보물목록
+					보물지도
 				</SectionOpt>
 				<SectionOpt active = {section === 'register' ? '1':''} onClick={()=>handleClick('register')}>
 					보물등록

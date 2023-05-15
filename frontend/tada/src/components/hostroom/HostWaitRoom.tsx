@@ -10,9 +10,13 @@ import { GoMegaphone } from 'react-icons/go';
 import { UserListItem } from '../../utils/Interfaces';
 import { Button } from '../../utils/Semantics';
 import BoxHeader from '../common/HeaderBox';
-import Title from '../common/Title';
+// import Title from '../common/Title';
 import NoticeModal from './common/NoticeModal';
 import useApi from '../../hooks/useApi';
+
+// 초대코드 복사 
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+const copy = require('../../assets/images/copy.png');
 
 const baseURL = 'https://ta-da.world/api';
 
@@ -177,7 +181,26 @@ function HostWaitRoom(): JSX.Element {
 		<>
 			<NoticeModal open={modalOpen} close={closeModal}/>
 			<div className="flex flex-col items-center">
-				<Title title={title} subTitle={'게임 입장 코드: '+ code}></Title>
+				{/* <Title title={title} subTitle={'게임 입장 코드: '+ code}></Title> */}
+				<p className="mb-1 text-white font-bold">
+					{'게임 입장 코드: '+ code}
+					<CopyToClipboard  text="code" onCopy={() => Swal.fire({          
+						width: 300,
+						iconColor: '#2BDCDB',
+						html: '초대 코드가 복사되었습니다!', 
+						confirmButtonColor: '#2BDCDB',
+						confirmButtonText: '확인',
+					})}>
+						<text className='inline'>
+							<img className='w-4 cursor-pointer inline ml-1' src={copy} alt='copybtn' />
+						</text>
+					</CopyToClipboard>
+					{/* <img className='w-4 cursor-pointer inline ml-1' onClick={()=> {createKakaoButton();}} src={sharing} alt="sharing" /> */}
+				</p>
+				<div className='w-4/5 h-12 flex flex-col justify-center items-center bg-white rounded-3xl shadow-lg mb-4'>
+					<p className='text-main text-xl font-black'>{title}</p>		
+				</div>
+				
 				<div className='w-full flex flex-col items-center bg-white2 px-2 pt-4 pb-16 mt-2 rounded-t-2xl space-y-2 overflow-y-scroll'>	
 					<div className='w-full h-12 flex items-center'> 
 						<BoxHeader total={0} num={userList.length} title='참가자 수'/>
@@ -191,7 +214,7 @@ function HostWaitRoom(): JSX.Element {
 							>
 								<img
 									className='w-10 h-10 mr-3'
-									src={require(`../../assets/images/avatar${user.imgNo}.jpg`)}
+									src={require(`../../assets/images/avatar${user.imgNo}.png`)}
 								/>
 								<p>{user.nick}</p>
 							</div>

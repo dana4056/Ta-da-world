@@ -4,7 +4,7 @@ import { TreasureInfo, CurrentLocation } from '../../utils/Interfaces';
 import { getDistanceFromLatLonInKm } from '../../utils/Calculates';
 
 // 리덕스와 연동하여 이미지는 차후 변경해줘야함
-const playerImage = require('../../assets/images/avatar4.jpg');
+const playerImage = require('../../assets/images/avatar4.png');
 const treasureImage = 'https://d2ab9z4xn2ddpo.cloudfront.net/treasure/find.png';
 
 const treasures: TreasureInfo[] = [
