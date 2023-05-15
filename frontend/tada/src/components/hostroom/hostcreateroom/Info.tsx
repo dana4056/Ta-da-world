@@ -26,6 +26,14 @@ function Info({title, time} : RoomInfoProps): JSX.Element {
 	useEffect(() =>{
 		if(saveApi.data?.success){
 			dispatch(changeInfo(1));
+			Swal.fire({
+				icon: 'warning',               
+				width: 300,
+				iconColor: '#2BDCDB',
+				text: '게임 정보 저장 성공!', 
+				confirmButtonColor: '#2BDCDB',
+				confirmButtonText: '확인',
+			});
 		}else if(saveApi.data){
 			Swal.fire({
 				icon: 'warning',               
