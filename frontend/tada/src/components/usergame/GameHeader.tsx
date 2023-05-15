@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import Timer from '../hostroom/hostgameroom/Timer';
@@ -20,7 +19,7 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 			<div className="flex items-center justify-center h-12 text-2xl font-black bg-white border-4 rounded-full text-main w-36">
 				<Timer start={startTime} time={time}></Timer>
 			</div>
-			<div className="flex items-center space-x-2 text-2xl font-black text-white text-gray3">
+			<div className="flex items-center space-x-2 text-2xl font-black text-white">
 				<img className="w-12 h-12" src={treausre} alt="" />
 				<p>x {gameInfo.treasureNumber - foundTreasure}</p>
 			</div>
