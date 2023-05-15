@@ -53,23 +53,27 @@ function UserCharacterPage(): JSX.Element {
 	}, []);
 
 	return (
-		<div className='flex flex-col items-center w-full h-full bg-#DDD4CB'>
-			<p className='px-5 py-2 my-10 mt-16 text-xl font-bold bg-white border-b-4 shadow border-main2 shadow-main rounded-2xl text-main'>
-				캐릭터를 골라주세요!
-			</p>
+		<div className='flex flex-col items-center w-full h-full bg-white2'>
+			<div className='flex items-center justify-center bg-main w-full rounded-b-3xl shadow-lg mb-12 h-32'>
+
+				<p className='relative px-5 py-2 my-10 text-xl font-bold bg-white border-b-4 shadow border-main2 shadow-main rounded-2xl text-main'>
+						캐릭터를 골라주세요!
+				</p>
+			</div>
 			<div className='flex items-center justify-center'>
 				<img
+					className='rounded-full rou'
 					src={require(`../assets/images/avatar${selectedAvatar}.gif`)}
 				></img>
 			</div>
-			<div className='bg-white'>
-				<div className='fixed left-0 flex py-5 overflow-x-scroll bottom-40'>
+			<div className=''>
+				<div className='fixed left-0 flex py-5 overflow-x-scroll bottom-20'>
 					{renderAvatars()}
 				</div>
 			</div>
 			<GraButton
 				onClick={handleNextClick}
-				className='fixed w-full h-20 text-2xl rounded-none bottom-7'
+				className='fixed w-full h-20 text-2xl rounded-none bottom-0'
 				from='from-blue'
 				to='to-blue2'
 			>

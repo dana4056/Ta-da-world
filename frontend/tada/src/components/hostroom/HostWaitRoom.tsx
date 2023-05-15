@@ -179,10 +179,10 @@ function HostWaitRoom(): JSX.Element {
 			<NoticeModal open={modalOpen} close={closeModal}/>
 			<div className="flex flex-col items-center"><p className="mb-1 text-white font-bold">
 				{'게임 입장 코드: '+ code}
-				<CopyToClipboard  text={code} onCopy={() => Swal.fire({          
+				<CopyToClipboard  text={code} onCopy={() => Swal.fire({
 					width: 300,
 					iconColor: '#2BDCDB',
-					html: '초대 코드가 복사되었습니다!', 
+					html: '초대 코드가 복사되었습니다!',
 					confirmButtonColor: '#2BDCDB',
 					confirmButtonText: '확인',
 				})}>
@@ -192,11 +192,11 @@ function HostWaitRoom(): JSX.Element {
 				</CopyToClipboard>
 			</p>
 			<div className='w-4/5 h-12 flex flex-col justify-center items-center bg-white rounded-3xl shadow-lg mb-4'>
-				<p className='text-main text-xl font-black'>{title}</p>		
+				<p className='text-main text-xl font-black'>{title}</p>
 			</div>
 				
-			<div className='w-full flex flex-col items-center bg-white2 px-2 pt-4 pb-16 mt-2 rounded-t-2xl space-y-2 overflow-y-scroll'>	
-				<div className='w-full h-12 flex items-center'> 
+			<div className='w-full flex flex-col items-center bg-white2 px-2 pt-4 pb-16 mt-2 rounded-t-2xl space-y-2 overflow-y-scroll'>
+				<div className='w-full h-12 flex items-center'>
 					<BoxHeader total={0} num={userList.length} title='참가자 수'/>
 					<GoMegaphone color='white' className='w-10 h-10 shadow-lg rounded-full bg-red px-2 py-2' onClick={openModal}/>
 				</div>
