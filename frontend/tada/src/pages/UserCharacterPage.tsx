@@ -50,13 +50,9 @@ function UserCharacterPage(): JSX.Element {
 				캐릭터를 골라주세요!
 			</p>
 			<div className='flex items-center justify-center'>
-				<video
-					autoPlay
-					loop
-					muted
-					className='h-96 '
-					src={require(`../assets/images/avatar${selectedAvatar}.mp4`)}
-				></video>
+				<img
+					src={require(`../assets/images/avatar${selectedAvatar}.gif`)}
+				></img>
 			</div>
 			<div className='bg-white'>
 				<div className='fixed left-0 flex py-5 overflow-x-scroll bottom-40'>
