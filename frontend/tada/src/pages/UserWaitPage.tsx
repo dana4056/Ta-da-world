@@ -5,6 +5,7 @@ import { RootState } from '../stores';
 import UserProfile from '../components/userpregame/UserProfile';
 import UserList from '../components/userpregame/UserList';
 import useApi from '../hooks/useApi';
+import useCurrentLocation from '../hooks/useCurrentLocation';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import Swal from 'sweetalert2';
@@ -26,13 +27,13 @@ const baseURL = 'https://ta-da.world/api';
 
 function UserWaitPage(): JSX.Element {
 	const stompRef = useRef<any>(null);
-
 	const navigate = useNavigate();
+	const location = useCurrentLocation();
+	
 	// 유저 정보
 	const userState = useSelector((state: RootState) => state.user);
 
 	const [userList, setUserList] = useState<UserListItem[]>([]);
-
 	const userListApi = useApi();
 
 	const user: User = {
@@ -140,6 +141,11 @@ function UserWaitPage(): JSX.Element {
 		} else if (!userState.character) {
 			navigate('/usercharacter');
 		}
+	}, []);
+
+	useEffect(() => {
+		console.log('GET LOCATION ACCESS');
+		location.getCurrentLocation();
 	}, []);
 
 	return (

@@ -38,9 +38,9 @@ function Register(): JSX.Element {
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [modalOpen2, setModalOpen2] = useState<boolean>(false);
 	const fileInput = useRef<any>(null);
-	const location : any = useCurrentLocation();
+	const location: any = useCurrentLocation();
 	const registerTresure = useApi();
-	const check : any = /^[0-9]+./; 
+	const check: any = /^[0-9]+./; 
 	const geolocationOptions = {
 		enableHighAccuracy: true,
 		timeout: 1000 * 60 * 1, // 1 min (1000 ms * 60 sec * 1 minute = 60 000ms)
