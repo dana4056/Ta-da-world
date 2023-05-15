@@ -16,5 +16,5 @@ public interface RoomService {
 	Map<String, String> moveToWaitingRoom(Long roomId) throws Exception;
 	Map<String, Object> readRoomStatus(String hostId) throws Exception;
 
-	Long checkCode(String code) throws Exception;
+	Room checkCode(String code) throws Exception;
 }

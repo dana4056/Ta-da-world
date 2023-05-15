@@ -132,13 +132,13 @@ public class RoomServiceImpl implements RoomService{
 	}
 
 	@Override
-	public Long checkCode(String code) throws Exception {
+	public Room checkCode(String code) throws Exception {
 		try{
 			Room room = roomRepository.findByCode(code).orElse(null);
 			if(room == null){
 				return null;
 			}else{
-				return room.getId();
+				return room;
 			}
 		}catch (Exception e){
 			throw e;

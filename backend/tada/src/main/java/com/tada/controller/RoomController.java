@@ -11,6 +11,7 @@ import com.tada.service.HostService;
 import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 
+import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -267,13 +268,19 @@ public class RoomController {
 	})
 	public ResponseEntity<?> checkCode(@RequestParam String code){
 		Map<String, Object> resultMap = new HashMap<>();
-		HttpStatus status = HttpStatus.OK;
+		HttpStatus status = HttpStatus.ACCEPTED;
 		RoomResponse roomResponse = new RoomResponse();
 		try {
-			Long roomId = roomService.checkCode(code);
+			Room room = roomService.checkCode(code);
+			Long roomId = room.getId();
+			int roomStatus = room.getStatus();
 			if (roomId == null) {
 				return new ResponseEntity<>(new ResultDto("not exist", FALSE), status);
 			} else {
+				if (roomStatus != 2) {
+					return new ResponseEntity<>(new ResultDto("started", FALSE), status);
+				}
+				status = HttpStatus.OK;
 				roomResponse.setId(roomId);
 				resultMap.put("data", roomResponse);
 				resultMap.put("message", SUCCESS);
