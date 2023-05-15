@@ -24,7 +24,6 @@ function useCurrentLocation() {
 		setError(error.message);
 	};
 	
-
 	async function getCurrentLocation(options = {}) {
 		const { geolocation } = navigator;
 
