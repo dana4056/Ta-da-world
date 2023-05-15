@@ -13,7 +13,8 @@ interface User {
 	id: string;
 	roomId: number;
 	nickname: string;
-	profileImage: string;
+	// profileImage: string;
+	profileImage: number;
 }
 interface UserListItem {
 	id: string;
@@ -38,7 +39,8 @@ function UserWaitPage(): JSX.Element {
 		id: userState.userId,
 		roomId: userState.roomId,
 		nickname: userState.nickname,
-		profileImage: String(userState.character),
+		// profileImage: String(userState.character),
+		profileImage: userState.character,
 	};
 
 	// 웹소켓

@@ -4,7 +4,8 @@ interface User {
 	id: string;
 	roomId: number;
 	nickname: string;
-	profileImage: string;
+	// profileImage: string;
+	profileImage: number;
 }
 
 interface UserProfileProps {
@@ -12,8 +13,7 @@ interface UserProfileProps {
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ user }) => {
-	const avatar = require(`../../assets/images/avatar${user.profileImage}.gif`);
-
+	const avatar = require(`../../assets/images/avatar${user.profileImage || 1}.gif`);
 
 	return (
 		<div className='flex items-center justify-center pt-12 shadow-lg h-52 bg-main rounded-b-3xl'>
