@@ -63,16 +63,16 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 									ref={camref}
 									mirrored={true}
 									screenshotFormat="image/jpeg"
-									className='rounded-lg mb-2 h-full'
+									className='rounded-lg mb-2 h-4/5'
+									videoConstraints={videoConstraints}
 								/>
 								:
 								<Webcam
 									ref={camref}
 									mirrored={true}
 									screenshotFormat="image/jpeg"
-									className='rounded-lg mb-2 h-full'
-									videoConstraints={videoConstraints}
-								/>
+									className='rounded-lg mb-2 h-4/5'
+								/>	
 							}
 							<MdCameraswitch onClick={changeFocus} size="24" color="#535453"/>
 						</div>
