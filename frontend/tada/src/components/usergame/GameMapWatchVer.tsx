@@ -13,7 +13,7 @@ interface GameMapProps {
 }
 
 function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
-	const playerImage = require(`../../assets/images/avatarPin/avatar${character}.png`);
+	const playerImage = require(`../../assets/images/avatarPin/avatar${character || 1}.png`);
 	const hintImage = require('../../assets/images/bottle.png');
 	const openTreasureImage = require('../../assets/images/opentreasure.png');
 	const closeTreasureImage = require('../../assets/images/closetreasure_color.png');
