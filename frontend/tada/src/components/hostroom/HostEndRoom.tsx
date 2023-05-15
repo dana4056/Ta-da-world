@@ -38,7 +38,7 @@ function HostEndRoom(): JSX.Element {
 	//시작할때
 	useEffect(()=>{
 		TreasureApi.fetchNotBodyApiWithToken('GET', '/treasures');
-		// hunterApi.
+		hunterApi.fetchNotBodyApiWithToken('GET', '/treasures/rank');
 	}, []);
 
 	//보물 데이터 받기
