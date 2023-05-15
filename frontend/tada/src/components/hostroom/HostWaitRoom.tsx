@@ -177,48 +177,33 @@ function HostWaitRoom(): JSX.Element {
 	return (
 		<>
 			<NoticeModal open={modalOpen} close={closeModal}/>
-			<div className="flex flex-col items-center"><p className="mb-1 text-white font-bold">
+			<div className="flex flex-col items-center"><p className="mb-1 font-bold text-white">
 				{'게임 입장 코드: '+ code}
-<<<<<<< HEAD
 				<CopyToClipboard  text={code} onCopy={() => Swal.fire({          
 					width: 300,
 					iconColor: '#2BDCDB',
 					html: '초대 코드가 복사되었습니다!', 
-=======
-				<CopyToClipboard  text={code} onCopy={() => Swal.fire({
-					width: 300,
-					iconColor: '#2BDCDB',
-					html: '초대 코드가 복사되었습니다!',
->>>>>>> dcd4878d1c6605dc2c8c922e5f1550b861ca001a
 					confirmButtonColor: '#2BDCDB',
 					confirmButtonText: '확인',
 				})}>
 					<text className='inline'>
-						<img className='w-4 cursor-pointer inline ml-1' src={copy} alt='copybtn' />
+						<img className='inline w-4 ml-1 cursor-pointer' src={copy} alt='copybtn' />
 					</text>
 				</CopyToClipboard>
 			</p>
-			<div className='w-4/5 h-12 flex flex-col justify-center items-center bg-white rounded-3xl shadow-lg mb-4'>
-<<<<<<< HEAD
-				<p className='text-main text-xl font-black'>{title}</p>		
+			<div className='flex flex-col items-center justify-center w-4/5 h-12 mb-4 bg-white shadow-lg rounded-3xl'>
+				<p className='text-xl font-black text-main'>{title}</p>		
 			</div>
 				
-			<div className='w-full flex flex-col items-center bg-white2 px-2 pt-4 pb-16 mt-2 rounded-t-2xl space-y-2 overflow-y-scroll'>	
-				<div className='w-full h-12 flex items-center'> 
-=======
-				<p className='text-main text-xl font-black'>{title}</p>
-			</div>
-				
-			<div className='w-full flex flex-col items-center bg-white2 px-2 pt-4 pb-16 mt-2 rounded-t-2xl space-y-2 overflow-y-scroll'>
-				<div className='w-full h-12 flex items-center'>
->>>>>>> dcd4878d1c6605dc2c8c922e5f1550b861ca001a
+			<div className='flex flex-col items-center w-full px-2 pt-4 pb-16 mt-2 space-y-2 overflow-y-scroll bg-white2 rounded-t-2xl'>	
+				<div className='flex items-center w-full h-12'> 
 					<BoxHeader total={0} num={userList.length} title='참가자 수'/>
-					<GoMegaphone color='white' className='w-10 h-10 shadow-lg rounded-full bg-red px-2 py-2' onClick={openModal}/>
+					<GoMegaphone color='white' className='w-10 h-10 px-2 py-2 rounded-full shadow-lg bg-red' onClick={openModal}/>
 				</div>
 				{userList.length ?
 					userList.map((user, index) => (
 						<div
-							className='w-5/6 flex items-center h-16 px-2 font-bold bg-white shadow-lg rounded-2xl text-main'
+							className='flex items-center w-5/6 h-16 px-2 font-bold bg-white shadow-lg rounded-2xl text-main'
 							key={index}
 						>
 							<img
@@ -231,8 +216,8 @@ function HostWaitRoom(): JSX.Element {
 					: <div>참가자를 기다려봐요!</div>
 				}
 			</div>
-			<Button className='w-4/5 max-w-xs fixed bottom-3 shadow-lg' onClick={startGame}>게임시작</Button>
-			<div className='fixed w-full bottom-0 h-2/3 -z-10 bg-white2'/>
+			<Button className='fixed w-4/5 max-w-xs shadow-lg bottom-3' onClick={startGame}>게임시작</Button>
+			<div className='fixed bottom-0 w-full h-2/3 -z-10 bg-white2'/>
 			</div>
 		</>
 	);
