@@ -1,13 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
-import GameMap from '../components/usergame/GameMap';
 import { useNavigate } from 'react-router-dom';
-import GameHeader from '../components/usergame/GameHeader';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import useApi from '../hooks/useApi';
 import Swal from 'sweetalert2';
+
+import GameHeader from '../components/usergame/GameHeader';
+import GameMap from '../components/usergame/GameMap';
+// import GameMapWatchVer from '../components/usergame/GameMapWatchVer';
 
 interface User {
 	id: string;
@@ -35,16 +37,6 @@ function UserGamePage(): JSX.Element {
 	};
 
 	const game = useApi();
-
-	useEffect(() => {
-		if (!stompRef.current) {
-			stompConnect();
-		}
-	}, []);
-
-	useEffect(() => {
-		game.fetchGetApi(`/treasures?roomId=${userState.roomId}`);
-	}, []);
 
 	// 웹소켓
 	const stompConnect = () => {
@@ -109,10 +101,31 @@ function UserGamePage(): JSX.Element {
 		}
 	};
 
+	useEffect(() => {
+		if (!stompRef.current) {
+			stompConnect();
+		}
+	}, []);
+
+	useEffect(() => {
+		game.fetchGetApi(`/treasures?roomId=${userState.roomId}`);
+	}, []);
+
+	useEffect(() => {
+		if (!userState.roomCode) {
+			navigate('/');
+		} else if (!userState.nickname) {
+			navigate('/username');
+		} else if (!userState.character) {
+			navigate('/usercharacter');
+		}
+	}, []);
+
 	return (
 		<>
 			<GameHeader foundTreasure={foundTreasure} />
 			<GameMap roomId={userState.roomId} character={userState.character} />
+			{/* <GameMapWatchVer roomId={userState.roomId} character={userState.character} /> */}
 		</>
 	);
 }
