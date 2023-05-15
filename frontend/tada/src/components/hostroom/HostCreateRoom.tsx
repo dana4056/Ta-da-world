@@ -165,7 +165,7 @@ function HostCreateRoom(): JSX.Element {
 			{section==='info' && <Info title={title} time={time}/>}
 			{section==='register' && <Register/>}
 			{section==='list' && <List treasures={treasures}/>}
-			{section !== 'register' && <div className='w-full flex justify-end'> <RedCircle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </RedCircle></div>}
+			<div className='w-full flex justify-end'> <RedCircle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </RedCircle></div>
 		</div>
 	);
 }
