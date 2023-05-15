@@ -25,6 +25,7 @@ function NoticeModal({ open, close}: openProps): JSX.Element{
 	const sendNotice = (): void  => {
 		if(notice){
 			close(notice);
+			setNotice('');
 		}else{
 			Swal.fire({
 				icon: 'warning',               

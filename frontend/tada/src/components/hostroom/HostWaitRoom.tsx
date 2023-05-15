@@ -28,6 +28,7 @@ function HostWaitRoom(): JSX.Element {
 	const stompRef = useRef<any>(null);
 	const [userList, setUserList] = useState<UserListItem[]>([]);
 	const [ms, setMs] = useState<any>();
+	const [cnt, setCnt] = useState<number>(0);
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const startApi = useApi(); //방 상태 변경
 	const userListAPi = useApi(); //게임 참가 유저
@@ -38,7 +39,7 @@ function HostWaitRoom(): JSX.Element {
 		if (!stompRef.current) {
 			stompConnect();
 		}
-	}, []);
+	}, [cnt]);
 
 	useEffect(() => {
 		if(userListAPi.data?.success){
@@ -66,11 +67,7 @@ function HostWaitRoom(): JSX.Element {
 	useEffect(() => {
 		if(ms){
 			if (ms.messageType === 'ENTER') {
-				setUserList([{
-					id: ms.userId,
-					imgNo:ms.imgNo,
-					nick:ms.nickname
-				}].concat(userList));
+				setCnt(cnt+1);
 			} else if (ms.messageType === 'NOTICE') {
 				console.log('someone noticed');
 			} else if (ms.messageType === 'START') {
@@ -180,50 +177,47 @@ function HostWaitRoom(): JSX.Element {
 	return (
 		<>
 			<NoticeModal open={modalOpen} close={closeModal}/>
-			<div className="flex flex-col items-center">
-				{/* <Title title={title} subTitle={'게임 입장 코드: '+ code}></Title> */}
-				<p className="mb-1 text-white font-bold">
-					{'게임 입장 코드: '+ code}
-					<CopyToClipboard  text={code} onCopy={() => Swal.fire({          
-						width: 300,
-						iconColor: '#2BDCDB',
-						html: '초대 코드가 복사되었습니다!', 
-						confirmButtonColor: '#2BDCDB',
-						confirmButtonText: '확인',
-					})}>
-						<text className='inline'>
-							<img className='w-4 cursor-pointer inline ml-1' src={copy} alt='copybtn' />
-						</text>
-					</CopyToClipboard>
-					{/* <img className='w-4 cursor-pointer inline ml-1' onClick={()=> {createKakaoButton();}} src={sharing} alt="sharing" /> */}
-				</p>
-				<div className='w-4/5 h-12 flex flex-col justify-center items-center bg-white rounded-3xl shadow-lg mb-4'>
-					<p className='text-main text-xl font-black'>{title}</p>		
-				</div>
+			<div className="flex flex-col items-center"><p className="mb-1 text-white font-bold">
+				{'게임 입장 코드: '+ code}
+				<CopyToClipboard  text={code} onCopy={() => Swal.fire({          
+					width: 300,
+					iconColor: '#2BDCDB',
+					html: '초대 코드가 복사되었습니다!', 
+					confirmButtonColor: '#2BDCDB',
+					confirmButtonText: '확인',
+				})}>
+					<text className='inline'>
+						<img className='w-4 cursor-pointer inline ml-1' src={copy} alt='copybtn' />
+					</text>
+				</CopyToClipboard>
+			</p>
+			<div className='w-4/5 h-12 flex flex-col justify-center items-center bg-white rounded-3xl shadow-lg mb-4'>
+				<p className='text-main text-xl font-black'>{title}</p>		
+			</div>
 				
-				<div className='w-full flex flex-col items-center bg-white2 px-2 pt-4 pb-16 mt-2 rounded-t-2xl space-y-2 overflow-y-scroll'>	
-					<div className='w-full h-12 flex items-center'> 
-						<BoxHeader total={0} num={userList.length} title='참가자 수'/>
-						<GoMegaphone color='white' className='w-10 h-10 shadow-lg rounded-full bg-red px-2 py-2' onClick={openModal}/>
-					</div>
-					{userList.length ?
-						userList.map((user, index) => (
-							<div
-								className='w-5/6 flex items-center h-16 px-2 font-bold bg-white shadow-lg rounded-2xl text-main'
-								key={index}
-							>
-								<img
-									className='w-10 h-10 mr-3'
-									src={require(`../../assets/images/avatar/avatar${user.imgNo}.png`)}
-								/>
-								<p>{user.nick}</p>
-							</div>
-						))
-						: <div>참가자를 기다려봐요!</div>
-					}
+			<div className='w-full flex flex-col items-center bg-white2 px-2 pt-4 pb-16 mt-2 rounded-t-2xl space-y-2 overflow-y-scroll'>	
+				<div className='w-full h-12 flex items-center'> 
+					<BoxHeader total={0} num={userList.length} title='참가자 수'/>
+					<GoMegaphone color='white' className='w-10 h-10 shadow-lg rounded-full bg-red px-2 py-2' onClick={openModal}/>
 				</div>
-				<Button className='w-4/5 max-w-xs fixed bottom-3 shadow-lg' onClick={startGame}>게임시작</Button>
-				<div className='fixed w-full bottom-0 h-2/3 -z-10 bg-white2'/>
+				{userList.length ?
+					userList.map((user, index) => (
+						<div
+							className='w-5/6 flex items-center h-16 px-2 font-bold bg-white shadow-lg rounded-2xl text-main'
+							key={index}
+						>
+							<img
+								className='w-10 h-10 mr-3'
+								src={require(`../../assets/images/avatar/avatar${user.imgNo}.png`)}
+							/>
+							<p>{user.nick}</p>
+						</div>
+					))
+					: <div>참가자를 기다려봐요!</div>
+				}
+			</div>
+			<Button className='w-4/5 max-w-xs fixed bottom-3 shadow-lg' onClick={startGame}>게임시작</Button>
+			<div className='fixed w-full bottom-0 h-2/3 -z-10 bg-white2'/>
 			</div>
 		</>
 	);

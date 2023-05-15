@@ -18,6 +18,7 @@ const DynamicModal = tw(Modal)<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
 	`}
+	h-620px
 `;
 
 function CaptureModal({ open, close}: openProps): JSX.Element{
@@ -64,21 +65,21 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 									mirrored={true}
 									screenshotFormat="image/jpeg"
 									className='rounded-lg mb-2'
-									height = {40 + '%'}
-									width = {80 + '%'}
+									height = {560}
+									width = {360}
 									videoConstraints={videoConstraints}
 								/>
 								:
 								<Webcam
 									ref={camref}
 									mirrored={true}
-									height = {40 + '%'}
-									width = {80 + '%'}
+									height = {560}
+									width = {360}
 									screenshotFormat="image/jpeg"
 									className='rounded-lg mb-2'
 								/>	
 							}
-							<MdCameraswitch className='w-full felx items-end' onClick={changeFocus} size="24" color="#535453"/>
+							<MdCameraswitch className='w-full felx justify-end' onClick={changeFocus} size="24" color="#535453"/>
 						</div>
 						:
 						<img src ={capturebase64}/>
