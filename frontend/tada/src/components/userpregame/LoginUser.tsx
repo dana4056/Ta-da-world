@@ -14,6 +14,7 @@ function LoginUser({ onHostClick }: LoginUserProps): JSX.Element {
 	const dispatch = useDispatch();
 	const [roomCode, setRoomCode] = useState<string>('');
 	const [isError, setIsError] = useState<boolean>(false);
+	const [roomExisted, setRoomExisted] = useState<boolean>(false);
 	const roomState = useApi();
 
 	const navigate = useNavigate();
@@ -31,6 +32,9 @@ function LoginUser({ onHostClick }: LoginUserProps): JSX.Element {
 			} else if (roomState.data.message === 'not exist') {
 				setIsError(true);
 				console.log('not exist');
+			} else if (roomState.data.message === 'started') {
+				setRoomExisted(true);
+				console.log('already started');
 			} else {
 				console.log(roomState);
 			}
@@ -49,18 +53,22 @@ function LoginUser({ onHostClick }: LoginUserProps): JSX.Element {
 						setRoomCode(e.target.value);
 					}}
 					className={`h-10 px-4 mb-5 border shadow-lg placeholder:text-sm placeholder:text-gray2 text-gray5 w-60 rounded-xl ${
-						!isError ? 'border-gray2' : 'border-2 border-red'
+						isError || roomExisted ? 'border-2 border-red' : 'border-gray2'
 					}`}
 				/>
 				<button
 					onClick={moveName}
 					className={`h-10 text-white shadow-lg rounded-xl w-60 ${
-						!isError === false
+						isError || roomExisted
 							? `${styles.shake} bg-red text-sm`
 							: 'from-blue to-blue2 bg-gradient-to-r font-semibold'
 					}`}
 				>
-					{isError ? '잘못된 입장 코드입니다.' : '입장'}
+					{isError
+						? '잘못된 입장 코드입니다.'
+						: roomExisted
+							? '이미 시작한 방입니다'
+							: '입장'}
 				</button>
 			</div>
 			<button

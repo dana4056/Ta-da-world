@@ -12,19 +12,17 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 	const treausre = require('../../assets/images/closetreasure_color.png');
 
 	const { gamePlayTime, gameStartTime } = gameInfo;
-	const gameEndTime =
-		new Date(gameStartTime).getTime() + gamePlayTime * 60 * 1000;
 
-	// const nowTime = new Date('2023-05-01T08:15:00').getTime();
-	const [timeLeft, setTimeLeft] = useState<number>(gameEndTime - Date.now());
-	// const [timeLeft, setTimeLeft] = useState<number>(gameEndTime - nowTime);
+	const gameStartTimeKST = new Date(gameStartTime + '+09:00');
 
-	console.log(Date.now());
+	const gameEndTimeKST = new Date(gameStartTimeKST.getTime() + gamePlayTime * 60 * 1000);
+
+	const [timeLeft, setTimeLeft] = useState<number>(gameEndTimeKST.getTime() - Date.now());
 
 	useEffect(() => {
 		const timer = setInterval(() => {
 			const currentTime = Date.now();
-			const diff = gameEndTime - currentTime;
+			const diff = gameEndTimeKST.getTime() - currentTime;
 
 			if (diff < 0) {
 				clearInterval(timer);
@@ -33,7 +31,7 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 			}
 		}, 1000);
 		return () => clearInterval(timer);
-	}, [gameEndTime]);
+	}, [gameEndTimeKST]);
 
 	const minutes = Math.floor(timeLeft / 1000 / 60);
 	const seconds = Math.floor((timeLeft / 1000) % 60);
