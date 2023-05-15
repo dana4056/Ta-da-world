@@ -17,7 +17,7 @@ import { Navigation, Mousewheel, Keyboard } from 'swiper';
 interface HintModalProps {
 	open: boolean
 	onClose: () => void;
-	treasures: TreasureInfo[];
+	treasures: TreasureInfo[] | null;
 }
 
 interface StyledDivProps {
@@ -27,7 +27,7 @@ interface StyledDivProps {
 const DynamicModal = tw(Modal) <StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
-  `}
+	`}
 `;
 
 function HintModal({ open, onClose, treasures }: HintModalProps): JSX.Element {
@@ -55,22 +55,25 @@ function HintModal({ open, onClose, treasures }: HintModalProps): JSX.Element {
 		setSelectedIndex(null);
 	};
 
-
 	const repeatHint = (idx: number) => {
-		const arr = [];
-		for (let i = 0; i < treasures.length; i++) {
-			arr.push(
-				<SwiperSlide className='h-full'>
-					<HintDetail
-						index={(idx + i - 1) % treasures.length}
-						treasure={treasures[(idx + i - 1) % treasures.length]}
-						onClose={handleCloseTreasureHint}
-					/>
-
-				</SwiperSlide>
-			);
+		if (treasures) {
+			const arr = [];
+			for (let i = 0; i < treasures.length; i++) {
+				arr.push(
+					<SwiperSlide className='h-full'>
+						<HintDetail
+							index={(idx + i - 1) % treasures.length}
+							treasure={treasures[(idx + i - 1) % treasures.length]}
+							onClose={handleCloseTreasureHint}
+						/>
+	
+					</SwiperSlide>
+				);
+			}
+			return arr;
+		} else {
+			console.log('TREASURES NOT FOUND');
 		}
-		return arr;
 	};
 
 	return (
@@ -78,7 +81,7 @@ function HintModal({ open, onClose, treasures }: HintModalProps): JSX.Element {
 			{open ? (
 				<div className='relative flex items-center justify-center w-full h-full'>
 					{selectedIndex ? (
-						<div className='relative z-10 flex flex-col justify-center items-center'>
+						<div className='relative z-10 flex flex-col items-center justify-center'>
 							<Swiper
 								cssMode={true}
 								navigation={true}
@@ -91,7 +94,7 @@ function HintModal({ open, onClose, treasures }: HintModalProps): JSX.Element {
 								{repeatHint(selectedIndex)}
 							</Swiper>
 							<button
-								className='px-4 py-2 bg-white rounded-full w-1/2 items-center'
+								className='items-center w-1/2 px-4 py-2 bg-white rounded-full'
 								onClick={handleCloseTreasureHint}
 							>
 								뒤로가기
@@ -103,8 +106,8 @@ function HintModal({ open, onClose, treasures }: HintModalProps): JSX.Element {
 							<p className='mx-auto mt-3 text-xl font-bold text-center'>
 								힌트 리스트
 							</p>
-							<div className='grid grid-cols-3 gap-2 h-96 overflow-scroll'>
-								{treasures.map((treasure, index) => (
+							<div className='grid grid-cols-3 gap-2 overflow-scroll h-96'>
+								{treasures?.map((treasure, index) => (
 									<HintList
 										key={treasure.id}
 										index={index + 1}
