@@ -8,8 +8,8 @@ import useApi from '../hooks/useApi';
 import Swal from 'sweetalert2';
 
 import GameHeader from '../components/usergame/GameHeader';
-import GameMap from '../components/usergame/GameMap';
-// import GameMapWatchVer from '../components/usergame/GameMapWatchVer';
+// import GameMap from '../components/usergame/GameMap';
+import GameMapWatchVer from '../components/usergame/GameMapWatchVer';
 
 interface User {
 	id: string;
@@ -124,8 +124,8 @@ function UserGamePage(): JSX.Element {
 	return (
 		<>
 			<GameHeader foundTreasure={foundTreasure} />
-			<GameMap roomId={userState.roomId} character={userState.character} />
-			{/* <GameMapWatchVer roomId={userState.roomId} character={userState.character} /> */}
+			{/* <GameMap roomId={userState.roomId} character={userState.character} /> */}
+			<GameMapWatchVer roomId={userState.roomId} character={userState.character} />
 		</>
 	);
 }
