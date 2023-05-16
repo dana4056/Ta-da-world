@@ -74,29 +74,29 @@ function GameCapture({ userId, treasureId, onSubmit }: GameCaptureProps): JSX.El
 	return (
 		<>
 			{ capture ?
-				<div className='flex flex-col items-end w-full j'>
+				<div className='flex flex-col items-end justify-center w-full'>
 					{focus ?
 						<Webcam
 							ref={camref}
 							mirrored={true}
 							screenshotFormat="image/jpeg"
-							className='mb-2 rounded-lg h-44'
+							className='h-56 mx-auto my-5 rounded-lg'
 						/>
 						:
 						<Webcam
 							ref={camref}
 							mirrored={true}
 							screenshotFormat="image/jpeg"
-							className='mb-2 rounded-lg h-44'
+							className='h-56 mx-auto my-5 rounded-lg'
 							videoConstraints={videoConstraints}
 						/>
 					}
-					<MdCameraswitch onClick={changeFocus} size="20" color="#535453"/>
+					<MdCameraswitch className='mr-8' onClick={changeFocus} size="25" color="#535453"/>
 				</div>
 				:
 				<img src ={capturebase64}/>
 			}
-			<div className='flex justify-center w-full mt-3'>
+			<div className='flex justify-center w-full mt-5'>
 				{ capture ?
 					<BlueCircle onClick={captureScreenshot}>
 						<img src={camImg} alt="" />

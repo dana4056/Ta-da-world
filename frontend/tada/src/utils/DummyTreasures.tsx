@@ -187,5 +187,38 @@ export const dummy_treasures: TreasureInfo[] = [
 		reward: '창성빌딩',
 		status: false,
 		finderNick: ''
+	},
+	{
+		id: 18,
+		imgPath: '',
+		lat: '37.487865',
+		lng: '126.851571',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '구로1',
+		status: false,
+		finderNick: ''
+	},
+	{
+		id: 19,
+		imgPath: '',
+		lat: '37.488118',
+		lng: '126.851794',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '구로2',
+		status: false,
+		finderNick: ''
+	},
+	{
+		id: 20,
+		imgPath: '',
+		lat: '37.487863',
+		lng: '126.851872',
+		hint: 'string',
+		rewardImgPath: '',
+		reward: '구로3',
+		status: false,
+		finderNick: ''
 	}
 ];
