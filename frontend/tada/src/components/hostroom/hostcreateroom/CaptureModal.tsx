@@ -64,7 +64,7 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 										ref={camref}
 										mirrored={false}
 										screenshotFormat="image/jpeg"
-										className='h-80 rounded-lg mb-2'
+										className='h-64 rounded-lg mb-2'
 										videoConstraints={videoConstraints}
 									/>
 									:
@@ -72,7 +72,7 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 										ref={camref}
 										mirrored={false}
 										screenshotFormat="image/jpeg"
-										className='h-80 rounded-lg mb-2'
+										className='h-64 rounded-lg mb-2'
 									/>	
 								}
 							</div>
