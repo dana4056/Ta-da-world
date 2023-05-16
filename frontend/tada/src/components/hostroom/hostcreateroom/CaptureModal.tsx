@@ -18,7 +18,6 @@ const DynamicModal = tw(Modal)<StyledDivProps>`
 	${({ active }) => `
 		${active ? 'flex items-center justify-center' : ''}
 	`}
-	h-96
 `;
 
 function CaptureModal({ open, close}: openProps): JSX.Element{
@@ -50,7 +49,7 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 	return (
 		<DynamicModal active = {open ? '1':''}>
 			{open ? (
-				<ModalSection>
+				<ModalSection className='h-96'>
 					<ModalHeader>
 						<div>
 							보물 사진 찍기
