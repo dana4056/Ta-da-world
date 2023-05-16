@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { useInterval } from '../../hooks/useInterval';
 
 interface TimeProps {
@@ -10,7 +8,6 @@ interface TimeProps {
 }
 
 function UserTimer({ start, time }: TimeProps): JSX.Element {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const date: Date = new Date();
 	const startD: Date = new Date(start);
