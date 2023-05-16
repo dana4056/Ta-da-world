@@ -9,7 +9,7 @@ interface GameHeaderProps {
 function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 	const gameInfo = useSelector((state: RootState) => state.user);
 
-	const treausre = require('../../assets/images/closetreasure_color.png');
+	const treasure = require('../../assets/images/closetreasure_color.png');
 	// const time = useSelector((state: RootState) => state.game.playTime);
 	// const startTime = useSelector((state: RootState) => state.game.startTime);
 	const time = useSelector((state: RootState) => state.user.gamePlayTime);
@@ -24,7 +24,7 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 				></UserTimer>
 			</div>
 			<div className='flex items-center space-x-2 text-2xl font-black text-white'>
-				<img className='w-12 h-12' src={treausre} alt='' />
+				<img className='w-12 h-12' src={treasure} alt='' />
 				<p>x {gameInfo.treasureNumber - foundTreasure}</p>
 			</div>
 		</div>
