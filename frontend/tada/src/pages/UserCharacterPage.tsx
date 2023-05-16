@@ -79,7 +79,7 @@ function UserCharacterPage(): JSX.Element {
 					src={require(`../assets/images/avatar/avatar${i}.png`)}
 					alt={`Avatar ${i}`}
 					onClick={() => handleAvatarClick(i)}
-					className={`cursor-pointer w-20 h-20 rounded-full border-2  mx-2 ${isSelected ? 'border-main ring-main ring-2' : 'border-white'}`}
+					className={`cursor-pointer w-20 h-20 rounded-full mx-2 ${isSelected ? 'border-main ring-main ring-2 border-2' : 'border-white border-4'}`}
 				/>
 			);
 		}
@@ -97,14 +97,13 @@ function UserCharacterPage(): JSX.Element {
 	return (
 		<div className='flex flex-col items-center w-full h-full bg-white2'>
 			<div className='flex items-center justify-center bg-main w-full rounded-b-3xl shadow-lg mb-12 h-32'>
-
 				<p className='relative px-5 py-2 my-10 text-xl font-bold bg-white border-b-4 shadow border-main2 shadow-main rounded-2xl text-main'>
 					캐릭터를 골라주세요!
 				</p>
 			</div>
-			<div className='flex items-center justify-center'>
+			<div className='flex items-center justify-center border-4 border-white rounded-full '>
 				<img
-					className='rounded-full rou'
+					className='rounded-full'
 					src={selectedAvatarPath}
 				></img>
 			</div>
