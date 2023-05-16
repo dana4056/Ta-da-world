@@ -13,6 +13,7 @@ import BoxHeader from '../common/HeaderBox';
 // import Title from '../common/Title';
 import NoticeModal from './common/NoticeModal';
 import useApi from '../../hooks/useApi';
+import ShareButton from './ShareButton';
 
 // 초대코드 복사 
 import { CopyToClipboard } from 'react-copy-to-clipboard';
@@ -190,6 +191,10 @@ function HostWaitRoom(): JSX.Element {
 						<img className='inline w-4 ml-1 cursor-pointer' src={copy} alt='copybtn' />
 					</text>
 				</CopyToClipboard>
+				<ShareButton
+					title={'참여코드: ' + code}
+					description="아래 버튼을 눌러 보물을 바로 찾으러 가보세요!"
+				/>
 			</p>
 			<div className='flex flex-col items-center justify-center w-4/5 h-12 mb-4 bg-white shadow-lg rounded-3xl'>
 				<p className='text-xl font-black text-main'>{title}</p>		
