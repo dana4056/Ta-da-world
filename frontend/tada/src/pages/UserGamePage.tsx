@@ -111,15 +111,15 @@ function UserGamePage(): JSX.Element {
 		game.fetchGetApi(`/treasures?roomId=${userState.roomId}`);
 	}, []);
 
-	useEffect(() => {
-		if (!userState.roomCode) {
-			navigate('/');
-		} else if (!userState.nickname) {
-			navigate('/username');
-		} else if (!userState.character) {
-			navigate('/usercharacter');
-		}
-	}, []);
+	// useEffect(() => {
+	// 	if (!userState.roomCode) {
+	// 		navigate('/');
+	// 	} else if (!userState.nickname) {
+	// 		navigate('/username');
+	// 	} else if (!userState.character) {
+	// 		navigate('/usercharacter');
+	// 	}
+	// }, []);
 
 	return (
 		<>

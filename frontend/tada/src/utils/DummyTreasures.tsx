@@ -1,6 +1,6 @@
 import { TreasureInfo } from './Interfaces';
 
-export const treasures: TreasureInfo[] = [
+export const dummy_treasures: TreasureInfo[] = [
 	{
 		id: 1,
 		imgPath: '',
