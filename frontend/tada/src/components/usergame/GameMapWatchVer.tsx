@@ -64,7 +64,7 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 				console.log('-------TREASURES-------', treasures);
 
 				for (let i = 0; i < treasures.length; i ++) {
-					console.log('-------TREASURE-------', treasures);
+					// console.log('-------TREASURE-------', treasures);
 					const distance = getDistanceFromLatLonInKm(
 						playerLocation.data.latitude,
 						playerLocation.data.longitude,
@@ -72,7 +72,7 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 						parseFloat(treasures[i].lng)
 					);
 
-					console.log('-------DISTANCE-------', distance);
+					// console.log('-------DISTANCE-------', distance);
 
 					if (distance < 1) {
 						if (treasures[i].status) {
@@ -109,7 +109,7 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 
 	useEffect(() => {
 		playerLocation.getCurrentLocation();
-		treasureLocation.fetchGetApi(`/treaures?roomId=${roomId}`);
+		// treasureLocation.fetchGetApi(`/treaures?roomId=${roomId}`);
 	}, []);
 
 	// useEffect(() => {

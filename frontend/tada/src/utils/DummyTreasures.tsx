@@ -9,7 +9,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '치킨',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -31,7 +31,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '빙수',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -53,7 +53,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '미에로화이바',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -75,7 +75,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '콜라',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -97,7 +97,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '탐앤탐스',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -119,7 +119,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '솔빛유치원',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -141,7 +141,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '109동',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -163,7 +163,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '플로라랩',
-		status: true,
+		status: false,
 		finderNick: ''
 	},
 	{
@@ -185,7 +185,7 @@ export const dummy_treasures: TreasureInfo[] = [
 		hint: 'string',
 		rewardImgPath: '',
 		reward: '창성빌딩',
-		status: true,
+		status: false,
 		finderNick: ''
 	}
 ];
