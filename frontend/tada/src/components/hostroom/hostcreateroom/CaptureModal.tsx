@@ -58,25 +58,27 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 						<BsX onClick={()=> {close('');}} size="32" color="#535453"/>
 					</ModalHeader>
 					{ capture ?
-						<div className='w-full flex flex-col j items-center justify-center'>
-							{focus ?
-								<Webcam
-									ref={camref}
-									mirrored={true}
-									screenshotFormat="image/jpeg"
-									className='rounded-lg mb-2'
-									videoConstraints={videoConstraints}
-								/>
-								:
-								<Webcam
-									ref={camref}
-									mirrored={false}
-									screenshotFormat="image/jpeg"
-									className='rounded-lg mb-2'
-								/>	
-							}
+						<>
+							<div className='w-full flex flex-col j items-center justify-center'>
+								{focus ?
+									<Webcam
+										ref={camref}
+										mirrored={false}
+										screenshotFormat="image/jpeg"
+										className='h-44 rounded-lg mb-2'
+										videoConstraints={videoConstraints}
+									/>
+									:
+									<Webcam
+										ref={camref}
+										mirrored={false}
+										screenshotFormat="image/jpeg"
+										className='h-44 rounded-lg mb-2'
+									/>	
+								}
+							</div>
 							<MdCameraswitch className='w-full felx justify-end' onClick={changeFocus} size="24" color="#535453"/>
-						</div>
+						</>
 						:
 						<img src ={capturebase64}/>
 					}
