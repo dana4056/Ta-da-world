@@ -57,7 +57,7 @@ function GameModal({open, close, treasureId}: GameModalProps): JSX.Element{
 	return (
 		<DynamicModal active = {open ? '1' : ''}>
 			{open ? (
-				<ModalSection>
+				<ModalSection className='h-auto py-5'>
 					{ captureMode ? <>
 						<ModalHeader>
 							<div>
