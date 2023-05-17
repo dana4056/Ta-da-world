@@ -69,7 +69,7 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 								:
 								<Webcam
 									ref={camref}
-									mirrored={false}
+									mirrored={true}
 									screenshotFormat="image/jpeg"
 									className='h-64 mb-2 rounded-lg'
 								/>	
