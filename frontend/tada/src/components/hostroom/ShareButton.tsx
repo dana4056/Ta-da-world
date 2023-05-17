@@ -13,11 +13,13 @@ declare global {
 interface ShareButtonProps {
     title: string;
     description: string;
+	code: string;
 }
 
 const ShareButton: React.FC<ShareButtonProps> = ({
 	title,
 	description,
+	code
 }) => {
 	const handleClick = () => {
 		if (!window.Kakao.isInitialized()) {
@@ -32,16 +34,16 @@ const ShareButton: React.FC<ShareButtonProps> = ({
 				description,
 				imageUrl: 'https://cdn-icons-png.flaticon.com/512/4230/4230569.png',
 				link: {
-					mobileWebUrl: 'https://ta-da.world/',
-					webUrl: 'https://ta-da.world/',
+					mobileWebUrl: `https://ta-da.world?code=${code}`,
+					webUrl: `https://ta-da.world?code=${code}`,
 				},
 			},
 			buttons: [
 				{
 					title: '게임하러 가기!',
 					link: {
-						mobileWebUrl: 'https://ta-da.world/',
-						webUrl: 'https://ta-da.world/',
+						mobileWebUrl: `https://ta-da.world?code=${code}`,
+						webUrl: `https://ta-da.world?code=${code}`,
 					},
 				},
 			],

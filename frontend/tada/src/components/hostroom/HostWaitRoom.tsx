@@ -194,6 +194,7 @@ function HostWaitRoom(): JSX.Element {
 				<ShareButton
 					title={'참여코드: ' + code}
 					description="아래 버튼을 눌러 보물을 바로 찾으러 가보세요!"
+					code={code}
 				/>
 			</p>
 			<div className='flex flex-col items-center justify-center w-4/5 h-12 mb-4 bg-white shadow-lg rounded-3xl'>
