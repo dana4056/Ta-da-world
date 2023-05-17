@@ -9,11 +9,12 @@ import GameModal from './GameModal';
 import HintModal from './HintModal';
 
 interface GameMapProps {
-	roomId: number,
+	roomId: number
 	character: number
+	foundTreasure: number
 }
 
-function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
+function GameMapWatchVer({ roomId, character, foundTreasure }: GameMapProps): JSX.Element {
 	const playerImage = require(`../../assets/images/avatarPin/avatar${character || 1}.png`);
 	const hintImage = require('../../assets/images/bottle.png');
 	const openTreasureImage = require('../../assets/images/opentreasure.png');
@@ -124,6 +125,11 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
 		renderMarkers();
 	}, [playerLocation.data]);
+
+	useEffect(() => {
+		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
+		renderMarkers();
+	}, [foundTreasure]);
 
 	return (
 		<>

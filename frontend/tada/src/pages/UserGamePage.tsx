@@ -125,7 +125,7 @@ function UserGamePage(): JSX.Element {
 		<>
 			{userState.roomId ? <GameHeader foundTreasure={foundTreasure} /> : null}
 			{/* <GameMap roomId={userState.roomId} character={userState.character} /> */}
-			<GameMapWatchVer roomId={userState.roomId} character={userState.character} />
+			<GameMapWatchVer roomId={userState.roomId} character={userState.character} foundTreasure={foundTreasure} />
 		</>
 	);
 }
