@@ -20,7 +20,7 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 			<div className='flex items-center justify-center h-12 text-2xl font-black bg-white border-4 rounded-full text-main w-36'>
 				<UserTimer
 					start={startTime}
-					time={(time + 1 / 6).toString()}
+					time={time.toString()}
 				></UserTimer>
 			</div>
 			<div className='flex items-center space-x-2 text-2xl font-black text-white'>

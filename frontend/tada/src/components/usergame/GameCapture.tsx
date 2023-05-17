@@ -85,7 +85,7 @@ function GameCapture({ userId, treasureId, onSubmit }: GameCaptureProps): JSX.El
 						:
 						<Webcam
 							ref={camref}
-							mirrored={true}
+							mirrored={false}
 							screenshotFormat="image/jpeg"
 							className='h-56 mx-auto my-5 rounded-lg'
 							videoConstraints={videoConstraints}
