@@ -70,8 +70,8 @@ function UserGamePage(): JSX.Element {
 							console.log('game started');
 						} else if (msObj.messageType === 'FIND') {
 							console.log('find treasure');
+							// 찾은 보물 개수 갱신
 							setFoundTreasure(foundTreasure + 1);
-							// 보물 리스트 갱신
 						}
 						console.log('msObj: ', msObj);
 					},
