@@ -150,7 +150,7 @@ function HostCreateRoom(): JSX.Element {
 	};
 
 	return (
-		<div className="h-full flex flex-col rounded-t-lg bg-white">
+		<div className="flex flex-col h-full bg-white rounded-t-lg">
 			<div className="flex mb-8">
 				<SectionOpt active = {section === 'info' ? '1':''} onClick={()=>handleClick('info')}>
 					기본정보
@@ -165,7 +165,7 @@ function HostCreateRoom(): JSX.Element {
 			{section==='info' && <Info title={title} time={time}/>}
 			{section==='register' && <Register/>}
 			{section==='list' && <List treasures={treasures}/>}
-			<div className='w-full flex justify-end'> <RedCircle className='fixed bottom-3 shadow-lg' onClick={startWait}> go! </RedCircle></div>
+			<div className='flex justify-end w-full'> <RedCircle className='fixed shadow-lg bottom-3' onClick={startWait}> go! </RedCircle></div>
 		</div>
 	);
 }

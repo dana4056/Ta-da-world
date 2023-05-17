@@ -71,5 +71,5 @@ function HostRoomPage(): JSX.Element {
 		</>
 	);
 }
-  
+
 export default HostRoomPage;

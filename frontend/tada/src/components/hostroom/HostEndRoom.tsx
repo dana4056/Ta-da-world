@@ -130,7 +130,7 @@ function HostEndRoom(): JSX.Element {
 								))}
 							</>
 							:
-							<div className='h-4/5 flex items-center text-black'> 보물을 아무도 찾지 못했어요! </div>
+							<div className='flex items-center text-black h-4/5'> 보물을 아무도 찾지 못했어요! </div>
 						}
 					</div>
 				</WhiteBox>
