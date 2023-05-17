@@ -1,5 +1,6 @@
 // LoginUserComponent.tsx
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { enterRoom } from '../../stores/user';
@@ -12,7 +13,10 @@ interface LoginUserProps {
 
 function LoginUser({ onHostClick }: LoginUserProps): JSX.Element {
 	const dispatch = useDispatch();
-	const [roomCode, setRoomCode] = useState<string>('');
+	const location : any = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const code = searchParams.get('code');
+	const [roomCode, setRoomCode] =  useState(code || '');
 	const [isError, setIsError] = useState<boolean>(false);
 	const [roomExisted, setRoomExisted] = useState<boolean>(false);
 	const roomState = useApi();
@@ -22,6 +26,7 @@ function LoginUser({ onHostClick }: LoginUserProps): JSX.Element {
 	const moveName = async (): Promise<void> => {
 		await roomState.fetchGetApi(`/rooms/check?code=${roomCode}`);
 	};
+	
 
 	useEffect(() => {
 		if (roomState.data) {
