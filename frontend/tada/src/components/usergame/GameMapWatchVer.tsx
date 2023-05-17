@@ -4,7 +4,7 @@ import { TreasureInfo, CurrentLocation } from '../../utils/Interfaces';
 import { getDistanceFromLatLonInKm } from '../../utils/Calculates';
 import useApi from '../../hooks/useApi';
 
-import { dummy_treasures } from '../../utils/DummyTreasures';
+// import { dummy_treasures } from '../../utils/DummyTreasures';
 import GameModal from './GameModal';
 import HintModal from './HintModal';
 
@@ -109,19 +109,19 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 
 	useEffect(() => {
 		playerLocation.getCurrentLocation();
-		// treasureLocation.fetchGetApi(`/treaures?roomId=${roomId}`);
+		treasureLocation.fetchGetApi(`/treaures?roomId=${roomId}`);
 	}, []);
+
+	useEffect(() => {
+		setTreasures(treasureLocation.data?.data);
+	}, [treasureLocation.data]);
 
 	// useEffect(() => {
-	// 	setTreasures(treasureLocation.data?.data);
-	// }, [treasureLocation.data]);
+	// 	setTreasures(dummy_treasures);
+	// }, []);
 
 	useEffect(() => {
-		setTreasures(dummy_treasures);
-	}, []);
-
-	useEffect(() => {
-		// treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
+		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
 		renderMarkers();
 	}, [playerLocation.data]);
 
