@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import useApi from '../../hooks/useApi';
 import useLogout from '../../hooks/useLogout';
@@ -41,8 +40,8 @@ function DeleteHost(): JSX.Element {
 	};
 	
 	return (
-		<div className="w-full flex justify-end items-end text-white mt-11 pr-4">
-     		<p onClick={deleteHost}>회원탈퇴</p>
+		<div className="flex items-end justify-end w-full pr-4 text-white mt-11">
+			<p onClick={deleteHost}>회원탈퇴</p>
 		</div>
 	);
 }

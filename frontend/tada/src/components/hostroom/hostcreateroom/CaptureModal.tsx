@@ -57,28 +57,28 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 						<BsX onClick={()=> {close('');}} size="32" color="#535453"/>
 					</ModalHeader>
 					{ capture ?
-							<div className='w-full flex flex-col j items-center justify-center'>
-								{focus ?
-									<Webcam
-										ref={camref}
-										mirrored={false}
-										screenshotFormat="image/jpeg"
-										className='h-64 rounded-lg mb-2'
-										videoConstraints={videoConstraints}
-									/>
-									:
-									<Webcam
-										ref={camref}
-										mirrored={false}
-										screenshotFormat="image/jpeg"
-										className='h-64 rounded-lg mb-2'
-									/>	
-								}
-							</div>
+						<div className='flex flex-col items-center justify-center w-full j'>
+							{focus ?
+								<Webcam
+									ref={camref}
+									mirrored={false}
+									screenshotFormat="image/jpeg"
+									className='h-64 mb-2 rounded-lg'
+									videoConstraints={videoConstraints}
+								/>
+								:
+								<Webcam
+									ref={camref}
+									mirrored={false}
+									screenshotFormat="image/jpeg"
+									className='h-64 mb-2 rounded-lg'
+								/>	
+							}
+						</div>
 						:
 						<img src ={capturebase64}/>
 					}
-					<div className='w-full flex justify-center mt-3'>
+					<div className='flex justify-center w-full mt-3'>
 						{ capture ?
 							<>
 								<Button onClick={captureScreenshot}>사진 촬영</Button>
