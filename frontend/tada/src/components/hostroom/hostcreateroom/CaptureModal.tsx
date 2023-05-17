@@ -57,7 +57,6 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 						<BsX onClick={()=> {close('');}} size="32" color="#535453"/>
 					</ModalHeader>
 					{ capture ?
-						<>
 							<div className='w-full flex flex-col j items-center justify-center'>
 								{focus ?
 									<Webcam
@@ -76,14 +75,15 @@ function CaptureModal({ open, close}: openProps): JSX.Element{
 									/>	
 								}
 							</div>
-							<MdCameraswitch className='w-full felx justify-end' onClick={changeFocus} size="24" color="#535453"/>
-						</>
 						:
 						<img src ={capturebase64}/>
 					}
 					<div className='w-full flex justify-center mt-3'>
 						{ capture ?
-							<Button onClick={captureScreenshot}>사진 촬영</Button>
+							<>
+								<Button onClick={captureScreenshot}>사진 촬영</Button>
+								<MdCameraswitch className='px-1' onClick={changeFocus} size="24" color="#535453"/>
+							</>
 							:
 							<>
 								<Button onClick={reset}>다시 찍기</Button>
