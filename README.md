@@ -237,9 +237,12 @@
 
   - 세
 
-- 정다은 (BE)
+- 정다은 (BE/AI)
 
-  - 요
+  - Spring Boot API 설계 및 구현
+  - Fast API 설계 및 구현
+  - AI 모델 활용해 이미지 유사도 판단 (SuperPoint:특징점 검출 + SuperGlue:특징점 매칭)
+  - Rest API 문서화 및 관리
 
 - 공통
   - 기능명세서, API 명세서 작성
