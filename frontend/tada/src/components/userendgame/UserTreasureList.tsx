@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import BoxHeader from '../common/HeaderBox';
-import TreasureModal from '../common/TreasureModal';
+// import TreasureModal from '../common/TreasureModal';
+import RewardModal from '../common/RewardModal';
 
 interface TreasureInfo {
 	id: number;
@@ -42,7 +43,7 @@ function UserTreasureList({ treasureList }: TreasureListProps): JSX.Element {
 
 	return (
 		<>
-			<TreasureModal
+			<RewardModal
 				isHost={false}
 				open={open}
 				close={closeModal}
