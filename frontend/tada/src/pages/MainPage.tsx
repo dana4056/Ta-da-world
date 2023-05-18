@@ -4,20 +4,15 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
 import LoginUser from '../components/userpregame/LoginUser';
 import LoginHost from '../components/userpregame/LoginHost';
-  
-
-
 
 const logo = require('../assets/images/logo.png');
 
 function MainPage(): JSX.Element {
 	const navigate = useNavigate();
 	const ishost = useSelector((state: RootState) => state.host.accessToken);
-
 	const [activeComponent, setActiveComponent] = useState<'User' | 'Host'>(
 		'User'
 	);
-
 
 	const handleClick = (): void => {
 		setActiveComponent((defaultComponent) =>
@@ -25,9 +20,7 @@ function MainPage(): JSX.Element {
 		); 
 	};
 
-
 	useEffect(() => {
-
 		if (ishost) {
 			navigate('/hosthome');
 		}
