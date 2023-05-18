@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../stores';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import useApi from '../hooks/useApi';
@@ -10,6 +11,7 @@ import Swal from 'sweetalert2';
 import GameHeader from '../components/usergame/GameHeader';
 // import GameMap from '../components/usergame/GameMap';
 import GameMapWatchVer from '../components/usergame/GameMapWatchVer';
+import { findTreasure } from '../stores/user';
 
 interface User {
 	id: string;
@@ -22,10 +24,11 @@ const baseURL = 'https://ta-da.world/api';
 
 function UserGamePage(): JSX.Element {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const stompRef = useRef<any>(null);
 
-	const [foundTreasure, setFoundTreasure] = useState<number>(0);
+	// const [foundTreasure, setFoundTreasure] = useState<number>(0);
 
 	const userState = useSelector((state: RootState) => state.user);
 
@@ -71,7 +74,8 @@ function UserGamePage(): JSX.Element {
 						} else if (msObj.messageType === 'FIND') {
 							console.log('find treasure');
 							// 찾은 보물 개수 갱신
-							setFoundTreasure(foundTreasure + 1);
+							// setFoundTreasure(foundTreasure + 1);
+							dispatch(findTreasure());
 						}
 						console.log('msObj: ', msObj);
 					},
@@ -123,9 +127,9 @@ function UserGamePage(): JSX.Element {
 
 	return (
 		<>
-			{userState.roomId ? <GameHeader foundTreasure={foundTreasure} /> : null}
+			{userState.roomId ? <GameHeader /> : null}
 			{/* <GameMap roomId={userState.roomId} character={userState.character} /> */}
-			<GameMapWatchVer roomId={userState.roomId} character={userState.character} foundTreasure={foundTreasure} />
+			<GameMapWatchVer roomId={userState.roomId} character={userState.character} />
 		</>
 	);
 }

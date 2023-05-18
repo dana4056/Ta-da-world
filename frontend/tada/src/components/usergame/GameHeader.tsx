@@ -2,11 +2,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 import UserTimer from './UserTimer';
 
-interface GameHeaderProps {
-	foundTreasure: number;
-}
+// interface GameHeaderProps {
+// 	foundTreasure: number;
+// }
 
-function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
+function GameHeader(): JSX.Element {
 	const gameInfo = useSelector((state: RootState) => state.user);
 
 	const treasure = require('../../assets/images/closetreasure_color.png');
@@ -25,7 +25,7 @@ function GameHeader({ foundTreasure }: GameHeaderProps): JSX.Element {
 			</div>
 			<div className='flex items-center space-x-2 text-2xl font-black text-white'>
 				<img className='w-12 h-12' src={treasure} alt='' />
-				<p>x {gameInfo.treasureNumber - foundTreasure}</p>
+				<p>x {gameInfo.treasureNumber - gameInfo.foundTreasure}</p>
 			</div>
 		</div>
 	);

@@ -3,6 +3,8 @@ import useWatchLocation from '../../hooks/useWatchLocation';
 import { TreasureInfo, CurrentLocation } from '../../utils/Interfaces';
 import { getDistanceFromLatLonInKm } from '../../utils/Calculates';
 import useApi from '../../hooks/useApi';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../stores';
 
 // import { dummy_treasures } from '../../utils/DummyTreasures';
 import GameModal from './GameModal';
@@ -11,10 +13,12 @@ import HintModal from './HintModal';
 interface GameMapProps {
 	roomId: number
 	character: number
-	foundTreasure: number
+	// foundTreasure: number
 }
 
-function GameMapWatchVer({ roomId, character, foundTreasure }: GameMapProps): JSX.Element {
+function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
+	const gameInfo = useSelector((state: RootState) => state.user);
+
 	const playerImage = require(`../../assets/images/avatarPin/avatar${character || 1}.png`);
 	const hintImage = require('../../assets/images/bottle.png');
 	const openTreasureImage = require('../../assets/images/opentreasure.png');
@@ -129,7 +133,7 @@ function GameMapWatchVer({ roomId, character, foundTreasure }: GameMapProps): JS
 	useEffect(() => {
 		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
 		renderMarkers();
-	}, [foundTreasure]);
+	}, [gameInfo.foundTreasure]);
 
 	return (
 		<>

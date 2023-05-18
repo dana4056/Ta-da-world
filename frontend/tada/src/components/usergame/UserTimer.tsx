@@ -25,7 +25,7 @@ function UserTimer({ start, time }: TimeProps): JSX.Element {
 
 	useInterval(() => {
 		if (count - 1 <= 0) {
-			//게임 멈추기
+			// 게임 멈추기
 			navigate('/userend');
 		}
 		setCount((count) => count - 1);
