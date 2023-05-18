@@ -35,11 +35,7 @@ function TreasureInfoBox({ treasure, isHost }: TreasureInfoProps): JSX.Element {
 			return;
 		}
 
-		const response = await fetch(treasure.imgPath, {
-			headers: {
-				Origin: '*'
-			}
-		});
+		const response = await fetch(treasure.imgPath);
 		const blob = await response.blob();
 
 		const url = URL.createObjectURL(blob);

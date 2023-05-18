@@ -11,6 +11,7 @@ import UserLoadingPage from './pages/UserLoadingPage';
 import UserCharacterPage from './pages/UserCharacterPage';
 import UserGamePage from './pages/UserGamePage';
 import UserEndPage from './pages/UserEndPage';
+import DownloadTest from './components/usergame/DownloadTest';
 
 const router = createBrowserRouter([
 	{
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
 		path: '/users/oauth2-kakao',
 		element: <OauthKakao />,
 	},
+	{
+		path: '/test',
+		element: <DownloadTest />
+	}
 ]);
 
 export default router;
