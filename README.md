@@ -204,7 +204,9 @@
 
 - 한원석 (BE)
 
-  - 적
+  - Spring Boot API 설계 및 구현
+  - JWT 인증 로직 구현
+  - Websocket  서버 구현
 
 - 김민경 (FE)
 
