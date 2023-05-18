@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import useWatchLocation from '../../hooks/useWatchLocation';
 import { TreasureInfo, CurrentLocation } from '../../utils/Interfaces';
 import { getDistanceFromLatLonInKm } from '../../utils/Calculates';
-import useApi from '../../hooks/useApi';
+// import useApi from '../../hooks/useApi';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
 
@@ -24,7 +24,7 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 	const openTreasureImage = require('../../assets/images/opentreasure.png');
 	const closeTreasureImage = require('../../assets/images/closetreasure_color.png');
 	const playerLocation: CurrentLocation = useWatchLocation();
-	const treasureLocation = useApi();
+	// const treasureLocation = useApi();
 
 	// const [treasures, setTreasures] = useState<TreasureInfo[] | null>(null);
 	const [treasureNumber, setTreasureNumber] = useState<number>(0);
@@ -116,7 +116,8 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 
 	useEffect(() => {
 		playerLocation.getCurrentLocation();
-		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
+		renderMarkers();
+		// treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
 	}, []);
 
 	// useEffect(() => {
@@ -124,14 +125,14 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 	// }, [treasureLocation.data]);
 
 	useEffect(() => {
-		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
+		// treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
 		renderMarkers();
 	}, [playerLocation.data]);
 
 	useEffect(() => {
-		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
+		// treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
 		renderMarkers();
-	}, [gameInfo.foundTreasure]);
+	}, [gameInfo.treasures]);
 
 	return (
 		<>
