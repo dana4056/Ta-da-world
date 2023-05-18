@@ -41,7 +41,7 @@ export const updateTreasure = (treasures: TreasureInfo[]) => ({
 
 export const reset = () => ({
 	type: RESET
-})
+});
 
 type UserAction =
 	| ReturnType<typeof enterRoom>
@@ -137,7 +137,7 @@ function user(state: UserState = initialState, action: UserAction): UserState {
 			treasureNumber: 0,
 			foundTreasure: 0,
 			treasures: null
-		}
+		};
 	default:
 		return state;
 	}
