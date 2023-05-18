@@ -64,7 +64,7 @@ function RewardInfoBox({ treasure, isHost }: TreasureInfoProps): JSX.Element {
 					to="to-orange2"
 					onClick={handleDownload}
 				>
-					보물 사진 다운로드
+					보상 사진 다운로드
 				</GraButton>
 			</WhiteBox>
 			{isHost ? (

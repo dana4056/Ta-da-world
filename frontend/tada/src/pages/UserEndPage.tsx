@@ -68,7 +68,7 @@ function UserEndPage(): JSX.Element {
 	}, []);
 
 	return (
-		<div className='flex flex-col w-full h-screen space-y-10 bg-white2'>
+		<div className='flex flex-col w-full space-y-10 bg-white2'>
 			<UserProfile user={user} />
 			<div className='flex flex-col items-center justify-center'>
 				<WhiteBox className=' shadow-lg'>
