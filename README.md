@@ -151,6 +151,7 @@
     └── requirements.txt
 
     React
+    ├── .env
     └── src
         ├── assets
         │   ├── css
@@ -160,9 +161,9 @@
         │   └── common
         │   └── hosthome
         │   └── hostroom
-        │   └── userpregame
-        │   └── usergame
         │   └── userendgame
+        │   └── usergame
+        │   └── userpregame
         ├── hooks
         ├── layout
         ├── pages
@@ -206,7 +207,7 @@
 
   - Spring Boot API 설계 및 구현
   - JWT 인증 로직 구현
-  - Websocket  서버 구현
+  - Websocket 서버 구현
 
 - 김민경 (FE)
 
@@ -257,9 +258,10 @@
 - [기능명세서](https://zacinthepark.notion.site/24e7859d69ce49f4a920b286dd90b0d6)
 - [API명세서](https://zacinthepark.notion.site/API-ea19e92c4ae8437ca1e209c3ff325ae6)
 - [발표자료]()
-- [UCC]()
-- [포팅매뉴얼]()
-- [환경변수설정]()
+- [UCC](https://www.youtube.com/watch?v=XefxKX9d4Ok)
+- [포팅매뉴얼](https://lab.ssafy.com/s08-final/S08P31A503/-/blob/main/exec/README.md)
+- [환경변수설정-Java](https://lab.ssafy.com/s08-final/S08P31A503/-/blob/main/exec/README.md)
+- [환경변수설정-React](https://lab.ssafy.com/s08-final/S08P31A503/-/blob/main/exec/README.md)
 
 ---
 
@@ -267,44 +269,71 @@
 
 ### 🎉 호스트
 
-- 로그인
+- 로그인 및 방 만들기
 
-#### 게임방 만들기
-
-- 정보 수정
+<img src="./exec/imgs/host_open.gif" width="250">
 
 - 보물 등록
 
+<img src="./exec/imgs/host_hide.gif" width="250">
+
 - 보물 지도
 
-#### 게임방 관리
+<img src="./exec/imgs/host_map.gif" width="250">
 
-- 참가자 리스트
+- 대기방 만들기: 보물 등록을 완료하고 참가자가 들어올 수 있는 상태로 만듭니다.
 
-- 게임 시작
+<img src="./exec/imgs/host_waitroom.gif" width="250">
 
-- 게임중
+- 초대코드 공유하기
 
-#### 게임 종료
+<img src="./exec/imgs/host_invite.gif" width="250">
 
 ### 🎉 참가자
 
-#### 게임방 입장
+- 게임방 입장 (닉네임, 캐릭터 설정)
 
-- 입장 (닉네임, 캐릭터 설정)
+<img src="./exec/imgs/user_enter.gif" width="250">
+
+### 🎉 게임방
 
 - 참가자 리스트
 
+<img src="./exec/imgs/host_list.gif" width="250">
+<img src="./exec/imgs/user_list.gif" width="250">
+
+- 공지 알림
+
+왼쪽: 호스트, 오른쪽: 참가자
+
+<img src="./exec/imgs/host_notice.gif" width="250">
+<img src="./exec/imgs/user_notice.gif" width="250">
+
 - 게임 시작
 
-#### 보물찾기
+왼쪽: 호스트, 오른쪽: 참가자
 
-- 지도
+<img src="./exec/imgs/host_start.gif" width="250">
+<img src="./exec/imgs/user_start.gif" width="250">
 
-- 힌트 보기
+- 실시간 위치 이동
+
+<img src="./exec/imgs/user_move.gif" width="250">
 
 - 보물 정답 사진 제출
 
-- 보상
+왼쪽: 호스트, 오른쪽: 참가자
 
-#### 게임 종료
+<img src="./exec/imgs/host_answer.gif" width="250">
+<img src="./exec/imgs/user_answer.gif" width="250">
+
+- 힌트 보기
+
+<img src="./exec/imgs/user_hint.gif" width="250">
+
+- 게임 종료
+
+왼쪽: 호스트, 오른쪽: 참가자
+
+<img src="./exec/imgs/host_end.gif" width="250">
+<img src="./exec/imgs/user_end.gif" width="250">
