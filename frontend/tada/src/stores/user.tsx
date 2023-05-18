@@ -4,6 +4,7 @@ const ENTER_CHARACTER = 'user/ENTER_CHARACTER ' as const;
 const ENTER_GAMING = 'game/ENTER_GAMING' as const;
 const FIND_TREASURE = 'user/FIND_TREASURE' as const;
 const UPDATE_TREASURE = 'game/UPDATE_TREASURE' as const;
+const RESET = 'user/RESET' as const;
 
 export const enterRoom = (roomCode: string, roomId: number) => ({
 	type: ENTER_ROOM,
@@ -38,6 +39,10 @@ export const updateTreasure = (treasures: TreasureInfo[]) => ({
 	payload: treasures
 });
 
+export const reset = () => ({
+	type: RESET
+})
+
 type UserAction =
 	| ReturnType<typeof enterRoom>
 	| ReturnType<typeof enterNickname>
@@ -45,13 +50,14 @@ type UserAction =
 	| ReturnType<typeof enterGaming>
 	| ReturnType<typeof findTreasure>
 	| ReturnType<typeof updateTreasure>
+	| ReturnType<typeof reset>
 
 type UserState = {
-	nickname: string;
-	character: number;
 	roomCode: string;
-	userId: string;
 	roomId: number;
+	nickname: string;
+	userId: string;
+	character: number;
 	gamePlayTime: number;
 	gameStartTime: string;
 	treasureNumber: number;
@@ -72,11 +78,11 @@ type TreasureInfo = {
 }
 
 const initialState: UserState = {
-	nickname: '',
-	character: 0,
 	roomCode: '',
-	userId: '',
 	roomId: 0,
+	nickname: '',
+	userId: '',
+	character: 0,
 	gamePlayTime: 0,
 	gameStartTime: '',
 	treasureNumber: 0,
@@ -120,6 +126,18 @@ function user(state: UserState = initialState, action: UserAction): UserState {
 			...state,
 			treasures: action.payload
 		};
+	case RESET:
+		return {
+			...state,
+			nickname: '',
+			userId: '',
+			character: 0,
+			gamePlayTime: 0,
+			gameStartTime: '',
+			treasureNumber: 0,
+			foundTreasure: 0,
+			treasures: null
+		}
 	default:
 		return state;
 	}

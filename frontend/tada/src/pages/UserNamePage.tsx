@@ -32,11 +32,9 @@ function UserNamePage(): JSX.Element {
 	console.log('Room Code', roomCodeFromRedux);
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-
-	const checkDuplication = useApi();
-
 	const [name, setName] = useState<string>('');
 
+	const checkDuplication = useApi();
 	const handleNameChange = async (
 		event: React.ChangeEvent<HTMLInputElement>
 	): Promise<void> => {
@@ -54,7 +52,6 @@ function UserNamePage(): JSX.Element {
 		if (checkDuplication.data && checkDuplication.data.success) {
 			const userId = `${userState.roomId}_${hashStringToNumber(name)}`;
 			dispatch(enterNickname(name, userId));
-
 			navigate('/usercharacter');
 		}
 	};

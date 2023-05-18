@@ -1,9 +1,9 @@
 // LoginUserComponent.tsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { enterRoom } from '../../stores/user';
+import { enterRoom, reset } from '../../stores/user';
 import useApi from '../../hooks/useApi';
 import styles from '../../assets/css/LoginUserComponent.module.css';
 
@@ -12,27 +12,27 @@ interface LoginUserProps {
 }
 
 function LoginUser({ onHostClick }: LoginUserProps): JSX.Element {
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
 	const location : any = useLocation();
 	const searchParams = new URLSearchParams(location.search);
 	const code = searchParams.get('code');
 	const [roomCode, setRoomCode] =  useState(code || '');
 	const [isError, setIsError] = useState<boolean>(false);
 	const [roomExisted, setRoomExisted] = useState<boolean>(false);
+
 	const roomState = useApi();
-
-	const navigate = useNavigate();
-
 	const moveName = async (): Promise<void> => {
 		await roomState.fetchGetApi(`/rooms/check?code=${roomCode}`);
 	};
-	
 
 	useEffect(() => {
 		if (roomState.data) {
 			if (roomState.data.message === 'Success') {
 				// ekotQrpTA
 				dispatch(enterRoom(roomCode, roomState.data.data.id));
+				dispatch(reset());
 				navigate('/username');
 			} else if (roomState.data.message === 'not exist') {
 				setIsError(true);
