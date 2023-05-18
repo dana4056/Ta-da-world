@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import useApi from '../hooks/useApi';
+// import useApi from '../hooks/useApi';
 import Swal from 'sweetalert2';
 
 import GameHeader from '../components/usergame/GameHeader';
 // import GameMap from '../components/usergame/GameMap';
 import GameMapWatchVer from '../components/usergame/GameMapWatchVer';
-import { findTreasure } from '../stores/user';
+import { findTreasure, updateTreasure } from '../stores/user';
 
 interface User {
 	id: string;
@@ -39,7 +39,7 @@ function UserGamePage(): JSX.Element {
 		profileImage: String(userState.character),
 	};
 
-	const game = useApi();
+	// const game = useApi();
 
 	// 웹소켓
 	const stompConnect = () => {
@@ -74,8 +74,10 @@ function UserGamePage(): JSX.Element {
 						} else if (msObj.messageType === 'FIND') {
 							console.log('find treasure');
 							// 찾은 보물 개수 갱신
+							// 보물 정보 갱신
 							// setFoundTreasure(foundTreasure + 1);
 							dispatch(findTreasure());
+							getTreasure();
 						}
 						console.log('msObj: ', msObj);
 					},
@@ -105,6 +107,26 @@ function UserGamePage(): JSX.Element {
 		}
 	};
 
+	const getTreasure = async () => {
+		const baseURL = 'https://ta-da.world/api';
+		const url = `/treasures?roomId=${userState.roomId}`;
+		const response = await fetch(baseURL + url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+			}
+		});
+		if (!response.ok) {
+			console.log('FAILED TO GET TREASURE INFO!');
+		}
+		const json = await response.json();
+		// const treasureList: any = [];
+		// json.data.forEach((treasure: any) => {
+		// 	treasureList.push(treasure);
+		// });
+		dispatch(updateTreasure(json.data));
+	};
+
 	useEffect(() => {
 		if (!stompRef.current) {
 			stompConnect();
@@ -112,7 +134,8 @@ function UserGamePage(): JSX.Element {
 	}, []);
 
 	useEffect(() => {
-		game.fetchGetApi(`/treasures?roomId=${userState.roomId}`);
+		// game.fetchGetApi(`/treasures?roomId=${userState.roomId}`);
+		getTreasure();
 	}, []);
 
 	// useEffect(() => {

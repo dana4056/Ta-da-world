@@ -40,19 +40,23 @@ function DownloadTest(): JSX.Element {
 
 	const testTreasure = async () => {
 		const baseURL = 'https://ta-da.world/api';
-		const url = `/treaures?roomId=${89}`;
+		const url = `/treasures?roomId=${89}`;
 		const response = await fetch(baseURL + url, {
 			method: 'GET',
 			headers: {
 				'Content-Type': 'application/json',
-				'Origin': '*'
 			}
 		});
 		if (!response.ok) {
 			console.log('FAILED TO GET TREASURE INFO!');
 		}
 		const json = await response.json();
-		console.log('test: ', json);
+		console.log('test: ', json.data);
+		const treasureList: any = [];
+		json.data.forEach((treasure: any) => {
+			treasureList.push(treasure);
+		});
+		console.log('treasureList: ', treasureList);
 	};
 
 	return (

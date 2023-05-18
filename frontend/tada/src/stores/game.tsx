@@ -12,14 +12,14 @@ export const reset = () => ({
 
 type GameAction =
 	| ReturnType<typeof set>
-	| ReturnType<typeof reset>;
+	| ReturnType<typeof reset>
 
 // 이 리덕스 모듈에서 관리 할 상태의 타입을 선언합니다
 type GameState = {
 	name: string;
-	playTime:string;
-	startTime:string;
-	roomId:string;
+	playTime: string;
+	startTime: string;
+	roomId: string;
 };
 
 // 초기상태를 선언합니다.
@@ -27,7 +27,7 @@ const initialState: GameState = {
 	name: '',
 	playTime: '',
 	startTime:'',
-	roomId:''
+	roomId:'',
 };
 
 function game(state: GameState = initialState, action: GameAction): GameState {
