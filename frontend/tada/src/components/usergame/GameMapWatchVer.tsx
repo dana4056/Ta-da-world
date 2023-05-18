@@ -26,7 +26,7 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 	const playerLocation: CurrentLocation = useWatchLocation();
 	const treasureLocation = useApi();
 
-	const [treasures, setTreasures] = useState<TreasureInfo[] | null>(null);
+	// const [treasures, setTreasures] = useState<TreasureInfo[] | null>(null);
 	const [treasureNumber, setTreasureNumber] = useState<number>(0);
 	const [open, setOpen] = useState<boolean>(false);
 	const [hintOpen, setHintOpen] = useState<boolean>(false);
@@ -64,27 +64,27 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 				image: playerMarkerImage
 			});
 
-			if (treasures) {
+			if (gameInfo.treasures) {
 				console.log('-------TREASURES MARKING-------');
-				console.log('-------TREASURES-------', treasures);
+				console.log('-------TREASURES-------', gameInfo.treasures);
 
-				for (let i = 0; i < treasures.length; i ++) {
+				for (let i = 0; i < gameInfo.treasures.length; i ++) {
 					// console.log('-------TREASURE-------', treasures);
 					const distance = getDistanceFromLatLonInKm(
 						playerLocation.data.latitude,
 						playerLocation.data.longitude,
-						parseFloat(treasures[i].lat),
-						parseFloat(treasures[i].lng)
+						parseFloat(gameInfo.treasures[i].lat),
+						parseFloat(gameInfo.treasures[i].lng)
 					);
 
 					// console.log('-------DISTANCE-------', distance);
 
 					if (distance < 1) {
-						if (treasures[i].status) {
+						if (gameInfo.treasures[i].status) {
 							const treasureMarkerImage = new window.kakao.maps.MarkerImage(openTreasureImage, imageSize);
 							const marker = new window.kakao.maps.Marker({
 								map: map,
-								position: new window.kakao.maps.LatLng(treasures[i].lat, treasures[i].lng),
+								position: new window.kakao.maps.LatLng(gameInfo.treasures[i].lat, gameInfo.treasures[i].lng),
 								clickable: false,
 								image: treasureMarkerImage
 							});
@@ -93,15 +93,17 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 							const treasureMarkerImage = new window.kakao.maps.MarkerImage(closeTreasureImage, imageSize);
 							const marker = new window.kakao.maps.Marker({
 								map: map,
-								position: new window.kakao.maps.LatLng(treasures[i].lat, treasures[i].lng),
+								position: new window.kakao.maps.LatLng(gameInfo.treasures[i].lat, gameInfo.treasures[i].lng),
 								clickable: true,
 								image: treasureMarkerImage
 							});
 						
 							window.kakao.maps.event.addListener(marker, 'click', () => {
-								console.log('선택한 보물: ', treasures[i].id);
-								setTreasureNumber(treasures[i].id);
-								openModal();
+								if (gameInfo.treasures !== null) {
+									console.log('선택한 보물: ', gameInfo.treasures[i].id);
+									setTreasureNumber(gameInfo.treasures[i].id);
+									openModal();
+								}
 							});
 						}
 					}
@@ -112,19 +114,14 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 		}
 	};
 
-
 	useEffect(() => {
 		playerLocation.getCurrentLocation();
-		treasureLocation.fetchGetApi(`/treaures?roomId=${roomId}`);
+		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
 	}, []);
 
-	useEffect(() => {
-		setTreasures(treasureLocation.data?.data);
-	}, [treasureLocation.data]);
-
 	// useEffect(() => {
-	// 	setTreasures(dummy_treasures);
-	// }, []);
+	// 	setTreasures(treasureLocation.data?.data);
+	// }, [treasureLocation.data]);
 
 	useEffect(() => {
 		treasureLocation.fetchGetApi(`/treasures?roomId=${roomId}`);
@@ -139,7 +136,7 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 	return (
 		<>
 			<GameModal open={open} close={closeModal} treasureId={treasureNumber} />
-			<HintModal open={hintOpen} onClose={closeHintModal} treasures={treasures} />
+			<HintModal open={hintOpen} onClose={closeHintModal} treasures={gameInfo.treasures} />
 			<div id="map" className='w-full h-full mb-1'/>
 			<div className='fixed z-10 flex items-center justify-center w-20 h-20 bg-white border-2 rounded-full shadow-xl bottom-12 right-6 border-main'>
 				<img className='w-12 h-12' src={hintImage} alt="HINT" onClick={openHintModal} />
