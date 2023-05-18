@@ -35,7 +35,10 @@ function TreasureInfoBox({ treasure, isHost }: TreasureInfoProps): JSX.Element {
 			return;
 		}
 
-		const response = await fetch(treasure.imgPath);
+		const response = await fetch(treasure.imgPath, {
+			mode: 'cors',
+			credentials: 'include'
+		});
 		const blob = await response.blob();
 
 		const url = URL.createObjectURL(blob);

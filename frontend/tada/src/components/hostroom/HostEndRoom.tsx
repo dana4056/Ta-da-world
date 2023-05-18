@@ -30,32 +30,32 @@ function HostEndRoom(): JSX.Element {
 	const time = useSelector((state: RootState) => state.game.playTime);
 	const [treasures, setTreasures] = useState<TreasureInfo[]>([]);
 	const [hunters, setHunters] = useState<Hunter[]>([]);
-	const hunterApi = useApi(); //사냥 순위 정보 조회
-	const TreasureApi = useApi(); //보물 조회
-	const endApi = useApi(); //방상ㅌ애 변경
-	const roomstatusApi = useApi(); //방상태 조회
+	const hunterApi = useApi(); // 사냥 순위 정보 조회
+	const TreasureApi = useApi(); // 보물 조회
+	const endApi = useApi(); // 방 상태 변경
+	const roomstatusApi = useApi(); // 방 상태 조회
 
-	//시작할때
+	// 시작할 때
 	useEffect(()=>{
 		TreasureApi.fetchNotBodyApiWithToken('GET', '/treasures');
 		hunterApi.fetchNotBodyApiWithToken('GET', '/treasures/rank');
 	}, []);
 
-	//보물 데이터 받기
+	// 보물 데이터 받기
 	useEffect(()=>{
 		if(TreasureApi.data?.success){
 			setTreasures(TreasureApi.data.data);
 		}
 	}, [TreasureApi.data]);
 
-	//사냥꾼 데이터 받기
+	// 사냥꾼 데이터 받기
 	useEffect(()=>{
 		if(hunterApi.data?.success){
 			setHunters(hunterApi.data.data);
 		}
 	}, [hunterApi.data]);
 
-	//게임 끝
+	// 게임 끝
 	useEffect(() => {
 		if(endApi.data?.success){
 			roomstatusApi.fetchNotBodyApiWithToken('GET', '/rooms/host/status');
