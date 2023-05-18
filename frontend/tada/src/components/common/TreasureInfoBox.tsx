@@ -35,6 +35,7 @@ function TreasureInfoBox({ treasure, isHost }: TreasureInfoProps): JSX.Element {
 			return;
 		}
 
+		console.log('imgPath: ', treasure.imgPath);
 		const response = await fetch(treasure.imgPath);
 		const blob = await response.blob();
 
