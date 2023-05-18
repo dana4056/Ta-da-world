@@ -8,7 +8,7 @@ import RewardFail from './RewardFail';
 
 import { RootState } from '../../stores';
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 // const camImg = require('../../assets/images/camera.png');
 
@@ -29,7 +29,7 @@ const DynamicModal = tw(Modal)<StyledDivProps>`
 `;
 
 function GameModal({open, close, treasureId}: GameModalProps): JSX.Element{
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 	console.log('현재 판별 보물 번호: ', treasureId);
 	const userId = useSelector((state: RootState) => state.user.userId);
 	const [captureMode, setCaptureMode] = useState<boolean>(true);
@@ -49,11 +49,11 @@ function GameModal({open, close, treasureId}: GameModalProps): JSX.Element{
 		}
 
 		setTimeout(() => {
-			// close();
+			close();
 			setCaptureMode(true);
 			setRewardMode(false);
 			setSuccess(null);
-			navigate('/usergame');
+			// navigate('/usergame');
 		}, 5000);
 	};
 

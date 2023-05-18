@@ -112,6 +112,7 @@ function GameMapWatchVer({ roomId, character }: GameMapProps): JSX.Element {
 		}
 	};
 
+
 	useEffect(() => {
 		playerLocation.getCurrentLocation();
 		treasureLocation.fetchGetApi(`/treaures?roomId=${roomId}`);

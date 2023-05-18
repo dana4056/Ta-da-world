@@ -38,11 +38,29 @@ function DownloadTest(): JSX.Element {
 		document.body.removeChild(a);
 	};
 
+	const testTreasure = async () => {
+		const baseURL = 'https://ta-da.world/api';
+		const url = `/treaures?roomId=${89}`;
+		const response = await fetch(baseURL + url, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				'Origin': '*'
+			}
+		});
+		if (!response.ok) {
+			console.log('FAILED TO GET TREASURE INFO!');
+		}
+		const json = await response.json();
+		console.log('test: ', json);
+	};
+
 	return (
 		<div className="bg-white">
 			<h1>CORS</h1>
 			<button className="mr-5 bg-gray" onClick={corsCheck1}>테스트1</button>
-			<button className="bg-gray" onClick={corsCheck2}>테스트2</button>
+			<button className="mr-5 bg-gray" onClick={corsCheck2}>테스트2</button>
+			<button className="bg-gray" onClick={testTreasure}>테스트3</button>
 		</div>
 	);
 }
