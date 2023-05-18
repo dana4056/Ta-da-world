@@ -160,9 +160,9 @@
         │   └── common
         │   └── hosthome
         │   └── hostroom
-        │   └── reward
         │   └── userpregame
         │   └── usergame
+        │   └── userendgame
         ├── hooks
         ├── layout
         ├── pages
@@ -210,7 +210,11 @@
 
 - 김민경 (FE)
 
-  - 어
+  - 프론트엔드 페이지 및 컴포넌트 디자인 개선
+  - SockJs를 활용한 게임 진행 연동
+  - 참가자 닉네임 유효성 검사 구현
+  - 게임 진행 타이머 구현
+  - 게임 참가자 상태관리
 
 - 김재희 (Infra & BE)
 
@@ -222,7 +226,12 @@
 
 - 박진우 (FE)
 
-  - 주
+  - 프론트엔드 기술환경 구성 (tsconfig.json, tailwind.config.js, eslintrc.js)
+  - 프론트엔드 코드리뷰 및 관리 담당
+  - 소셜 로그인 구현
+  - 네트워크 처리 및 토큰 리프레쉬 로직 모듈화
+  - 게임 진행 및 지도 구현 (Geolocation API, kakao map)
+  - 게임 참가자 상태관리
 
 - 이유경 (FE)
 
