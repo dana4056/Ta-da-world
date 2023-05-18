@@ -59,9 +59,9 @@ function GameModal({open, close, treasureId}: GameModalProps): JSX.Element{
 
 	return (
 		<DynamicModal active = {open ? '1' : ''}>
-			{open ? (
-				<ModalSection className='h-auto py-5 max-w-none'>
-					{ captureMode ? <>
+			{open ? (<>
+				{captureMode ? 
+					<ModalSection className='h-auto py-5'>
 						<ModalHeader>
 							<div>
 								보물 사진 찍기
@@ -69,16 +69,20 @@ function GameModal({open, close, treasureId}: GameModalProps): JSX.Element{
 							<BsX onClick={()=> {close();}} size="32" color="#535453"/>
 						</ModalHeader>
 						<GameCapture userId={userId} treasureId={treasureId} onSubmit={handleSubmit} /> 
-					</> : null}
-					{ rewardMode ? <>
-						{ success ? 
+					</ModalSection>
+					: null}
+				{ rewardMode ? <>
+					{success ? 
+						<ModalSection className='h-auto py-5 max-w-none'>
 							<RewardSuccess />
-							:
+						</ModalSection>
+						:
+						<ModalSection className='h-auto py-5 max-w-none'>
 							<RewardFail />
-						}
-					</> : null}
-				</ModalSection>
-			) : null}
+						</ModalSection>
+					}
+				</> : null}
+			</>) : null}
 		</DynamicModal>
 	);
 }
