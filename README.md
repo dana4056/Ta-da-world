@@ -290,6 +290,10 @@
 
 <img src="./exec/imgs/host_invite.gif" width="250">
 
+- 카카오톡으로 초대하기
+
+<img src="./exec/imgs/host_invite_kakao.gif" width="250">
+
 ### 🎉 참가자
 
 - 게임방 입장 (닉네임, 캐릭터 설정)
