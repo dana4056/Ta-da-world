@@ -1,0 +1,93 @@
+pipeline {
+    agent any
+    post {
+    failure {
+        updateGitlabCommitStatus name: 'build', state: 'failed'
+        }
+    success {
+        updateGitlabCommitStatus name: 'build', state: 'success'
+        }
+    }
+    environment {
+        repository = "jaehui327/tada-front"
+        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+        imagename = "tada-front"
+    }
+    tools {
+        nodejs 'node 18.16.0'
+    }
+    stages {
+         stage('Running') {
+            steps {
+                updateGitlabCommitStatus name: 'build', state: 'running'
+                cleanWs()
+            }
+        }
+        stage('Clone Repository') {
+            steps {
+                echo "Clonning Repository"
+                git url: 'https://lab.ssafy.com/s08-final/S08P31A503.git',
+                branch: 'dev-front',
+                 credentialsId: '95086913-a1b2-4c08-8a34-382f19454773'
+            }
+            post {
+                success {
+                    echo 'Successfully Cloned Repository'
+                }
+                failure {
+                    error '[Error] Clone Repository'
+                }
+            }
+        }
+        stage('Build Yarn') {
+            steps {
+                sh 'cp /var/lib/jenkins/workspace/frontend/.env frontend/tada/'
+                dir ('frontend/tada') {
+                    echo 'Build Yarn'
+                    sh 'pwd'
+                    sh 'node -v'
+                    sh 'npm -v'
+                    sh 'npm install -g yarn'
+                    sh 'yarn -v'
+                    sh 'yarn install'
+                    sh 'CI=false yarn build'
+                }
+            }
+            post {
+                failure {
+                    error '[Error] Build Yarn'
+                }
+            }
+        }
+        stage('Build Docker') {
+            steps {
+                dir ('frontend/tada') {
+                    echo 'Build Docker'
+                    script {
+                        dockerImage = docker.build repository + ":latest" 
+                    }
+                }
+            }
+            post {
+                failure {
+                    error '[Error] Build Docker'
+                }
+            }
+        }
+        stage('Upload Dockerhub') {
+            steps {
+                dir ('frontend/tada') {
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh 'docker push $repository:latest'
+                    sh 'docker rmi $repository:latest'
+                }
+            }
+        }
+        stage('Connect SSH') {
+            steps {
+                build 'tada-front-2'
+            }
+        }
+    }
+}
+
