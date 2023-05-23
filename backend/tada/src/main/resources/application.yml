@@ -1,0 +1,10 @@
+spring:
+  profiles:
+    include: db, aws, python
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
