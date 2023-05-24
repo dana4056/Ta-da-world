@@ -306,22 +306,28 @@
 
 - 참가자 리스트
 
+<p>
 <img src="./exec/imgs/host_list.gif" width="250">
 <img src="./exec/imgs/user_list.gif" width="250">
+</p>
 
 - 공지 알림
 
 왼쪽: 호스트, 오른쪽: 참가자
 
+<p>
 <img src="./exec/imgs/host_notice.gif" width="250">
 <img src="./exec/imgs/user_notice.gif" width="250">
+</p>
 
 - 게임 시작
 
 왼쪽: 호스트, 오른쪽: 참가자
 
+<p>
 <img src="./exec/imgs/host_start.gif" width="250">
 <img src="./exec/imgs/user_start.gif" width="250">
+</p>
 
 - 실시간 위치 이동
 
@@ -331,8 +337,10 @@
 
 왼쪽: 호스트, 오른쪽: 참가자
 
+<p>
 <img src="./exec/imgs/host_answer.gif" width="250">
 <img src="./exec/imgs/user_answer.gif" width="250">
+</p>
 
 - 힌트 보기
 
@@ -342,5 +350,7 @@
 
 왼쪽: 호스트, 오른쪽: 참가자
 
+<p>
 <img src="./exec/imgs/host_end.gif" width="250">
 <img src="./exec/imgs/user_end.gif" width="250">
+</p>
